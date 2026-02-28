@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Recording } from "@/lib/assessment-data";
 import { AssessmentSidebar } from "@/components/AssessmentSidebar";
 import { AssessmentForm } from "@/components/AssessmentForm";
@@ -11,7 +11,7 @@ import { collection, addDoc, query, orderBy } from "firebase/firestore";
 import { useFirestore, useCollection, useMemoFirebase } from "@/firebase";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
-import { Loader2 } from "lucide-react";
+import { Loader2, Database } from "lucide-react";
 
 export default function AssessmentPage() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -77,9 +77,19 @@ export default function AssessmentPage() {
 
   if (!recordings || recordings.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-background p-6 text-center">
-        <h2 className="text-2xl font-headline text-primary mb-2">No Recordings Available</h2>
-        <p className="text-muted-foreground">The assessment laboratory is currently offline or has no data.</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-background p-6 text-center max-w-md mx-auto">
+        <Database className="h-12 w-12 text-muted-foreground mb-4" />
+        <h2 className="text-2xl font-headline text-primary mb-2">Laboratory is Empty</h2>
+        <p className="text-muted-foreground mb-6">
+          To get started, please add recordings to your Firestore collection named <strong>recordings</strong> in the Firebase Console.
+        </p>
+        <div className="text-left bg-white p-4 rounded-lg border text-sm font-mono space-y-2">
+           <p className="font-bold text-xs text-muted-foreground uppercase">Required Fields:</p>
+           <p>• title: "Bot Sample"</p>
+           <p>• audioUrl: "https://..."</p>
+           <p>• duration: "1:00"</p>
+           <p>• order: 1</p>
+        </div>
       </div>
     );
   }

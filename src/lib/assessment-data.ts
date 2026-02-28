@@ -1,3 +1,7 @@
+/**
+ * @fileOverview Type definitions for Assessment Data.
+ * Data is now managed via Firebase Firestore in the 'recordings' collection.
+ */
 
 export interface Recording {
   id: string;
@@ -6,6 +10,3 @@ export interface Recording {
   duration: string;
   order: number;
 }
-
-// Static data is removed as it is now fetched from Firestore.
-// You can seed your Firestore 'recordings' collection with documents matching the Recording interface.
