@@ -2,7 +2,7 @@
 "use client";
 
 import { Recording } from "@/lib/assessment-data";
-import { CheckCircle2, Circle, Lock } from "lucide-react";
+import { CheckCircle2, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AssessmentSidebarProps {
@@ -16,7 +16,6 @@ export function AssessmentSidebar({
   recordings,
   currentStep,
   completedSteps,
-  totalSteps,
 }: AssessmentSidebarProps) {
   return (
     <div className="w-full h-full bg-primary text-primary-foreground p-8 flex flex-col">
@@ -106,10 +105,9 @@ export function AssessmentSidebar({
             VA
           </div>
           <div>
-            <p className="text-xs font-bold">System Status</p>
+            <p className="text-xs font-bold">Local Session</p>
             <p className="text-[10px] text-accent flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              Database Connected
+              Offline Mode Enabled
             </p>
           </div>
         </div>

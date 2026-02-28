@@ -1,3 +1,4 @@
+
 # Human-Like Voice Assessment Laboratory
 
 This application allows users to evaluate AI-generated voice recordings for human-likeness.
@@ -5,15 +6,16 @@ This application allows users to evaluate AI-generated voice recordings for huma
 ## How it Works
 
 1.  **Input Data**: The recordings being evaluated are hardcoded in `src/lib/assessment-data.ts`. You can add more samples by editing that file.
-2.  **Submission Data**: When a user completes an assessment, their ratings and feedback are sent to **Firebase Firestore**.
+2.  **Submission Data**: Currently, user evaluations are handled locally. When a user completes an assessment, the final payload is logged to the browser console.
 
-## Viewing Results
+## Project Structure
 
-To see the submissions:
-1.  Go to the [Firebase Console](https://console.firebase.google.com/).
-2.  Select your project.
-3.  Navigate to **Firestore Database**.
-4.  Look for the `submissions` collection. Each document contains the user's details and their ratings for each recording.
+- `src/lib/assessment-data.ts`: The source of truth for all voice samples used in the assessment.
+- `src/app/page.tsx`: The main application logic managing the state of the assessment flow.
+- `src/components/`: Reusable UI components for the audio player, rating system, and forms.
 
-## Firebase Setup
-Ensure you have initialized your Firebase project in the console and that Firestore is enabled in "Test Mode" to allow submissions during development.
+## Customization
+
+To add your own recordings:
+1. Open `src/lib/assessment-data.ts`.
+2. Add a new object to the `RECORDINGS` array with your audio URL and details.

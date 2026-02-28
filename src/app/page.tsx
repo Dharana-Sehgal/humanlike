@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -6,10 +7,6 @@ import { AssessmentSidebar } from "@/components/AssessmentSidebar";
 import { AssessmentForm } from "@/components/AssessmentForm";
 import { ContactForm } from "@/components/ContactForm";
 import { Progress } from "@/components/ui/progress";
-import { collection, addDoc } from "firebase/firestore";
-import { useFirestore } from "@/firebase";
-import { errorEmitter } from "@/firebase/error-emitter";
-import { FirestorePermissionError } from "@/firebase/errors";
 import { Loader2 } from "lucide-react";
 
 export default function AssessmentPage() {
@@ -17,8 +14,6 @@ export default function AssessmentPage() {
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const [allData, setAllData] = useState<any[]>([]);
   const [isMounted, setIsMounted] = useState(false);
-  
-  const db = useFirestore();
 
   useEffect(() => {
     setIsMounted(true);
@@ -39,19 +34,8 @@ export default function AssessmentPage() {
       submittedAt: new Date().toISOString(),
     };
     
-    // Attempt to save to Firestore, but proceed with UI success state regardless
-    if (db) {
-      const submissionsRef = collection(db, 'submissions');
-      addDoc(submissionsRef, finalSubmission)
-        .catch(async (error) => {
-          const permissionError = new FirestorePermissionError({
-            path: submissionsRef.path,
-            operation: 'create',
-            requestResourceData: finalSubmission,
-          });
-          errorEmitter.emit('permission-error', permissionError);
-        });
-    }
+    // For now, we'll just log the data to the console as requested
+    console.log("Local Submission Recorded:", finalSubmission);
 
     setCompletedSteps((prev) => new Set(prev).add(RECORDINGS.length));
   };
