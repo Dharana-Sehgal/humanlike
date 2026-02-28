@@ -37,7 +37,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
           <Label className="text-lg font-headline block">
             1. Overall how effectively do you think this bot sounds human?
           </Label>
-          <div className="bg-white p-6 rounded-xl border shadow-sm inline-block">
+          <div className="bg-white p-6 rounded-xl border shadow-sm w-full">
             <StarRating value={rating} onChange={setRating} />
             <p className="mt-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">
               {rating === 0 ? "Select a rating" : `${rating} out of 5 Stars`}

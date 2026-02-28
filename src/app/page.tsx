@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -34,9 +33,7 @@ export default function AssessmentPage() {
       submittedAt: new Date().toISOString(),
     };
     
-    // For now, we'll just log the data to the console as requested
     console.log("Local Submission Recorded:", finalSubmission);
-
     setCompletedSteps((prev) => new Set(prev).add(RECORDINGS.length));
   };
 
@@ -54,7 +51,7 @@ export default function AssessmentPage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       {/* Progress Sidebar - Desktop Only */}
-      <div className="hidden md:block w-80 fixed inset-y-0 left-0">
+      <div className="hidden md:block w-64 fixed inset-y-0 left-0">
         <AssessmentSidebar
           recordings={RECORDINGS}
           currentStep={currentStep}
@@ -64,7 +61,7 @@ export default function AssessmentPage() {
       </div>
 
       {/* Main Content Area */}
-      <main className="flex-1 md:ml-80">
+      <main className="flex-1 md:ml-64">
         {/* Mobile Header */}
         <div className="md:hidden bg-primary p-6 text-white">
           <h1 className="font-headline text-2xl">Voice Assessment</h1>
