@@ -29,10 +29,10 @@ export function StarRating({ value, onChange, max = 5 }: StarRatingProps) {
           >
             <Star
               className={cn(
-                "h-8 w-8 transition-all duration-300",
+                "h-6 w-6 transition-all duration-300",
                 isActive 
-                  ? "fill-accent text-accent scale-110 drop-shadow-[0_0_6px_rgba(var(--accent),0.4)]" 
-                  : "text-muted-foreground fill-none opacity-30 group-hover:opacity-70"
+                  ? "fill-accent text-accent scale-110 drop-shadow-[0_0_4px_rgba(var(--accent),0.4)]" 
+                  : "text-muted-foreground fill-none opacity-20 group-hover:opacity-50"
               )}
             />
           </button>
