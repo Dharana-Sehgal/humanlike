@@ -22,19 +22,19 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  const stars = Array.from({ length: 120 }).map((_, i) => ({
+  const stars = Array.from({ length: 80 }).map((_, i) => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
     duration: `${3 + Math.random() * 5}s`,
     delay: `${Math.random() * 5}s`,
     floatDur: `${20 + Math.random() * 30}s`,
-    size: Math.random() > 0.8 ? "1.2px" : "0.6px",
+    size: Math.random() > 0.8 ? "1px" : "0.5px",
   }));
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#3b246a] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#4c2a85] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
       {mounted && (
-        <div className="absolute inset-0 pointer-events-none opacity-30">
+        <div className="absolute inset-0 pointer-events-none opacity-20">
           {stars.map((star, idx) => (
             <div
               key={idx}
