@@ -1,5 +1,5 @@
 /**
- * @fileOverview Data structures for grouped voice assessments.
+ * @fileOverview Data structures for hierarchical voice assessments.
  */
 
 export interface Recording {
@@ -9,15 +9,15 @@ export interface Recording {
   duration: string;
 }
 
-export interface AssessmentGroup {
+export interface AssessmentModule {
   id: string;
   title: string;
   recordings: Recording[];
 }
 
-export const ASSESSMENT_GROUPS: AssessmentGroup[] = [
+export const ASSESSMENT_MODULES: AssessmentModule[] = [
   {
-    id: "group-1",
+    id: "module-1",
     title: "Hindi Conversational",
     recordings: [
       {
@@ -35,7 +35,7 @@ export const ASSESSMENT_GROUPS: AssessmentGroup[] = [
     ]
   },
   {
-    id: "group-2",
+    id: "module-2",
     title: "Technical Support",
     recordings: [
       {
@@ -43,7 +43,18 @@ export const ASSESSMENT_GROUPS: AssessmentGroup[] = [
         title: "Issue Description",
         audioUrl: "https://www.w3schools.com/tags/horse.mp3",
         duration: "0:03"
+      },
+      {
+        id: "rec-2-b",
+        title: "Resolution Steps",
+        audioUrl: "https://www.w3schools.com/html/horse.mp3",
+        duration: "0:03"
       }
     ]
   }
 ];
+
+// Helper to get a flat list of all recordings for the stepper
+export const FLAT_RECORDINGS = ASSESSMENT_MODULES.flatMap(m => 
+  m.recordings.map(r => ({ ...r, moduleId: m.id, moduleTitle: m.title }))
+);

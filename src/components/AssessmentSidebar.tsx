@@ -1,20 +1,20 @@
 "use client";
 
-import { AssessmentGroup } from "@/lib/assessment-data";
-import { CheckCircle2, Lock } from "lucide-react";
+import { AssessmentModule } from "@/lib/assessment-data";
+import { CheckCircle2, Lock, Music, FolderOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 interface AssessmentSidebarProps {
-  groups: AssessmentGroup[];
-  currentStep: number;
-  completedSteps: Set<number>;
+  modules: AssessmentModule[];
+  activeRecordingId: string | null;
+  completedRecordingIds: Set<string>;
 }
 
 export function AssessmentSidebar({
-  groups,
-  currentStep,
-  completedSteps,
+  modules,
+  activeRecordingId,
+  completedRecordingIds,
 }: AssessmentSidebarProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -22,17 +22,18 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  const stars = Array.from({ length: 80 }).map((_, i) => ({
+  // Increase star count as requested
+  const stars = Array.from({ length: 120 }).map((_, i) => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
     duration: `${2 + Math.random() * 4}s`,
     delay: `${Math.random() * 5}s`,
     floatDur: `${15 + Math.random() * 20}s`,
-    size: Math.random() > 0.8 ? "1.2px" : "0.6px",
+    size: Math.random() > 0.8 ? "1.2px" : "0.6px", // Smaller stars
   }));
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#120422] via-[#311b92] to-[#7c4dff] text-primary-foreground p-8 flex flex-col overflow-hidden">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#120422] via-[#311b92] to-[#7c4dff] text-primary-foreground p-6 flex flex-col overflow-hidden">
       {mounted && (
         <div className="absolute inset-0 pointer-events-none opacity-40">
           {stars.map((star, idx) => (
@@ -53,52 +54,54 @@ export function AssessmentSidebar({
         </div>
       )}
 
-      <div className="relative z-10 mb-12">
-        <h1 className="font-headline text-2xl mb-1 leading-tight">Assessment</h1>
-        <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest">Laboratory Session</p>
+      <div className="relative z-10 mb-10">
+        <h1 className="font-headline text-xl mb-1 leading-tight font-bold">Assessment Lab</h1>
+        <p className="text-white/60 text-[9px] font-bold uppercase tracking-widest">Voice Interaction Study</p>
       </div>
 
-      <div className="relative z-10 flex-1 space-y-4">
-        <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6 border-b border-white/10 pb-2">Modules</h2>
-        
-        {groups.map((group, idx) => {
-          const isCompleted = completedSteps.has(idx);
-          const isCurrent = currentStep === idx;
-          const isLocked = idx > currentStep && !isCompleted;
-
-          return (
-            <div
-              key={group.id}
-              className={cn(
-                "flex items-center gap-4 p-4 rounded-xl transition-all duration-300",
-                isCurrent ? "bg-white/15 shadow-lg backdrop-blur-md border border-white/10 scale-105" : "opacity-40"
-              )}
-            >
-              <div className="flex-shrink-0">
-                {isCompleted ? (
-                  <CheckCircle2 className="h-5 w-5 text-accent" />
-                ) : isLocked ? (
-                  <Lock className="h-4 w-4 text-white/20" />
-                ) : (
-                  <div className={cn(
-                    "h-6 w-6 rounded-full border flex items-center justify-center text-xs font-bold",
-                    isCurrent ? "border-accent text-accent" : "border-white/30 text-white/30"
-                  )}>
-                    {idx + 1}
-                  </div>
-                )}
-              </div>
-              <div className="min-w-0">
-                <p className={cn(
-                  "text-sm font-bold tracking-tight truncate",
-                  isCurrent ? "text-white" : "text-white/70"
-                )}>
-                  {group.title}
-                </p>
-              </div>
+      <div className="relative z-10 flex-1 overflow-y-auto space-y-6 custom-scrollbar pr-2">
+        {modules.map((module) => (
+          <div key={module.id} className="space-y-2">
+            <div className="flex items-center gap-2 px-2 py-1 opacity-60">
+              <FolderOpen className="h-3.5 w-3.5" />
+              <span className="text-[11px] font-bold uppercase tracking-wider">{module.title}</span>
             </div>
-          );
-        })}
+            <div className="space-y-1 ml-3 border-l border-white/10 pl-3">
+              {module.recordings.map((rec) => {
+                const isCompleted = completedRecordingIds.has(rec.id);
+                const isActive = activeRecordingId === rec.id;
+                
+                return (
+                  <div
+                    key={rec.id}
+                    className={cn(
+                      "flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
+                      isActive 
+                        ? "bg-white/15 shadow-md backdrop-blur-md border border-white/10" 
+                        : "opacity-40"
+                    )}
+                  >
+                    <div className="flex-shrink-0">
+                      {isCompleted ? (
+                        <CheckCircle2 className="h-3.5 w-3.5 text-accent" />
+                      ) : isActive ? (
+                        <Music className="h-3.5 w-3.5 text-accent animate-pulse" />
+                      ) : (
+                        <div className="h-3.5 w-3.5 rounded-full border border-white/30" />
+                      )}
+                    </div>
+                    <p className={cn(
+                      "text-xs font-medium tracking-tight truncate",
+                      isActive ? "text-white" : "text-white/70"
+                    )}>
+                      {rec.title}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
