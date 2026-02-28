@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { Play, Pause, RotateCcw, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { cn } from "@/lib/utils";
 
 interface AudioPlayerProps {
   src: string;
@@ -71,7 +70,7 @@ export function AudioPlayer({ src, title }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-white rounded-xl border p-6 shadow-sm space-y-4">
+    <div className="w-full bg-white rounded-xl p-6 shadow-sm space-y-4 border-none">
       <audio
         ref={audioRef}
         src={src}
@@ -83,7 +82,6 @@ export function AudioPlayer({ src, title }: AudioPlayerProps) {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="font-headline text-lg text-primary">{title}</h3>
-          <p className="text-sm text-muted-foreground">Voice Interaction Sample</p>
         </div>
         <div className="flex items-center gap-2 text-primary font-mono text-sm">
           <span>{formatTime(audioRef.current?.currentTime || 0)}</span>

@@ -38,13 +38,13 @@ export function AssessmentSidebar({
 
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-[#120422] via-[#311b92] to-[#7c4dff] text-primary-foreground p-8 flex flex-col overflow-hidden">
-      {/* Blinking & Floating Stars Background */}
+      {/* Blinking & Floating Stars Background - Now Smaller */}
       {mounted && (
-        <div className="absolute inset-0 pointer-events-none opacity-40">
+        <div className="absolute inset-0 pointer-events-none opacity-60">
           {stars.map((star, idx) => (
             <div
               key={idx}
-              className="absolute w-1 h-1 bg-white rounded-full animate-twinkle animate-float shadow-[0_0_8px_white]"
+              className="absolute w-0.5 h-0.5 bg-white rounded-full animate-twinkle animate-float shadow-[0_0_4px_white]"
               style={{
                 top: star.top,
                 left: star.left,
@@ -58,12 +58,12 @@ export function AssessmentSidebar({
       )}
 
       <div className="relative z-10 mb-12">
-        <h1 className="font-headline text-2xl mb-2 leading-tight">Human-Like Assessment</h1>
-        <p className="text-white/60 text-xs font-bold uppercase tracking-widest">Laboratory Session</p>
+        <h1 className="font-headline text-xl mb-1 leading-tight">Human-Like Assessment</h1>
+        <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Laboratory Session</p>
       </div>
 
       <div className="relative z-10 flex-1 space-y-1">
-        <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6">Assessment Flow</h2>
+        <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20 mb-6">Assessment Flow</h2>
         
         {recordings.map((rec, idx) => {
           const isCompleted = completedSteps.has(idx);
@@ -74,19 +74,19 @@ export function AssessmentSidebar({
             <div
               key={rec.id}
               className={cn(
-                "flex items-center gap-4 p-4 rounded-xl transition-all duration-300",
-                isCurrent ? "bg-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-md" : "opacity-60"
+                "flex items-center gap-4 p-3 rounded-xl transition-all duration-300",
+                isCurrent ? "bg-white/10 shadow-lg backdrop-blur-md" : "opacity-40"
               )}
             >
               <div className="flex-shrink-0">
                 {isCompleted ? (
-                  <CheckCircle2 className="h-5 w-5 text-[#30E8E8]" />
+                  <CheckCircle2 className="h-4 w-4 text-accent" />
                 ) : isLocked ? (
-                  <Lock className="h-4 w-4 text-white/20" />
+                  <Lock className="h-3 w-3 text-white/20" />
                 ) : (
                   <div className={cn(
-                    "h-6 w-6 rounded-full border-2 flex items-center justify-center text-[10px] font-bold",
-                    isCurrent ? "border-[#30E8E8] text-[#30E8E8]" : "border-white/20 text-white/20"
+                    "h-5 w-5 rounded-full border flex items-center justify-center text-[9px] font-bold",
+                    isCurrent ? "border-accent text-accent" : "border-white/20 text-white/20"
                   )}>
                     {idx + 1}
                   </div>
@@ -94,7 +94,7 @@ export function AssessmentSidebar({
               </div>
               <div className="min-w-0">
                 <p className={cn(
-                  "text-sm font-medium truncate",
+                  "text-xs font-medium truncate",
                   isCurrent ? "text-white" : "text-white/60"
                 )}>
                   {rec.title}
@@ -103,33 +103,6 @@ export function AssessmentSidebar({
             </div>
           );
         })}
-
-        <div
-          className={cn(
-            "flex items-center gap-4 p-4 rounded-xl transition-all duration-300",
-            currentStep === recordings.length ? "bg-white/20 shadow-lg backdrop-blur-md" : "opacity-60"
-          )}
-        >
-          <div className="flex-shrink-0">
-            {completedSteps.has(recordings.length) ? (
-              <CheckCircle2 className="h-5 w-5 text-[#30E8E8]" />
-            ) : currentStep < recordings.length ? (
-              <Lock className="h-4 w-4 text-white/20" />
-            ) : (
-              <div className="h-6 w-6 rounded-full border-2 border-[#30E8E8] flex items-center justify-center text-[10px] font-bold text-[#30E8E8]">
-                {recordings.length + 1}
-              </div>
-            )}
-          </div>
-          <div>
-            <p className={cn(
-              "text-sm font-medium",
-              currentStep === recordings.length ? "text-white" : "text-white/60"
-            )}>
-              Contact Details
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -22,11 +22,8 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
 
   return (
     <div className="max-w-4xl mx-auto space-y-12 py-10">
-      <section className="space-y-4">
-        <div className="space-y-1">
-          <h2 className="text-3xl font-headline text-primary">Listen and Evaluate</h2>
-          <p className="text-muted-foreground">Focus on the nuances of the voice and response patterns.</p>
-        </div>
+      <section className="space-y-8">
+        <h2 className="text-3xl font-headline text-primary">Listen and Evaluate</h2>
         <AudioPlayer src={recording.audioUrl} title={recording.title} />
       </section>
 
@@ -35,7 +32,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
           <Label className="text-xl font-headline block">
             1. Overall how effectively do you think this bot sounds human?
           </Label>
-          <div className="w-full">
+          <div className="w-full bg-transparent">
             <StarRating value={rating} onChange={setRating} />
           </div>
         </div>
