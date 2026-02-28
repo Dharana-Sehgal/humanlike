@@ -8,9 +8,10 @@ import { Slider } from "@/components/ui/slider";
 interface AudioPlayerProps {
   src: string;
   title: string;
+  onEnded?: () => void;
 }
 
-export function AudioPlayer({ src, title }: AudioPlayerProps) {
+export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -47,9 +48,20 @@ export function AudioPlayer({ src, title }: AudioPlayerProps) {
     }
   };
 
+  const handleEnded = () => {
+    setIsPlaying(false);
+    if (onEnded) onEnded();
+  };
+
   const onSeek = (val: number[]) => {
     if (audioRef.current) {
       const newTime = (val[0] / 100) * audioRef.current.duration;
+      
+      // Prevent seeking forward: only allow if new time is behind current time
+      if (newTime > audioRef.current.currentTime) {
+        return;
+      }
+      
       audioRef.current.currentTime = newTime;
       setProgress(val[0]);
     }
@@ -76,7 +88,7 @@ export function AudioPlayer({ src, title }: AudioPlayerProps) {
         src={src}
         onTimeUpdate={onTimeUpdate}
         onLoadedMetadata={onLoadedMetadata}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={handleEnded}
       />
       
       <div className="flex items-center justify-between">
@@ -94,18 +106,18 @@ export function AudioPlayer({ src, title }: AudioPlayerProps) {
         <Button
           size="icon"
           onClick={togglePlay}
-          className="h-12 w-12 rounded-full bg-primary hover:bg-primary/90 text-white shadow-md"
+          className="h-10 w-10 rounded-full bg-primary hover:bg-primary/90 text-white shadow-md"
         >
-          {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 ml-1" />}
+          {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
         </Button>
         
         <Button
           size="icon"
           variant="outline"
           onClick={reset}
-          className="h-10 w-10 rounded-full border-primary/20 hover:bg-primary/5 text-primary"
+          className="h-8 w-8 rounded-full border-primary/20 hover:bg-primary/5 text-primary"
         >
-          <RotateCcw className="h-4 w-4" />
+          <RotateCcw className="h-3.5 w-3.5" />
         </Button>
 
         <div className="flex-1 px-2">
