@@ -22,11 +22,11 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
   const isSubmittable = isFinished && rating > 0 && feedback.trim().length > 5;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 py-8">
+    <div className="max-w-2xl mx-auto space-y-8 py-10">
       <section className="space-y-4">
-        <div className="flex items-center gap-2">
-          <div className="h-5 w-1 bg-primary rounded-full" />
-          <h2 className="text-base font-headline text-primary font-bold">Listen to Recording</h2>
+        <div className="flex items-center gap-3">
+          <div className="h-6 w-1 bg-[#8b5cf6] rounded-full" />
+          <h2 className="text-base font-headline text-[#8b5cf6] font-bold tracking-tight">Listen to Recording</h2>
         </div>
         
         <AudioPlayer 
@@ -37,23 +37,26 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
       </section>
 
       <div className={!isFinished ? "opacity-30 pointer-events-none grayscale" : "animate-in fade-in duration-500"}>
-        <section className="space-y-6">
-          <div className="space-y-3">
-            <Label className="text-xs font-medium block leading-relaxed text-foreground/80">
-              How human-like does this specific voice sample sound to you?
+        <section className="space-y-8">
+          <div className="space-y-4">
+            <Label className="text-xs font-bold uppercase tracking-widest text-[#8b5cf6] block leading-relaxed">
+              Assessment: {recording.title}
             </Label>
-            <div className="max-w-[200px]">
-              <StarRating value={rating} onChange={setRating} />
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground font-medium">How human-like does this voice sample sound?</p>
+              <div className="max-w-[200px]">
+                <StarRating value={rating} onChange={setRating} />
+              </div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <Label className="text-xs font-medium block leading-relaxed text-foreground/80">
+             <Label className="text-xs font-medium block leading-relaxed text-foreground/80">
               What specific qualities of the speech influenced your rating?
             </Label>
             <Textarea
               placeholder="Pacing, emotion, clarity..."
-              className="min-h-[100px] bg-transparent text-sm focus-visible:ring-accent border-muted shadow-none p-3 rounded-xl"
+              className="min-h-[120px] bg-white text-sm focus-visible:ring-[#8b5cf6] border-slate-200 shadow-sm p-4 rounded-xl resize-none"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />
@@ -63,7 +66,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
             <Button
               onClick={() => onComplete({ rating, feedback })}
               disabled={!isSubmittable}
-              className="w-full sm:w-auto px-6 h-10 text-xs font-bold bg-primary hover:bg-primary/90 transition-all shadow-md rounded-full"
+              className="w-full sm:w-auto px-8 h-11 text-xs font-bold bg-[#8b5cf6] hover:bg-[#7c3aed] text-white transition-all shadow-md rounded-full"
             >
               {!isFinished && <Lock className="mr-2 h-3.5 w-3.5" />}
               {isFinished ? "Submit Evaluation" : "Finish Listening"}

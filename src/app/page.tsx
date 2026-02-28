@@ -52,7 +52,7 @@ export default function AssessmentPage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       {/* Sidebar */}
-      <div className="hidden md:block w-60 fixed inset-y-0 left-0 border-r border-white/5">
+      <div className="hidden md:block w-60 fixed inset-y-0 left-0 border-r border-black/5">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
           activeRecordingId={!isFinished ? FLAT_RECORDINGS[currentStep].id : null}
@@ -62,7 +62,7 @@ export default function AssessmentPage() {
 
       <main className="flex-1 md:ml-60">
         {/* Mobile Header */}
-        <div className="md:hidden bg-[#2d1b4e] p-6 text-white">
+        <div className="md:hidden bg-[#4c1d95] p-6 text-white">
           <h1 className="font-headline text-lg">Voice Assessment</h1>
           <div className="mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/60">
             <span>Progress</span>
@@ -72,21 +72,21 @@ export default function AssessmentPage() {
         </div>
 
         {/* Desktop Header */}
-        <div className="hidden md:flex sticky top-0 z-10 bg-slate-50/90 backdrop-blur-md border-b px-8 py-4 items-center justify-between">
+        <div className="hidden md:flex sticky top-0 z-10 bg-slate-50/95 backdrop-blur-sm border-b px-8 py-5 items-center justify-between">
           <div className="flex flex-col min-w-0 mr-8 flex-1">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground truncate">Evaluation Phase</span>
-            <span className="font-headline text-primary font-semibold text-base truncate">
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground truncate">Evaluation Phase</span>
+            <span className="font-headline text-slate-800 font-bold text-base tracking-tight truncate">
               {!isFinished 
                 ? FLAT_RECORDINGS[currentStep].moduleTitle
                 : "Final Submission"}
             </span>
           </div>
-          <div className="w-40 space-y-1 flex-shrink-0">
+          <div className="w-48 space-y-1.5 flex-shrink-0">
              <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
               <span>Overall Progress</span>
               <span>{Math.round(progressPercentage)}%</span>
             </div>
-            <Progress value={progressPercentage} className="h-1.5 bg-secondary" />
+            <Progress value={progressPercentage} className="h-1.5 bg-slate-200" />
           </div>
         </div>
 

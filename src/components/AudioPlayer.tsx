@@ -82,7 +82,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-white rounded-xl p-6 shadow-sm space-y-4 border-none">
+    <div className="w-full bg-white rounded-2xl p-6 shadow-sm border border-slate-100 space-y-4">
       <audio
         ref={audioRef}
         src={src}
@@ -92,12 +92,10 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
       />
       
       <div className="flex items-center justify-between">
-        <div>
-          <h3 className="font-headline text-lg text-primary">{title}</h3>
-        </div>
-        <div className="flex items-center gap-2 text-primary font-mono text-sm">
+        <h3 className="font-headline text-lg text-slate-800 font-bold tracking-tight">{title}</h3>
+        <div className="flex items-center gap-2 text-[#8b5cf6] font-mono text-xs font-bold">
           <span>{formatTime(audioRef.current?.currentTime || 0)}</span>
-          <span className="opacity-40">/</span>
+          <span className="opacity-20">/</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
@@ -106,7 +104,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
         <Button
           size="icon"
           onClick={togglePlay}
-          className="h-10 w-10 rounded-full bg-primary hover:bg-primary/90 text-white shadow-md"
+          className="h-10 w-10 rounded-full bg-[#8b5cf6] hover:bg-[#7c3aed] text-white shadow-md transition-all active:scale-95"
         >
           {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
         </Button>
@@ -115,7 +113,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
           size="icon"
           variant="outline"
           onClick={reset}
-          className="h-8 w-8 rounded-full border-primary/20 hover:bg-primary/5 text-primary"
+          className="h-8 w-8 rounded-full border-[#8b5cf6]/20 hover:bg-[#8b5cf6]/5 text-[#8b5cf6]"
         >
           <RotateCcw className="h-3.5 w-3.5" />
         </Button>

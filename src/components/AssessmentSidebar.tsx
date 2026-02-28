@@ -22,7 +22,7 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  const stars = Array.from({ length: 80 }).map((_, i) => ({
+  const stars = Array.from({ length: 60 }).map((_, i) => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
     duration: `${3 + Math.random() * 5}s`,
@@ -32,7 +32,7 @@ export function AssessmentSidebar({
   }));
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#4c2a85] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#8b5cf6] via-[#4c1d95] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
       {mounted && (
         <div className="absolute inset-0 pointer-events-none opacity-20">
           {stars.map((star, idx) => (
@@ -62,9 +62,9 @@ export function AssessmentSidebar({
         {modules.map((module) => (
           <div key={module.id} className="space-y-4">
             <div className="px-2">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-white/50">{module.title}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">{module.title}</span>
             </div>
-            <div className="space-y-1 ml-2 pl-2">
+            <div className="space-y-1 ml-1 pl-1 border-l border-white/10">
               {module.recordings.map((rec) => {
                 const isCompleted = completedRecordingIds.has(rec.id);
                 const isActive = activeRecordingId === rec.id;
@@ -75,7 +75,7 @@ export function AssessmentSidebar({
                     className={cn(
                       "flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
                       isActive 
-                        ? "bg-white/15 shadow-sm backdrop-blur-md border border-white/10" 
+                        ? "bg-white/10 shadow-sm backdrop-blur-md border border-white/5" 
                         : "opacity-40 hover:opacity-70"
                     )}
                   >
@@ -83,9 +83,9 @@ export function AssessmentSidebar({
                       {isCompleted ? (
                         <CheckCircle2 className="h-3.5 w-3.5 text-accent" />
                       ) : isActive ? (
-                        <Music className="h-3.5 w-3.5 text-accent animate-pulse" />
+                        <div className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
                       ) : (
-                        <div className="h-1.5 w-1.5 rounded-full bg-white/40" />
+                        <div className="h-1 w-1 rounded-full bg-white/40" />
                       )}
                     </div>
                     <p className={cn(
