@@ -1,17 +1,16 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
-import { Recording } from "@/lib/assessment-data";
+import { RECORDINGS } from "@/lib/assessment-data";
 import { AssessmentSidebar } from "@/components/AssessmentSidebar";
 import { AssessmentForm } from "@/components/AssessmentForm";
 import { ContactForm } from "@/components/ContactForm";
 import { Progress } from "@/components/ui/progress";
-import { collection, addDoc, query, orderBy } from "firebase/firestore";
-import { useFirestore, useCollection, useMemoFirebase } from "@/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { useFirestore } from "@/firebase";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
-import { Loader2, Database } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export default function AssessmentPage() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -21,22 +20,12 @@ export default function AssessmentPage() {
   
   const db = useFirestore();
 
-  // Memoize the query for recordings sorted by 'order'
-  const recordingsQuery = useMemoFirebase(() => {
-    if (!db) return null;
-    return query(collection(db, 'recordings'), orderBy('order', 'asc'));
-  }, [db]);
-
-  const { data: recordings, loading: recordingsLoading } = useCollection<Recording>(recordingsQuery);
-
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const handleAssessmentComplete = (data: { rating: number; feedback: string }) => {
-    if (!recordings) return;
-    
-    setAllData((prev) => [...prev, { recordingId: recordings[currentStep].id, ...data }]);
+    setAllData((prev) => [...prev, { recordingId: RECORDINGS[currentStep].id, ...data }]);
     setCompletedSteps((prev) => new Set(prev).add(currentStep));
     setCurrentStep((prev) => prev + 1);
     
@@ -50,6 +39,7 @@ export default function AssessmentPage() {
       submittedAt: new Date().toISOString(),
     };
     
+    // Attempt to save to Firestore, but proceed with UI success state regardless
     if (db) {
       const submissionsRef = collection(db, 'submissions');
       addDoc(submissionsRef, finalSubmission)
@@ -63,10 +53,10 @@ export default function AssessmentPage() {
         });
     }
 
-    setCompletedSteps((prev) => new Set(prev).add(recordings?.length || 0));
+    setCompletedSteps((prev) => new Set(prev).add(RECORDINGS.length));
   };
 
-  if (!isMounted || recordingsLoading) {
+  if (!isMounted) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-background space-y-4">
         <Loader2 className="h-10 w-10 text-primary animate-spin" />
@@ -75,36 +65,17 @@ export default function AssessmentPage() {
     );
   }
 
-  if (!recordings || recordings.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-background p-6 text-center max-w-md mx-auto">
-        <Database className="h-12 w-12 text-muted-foreground mb-4" />
-        <h2 className="text-2xl font-headline text-primary mb-2">Laboratory is Empty</h2>
-        <p className="text-muted-foreground mb-6">
-          To get started, please add recordings to your Firestore collection named <strong>recordings</strong> in the Firebase Console.
-        </p>
-        <div className="text-left bg-white p-4 rounded-lg border text-sm font-mono space-y-2">
-           <p className="font-bold text-xs text-muted-foreground uppercase">Required Fields:</p>
-           <p>• title: "Bot Sample"</p>
-           <p>• audioUrl: "https://..."</p>
-           <p>• duration: "1:00"</p>
-           <p>• order: 1</p>
-        </div>
-      </div>
-    );
-  }
-
-  const progressPercentage = ((currentStep) / (recordings.length + 1)) * 100;
+  const progressPercentage = ((currentStep) / (RECORDINGS.length + 1)) * 100;
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       {/* Progress Sidebar - Desktop Only */}
       <div className="hidden md:block w-80 fixed inset-y-0 left-0">
         <AssessmentSidebar
-          recordings={recordings}
+          recordings={RECORDINGS}
           currentStep={currentStep}
           completedSteps={completedSteps}
-          totalSteps={recordings.length + 1}
+          totalSteps={RECORDINGS.length + 1}
         />
       </div>
 
@@ -125,7 +96,7 @@ export default function AssessmentPage() {
           <div className="flex flex-col">
             <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Active Session</span>
             <span className="font-headline text-primary font-bold">
-              {currentStep < recordings.length ? `Evaluation ${currentStep + 1} of ${recordings.length}` : "Final Submission"}
+              {currentStep < RECORDINGS.length ? `Evaluation ${currentStep + 1} of ${RECORDINGS.length}` : "Final Submission"}
             </span>
           </div>
           <div className="w-64 space-y-2">
@@ -138,10 +109,10 @@ export default function AssessmentPage() {
         </div>
 
         <div className="container px-6 md:px-12 pb-20">
-          {currentStep < recordings.length ? (
+          {currentStep < RECORDINGS.length ? (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <AssessmentForm
-                recording={recordings[currentStep]}
+                recording={RECORDINGS[currentStep]}
                 onComplete={handleAssessmentComplete}
               />
             </div>

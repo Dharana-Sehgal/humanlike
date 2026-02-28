@@ -2,19 +2,18 @@
 
 This application allows users to evaluate AI-generated voice recordings for human-likeness.
 
-## Setting Up Your Data
+## How it Works
 
-This app fetches its data from **Firebase Firestore**. To see recordings in the app, follow these steps:
+1.  **Input Data**: The recordings being evaluated are hardcoded in `src/lib/assessment-data.ts`. You can add more samples by editing that file.
+2.  **Submission Data**: When a user completes an assessment, their ratings and feedback are sent to **Firebase Firestore**.
 
-1.  **Go to the [Firebase Console](https://console.firebase.google.com/)**.
+## Viewing Results
+
+To see the submissions:
+1.  Go to the [Firebase Console](https://console.firebase.google.com/).
 2.  Select your project.
 3.  Navigate to **Firestore Database**.
-4.  Create a collection named `recordings`.
-5.  Add documents to the `recordings` collection with the following fields:
-    - `title` (string): The name of the sample.
-    - `audioUrl` (string): A public URL to an audio file.
-    - `duration` (string): The length of the audio (e.g., "1:20").
-    - `order` (number): The position in the assessment sequence (1, 2, 3...).
+4.  Look for the `submissions` collection. Each document contains the user's details and their ratings for each recording.
 
-## Submissions
-User evaluations are automatically saved to the `submissions` collection in Firestore.
+## Firebase Setup
+Ensure you have initialized your Firebase project in the console and that Firestore is enabled in "Test Mode" to allow submissions during development.
