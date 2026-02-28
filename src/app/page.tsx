@@ -52,7 +52,7 @@ export default function AssessmentPage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       {/* Sidebar */}
-      <div className="hidden md:block w-72 fixed inset-y-0 left-0">
+      <div className="hidden md:block w-64 fixed inset-y-0 left-0 border-r border-white/5">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
           activeRecordingId={!isFinished ? FLAT_RECORDINGS[currentStep].id : null}
@@ -60,7 +60,7 @@ export default function AssessmentPage() {
         />
       </div>
 
-      <main className="flex-1 md:ml-72">
+      <main className="flex-1 md:ml-64">
         {/* Mobile Header */}
         <div className="md:hidden bg-[#2d1b4e] p-6 text-white">
           <h1 className="font-headline text-lg">Voice Assessment</h1>
