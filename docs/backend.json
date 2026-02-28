@@ -1,0 +1,67 @@
+
+{
+  "entities": {
+    "AssessmentSubmission": {
+      "title": "Assessment Submission",
+      "description": "A user's evaluation of AI voice recordings.",
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          "required": [
+            "name",
+            "email"
+          ]
+        },
+        "assessments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recordingId": {
+                "type": "string"
+              },
+              "rating": {
+                "type": "number"
+              },
+              "feedback": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "submittedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "user",
+        "assessments",
+        "submittedAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "google.com"
+    ]
+  },
+  "firestore": {
+    "/submissions/{submissionId}": {
+      "schema": {
+        "$ref": "#/backend/entities/AssessmentSubmission"
+      },
+      "description": "Store user assessment results."
+    }
+  }
+}

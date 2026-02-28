@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Recording } from "@/lib/assessment-data";
@@ -20,8 +21,8 @@ export function AssessmentSidebar({
   return (
     <div className="w-full h-full bg-primary text-primary-foreground p-8 flex flex-col">
       <div className="mb-12">
-        <h1 className="font-headline text-3xl mb-2">BotSpeak</h1>
-        <p className="text-primary-foreground/60 text-sm">Evaluation Laboratory</p>
+        <h1 className="font-headline text-3xl mb-2">Voice Assessment</h1>
+        <p className="text-primary-foreground/60 text-sm">Human-Likeness Laboratory</p>
       </div>
 
       <div className="flex-1 space-y-1">
@@ -102,13 +103,13 @@ export function AssessmentSidebar({
       <div className="pt-8 border-t border-white/10 mt-auto">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-primary font-bold">
-            AI
+            VA
           </div>
           <div>
             <p className="text-xs font-bold">System Status</p>
             <p className="text-[10px] text-accent flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              Recording Evaluation Ready
+              Database Connected
             </p>
           </div>
         </div>

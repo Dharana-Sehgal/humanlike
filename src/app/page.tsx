@@ -7,12 +7,17 @@ import { AssessmentSidebar } from "@/components/AssessmentSidebar";
 import { AssessmentForm } from "@/components/AssessmentForm";
 import { ContactForm } from "@/components/ContactForm";
 import { Progress } from "@/components/ui/progress";
+import { collection, addDoc } from "firebase/firestore";
+import { useFirestore } from "@/firebase";
+import { errorEmitter } from "@/firebase/error-emitter";
+import { FirestorePermissionError } from "@/firebase/errors";
 
 export default function AssessmentPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const [allData, setAllData] = useState<any[]>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const db = useFirestore();
 
   useEffect(() => {
     setIsMounted(true);
@@ -23,7 +28,6 @@ export default function AssessmentPage() {
     setCompletedSteps((prev) => new Set(prev).add(currentStep));
     setCurrentStep((prev) => prev + 1);
     
-    // Scroll to top for next recording
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -34,8 +38,19 @@ export default function AssessmentPage() {
       submittedAt: new Date().toISOString(),
     };
     
-    // Here we would typically send to Firebase
-    console.log("Saving to Firebase Database:", finalSubmission);
+    if (db) {
+      const submissionsRef = collection(db, 'submissions');
+      addDoc(submissionsRef, finalSubmission)
+        .catch(async (error) => {
+          const permissionError = new FirestorePermissionError({
+            path: submissionsRef.path,
+            operation: 'create',
+            requestResourceData: finalSubmission,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+        });
+    }
+
     setCompletedSteps((prev) => new Set(prev).add(recordings.length));
   };
 
@@ -59,7 +74,7 @@ export default function AssessmentPage() {
       <main className="flex-1 md:ml-80">
         {/* Mobile Header */}
         <div className="md:hidden bg-primary p-6 text-white">
-          <h1 className="font-headline text-2xl">BotSpeak</h1>
+          <h1 className="font-headline text-2xl">Human-Like Assessment</h1>
           <div className="mt-4 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-white/60">
             <span>Progress</span>
             <span>{Math.round(progressPercentage)}%</span>
