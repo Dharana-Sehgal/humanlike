@@ -1,3 +1,104 @@
-export default function Home() {
-  return <></>;
+
+"use client";
+
+import { useState, useEffect } from "react";
+import { recordings } from "@/lib/assessment-data";
+import { AssessmentSidebar } from "@/components/AssessmentSidebar";
+import { AssessmentForm } from "@/components/AssessmentForm";
+import { ContactForm } from "@/components/ContactForm";
+import { Progress } from "@/components/ui/progress";
+
+export default function AssessmentPage() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+  const [allData, setAllData] = useState<any[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleAssessmentComplete = (data: { rating: number; feedback: string }) => {
+    setAllData((prev) => [...prev, { recordingId: recordings[currentStep].id, ...data }]);
+    setCompletedSteps((prev) => new Set(prev).add(currentStep));
+    setCurrentStep((prev) => prev + 1);
+    
+    // Scroll to top for next recording
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleContactSubmit = (contact: { name: string; email: string }) => {
+    const finalSubmission = {
+      assessments: allData,
+      user: contact,
+      submittedAt: new Date().toISOString(),
+    };
+    
+    // Here we would typically send to Firebase
+    console.log("Saving to Firebase Database:", finalSubmission);
+    setCompletedSteps((prev) => new Set(prev).add(recordings.length));
+  };
+
+  if (!isMounted) return null;
+
+  const progressPercentage = ((currentStep) / (recordings.length + 1)) * 100;
+
+  return (
+    <div className="flex flex-col md:flex-row min-h-screen bg-background">
+      {/* Progress Sidebar - Desktop Only */}
+      <div className="hidden md:block w-80 fixed inset-y-0 left-0">
+        <AssessmentSidebar
+          recordings={recordings}
+          currentStep={currentStep}
+          completedSteps={completedSteps}
+          totalSteps={recordings.length + 1}
+        />
+      </div>
+
+      {/* Main Content Area */}
+      <main className="flex-1 md:ml-80">
+        {/* Mobile Header */}
+        <div className="md:hidden bg-primary p-6 text-white">
+          <h1 className="font-headline text-2xl">BotSpeak</h1>
+          <div className="mt-4 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-white/60">
+            <span>Progress</span>
+            <span>{Math.round(progressPercentage)}%</span>
+          </div>
+          <Progress value={progressPercentage} className="h-1 bg-white/20 mt-2" />
+        </div>
+
+        {/* Header - Desktop Top Bar */}
+        <div className="hidden md:flex sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b px-8 py-4 items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Active Session</span>
+            <span className="font-headline text-primary font-bold">
+              {currentStep < recordings.length ? `Evaluation ${currentStep + 1} of ${recordings.length}` : "Final Submission"}
+            </span>
+          </div>
+          <div className="w-64 space-y-2">
+             <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              <span>Overall Progress</span>
+              <span>{Math.round(progressPercentage)}%</span>
+            </div>
+            <Progress value={progressPercentage} className="h-2 bg-secondary" />
+          </div>
+        </div>
+
+        <div className="container px-6 md:px-12 pb-20">
+          {currentStep < recordings.length ? (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <AssessmentForm
+                recording={recordings[currentStep]}
+                onComplete={handleAssessmentComplete}
+              />
+            </div>
+          ) : (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <ContactForm onSubmit={handleContactSubmit} />
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
 }
