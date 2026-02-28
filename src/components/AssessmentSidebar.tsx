@@ -1,7 +1,7 @@
 "use client";
 
 import { AssessmentModule } from "@/lib/assessment-data";
-import { CheckCircle2, Music, Circle } from "lucide-react";
+import { CheckCircle2, Music } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -22,7 +22,6 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  // Increased star count for a richer "Space Lab" feel
   const stars = Array.from({ length: 120 }).map((_, i) => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
@@ -33,9 +32,9 @@ export function AssessmentSidebar({
   }));
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#0f041a] via-[#1a0b3b] to-[#2d1b4e] text-primary-foreground p-6 flex flex-col overflow-hidden">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#3b246a] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
       {mounted && (
-        <div className="absolute inset-0 pointer-events-none opacity-40">
+        <div className="absolute inset-0 pointer-events-none opacity-30">
           {stars.map((star, idx) => (
             <div
               key={idx}
@@ -65,7 +64,7 @@ export function AssessmentSidebar({
             <div className="px-2">
               <span className="text-[11px] font-bold uppercase tracking-widest text-white/50">{module.title}</span>
             </div>
-            <div className="space-y-2 ml-2 border-l border-white/5 pl-4">
+            <div className="space-y-1 ml-2 pl-2">
               {module.recordings.map((rec) => {
                 const isCompleted = completedRecordingIds.has(rec.id);
                 const isActive = activeRecordingId === rec.id;
@@ -76,8 +75,8 @@ export function AssessmentSidebar({
                     className={cn(
                       "flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
                       isActive 
-                        ? "bg-white/10 shadow-sm backdrop-blur-md border border-white/5" 
-                        : "opacity-40 hover:opacity-60"
+                        ? "bg-white/15 shadow-sm backdrop-blur-md border border-white/10" 
+                        : "opacity-40 hover:opacity-70"
                     )}
                   >
                     <div className="flex-shrink-0">
@@ -86,12 +85,12 @@ export function AssessmentSidebar({
                       ) : isActive ? (
                         <Music className="h-3.5 w-3.5 text-accent animate-pulse" />
                       ) : (
-                        <Circle className="h-2 w-2 text-white/30" />
+                        <div className="h-1.5 w-1.5 rounded-full bg-white/40" />
                       )}
                     </div>
                     <p className={cn(
                       "text-[12px] font-medium tracking-tight truncate",
-                      isActive ? "text-white" : "text-white/70"
+                      isActive ? "text-white font-semibold" : "text-white/80"
                     )}>
                       {rec.title}
                     </p>

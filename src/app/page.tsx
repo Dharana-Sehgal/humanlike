@@ -62,7 +62,7 @@ export default function AssessmentPage() {
 
       <main className="flex-1 md:ml-72">
         {/* Mobile Header */}
-        <div className="md:hidden bg-[#1a0b3b] p-6 text-white">
+        <div className="md:hidden bg-[#2d1b4e] p-6 text-white">
           <h1 className="font-headline text-lg">Voice Assessment</h1>
           <div className="mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/60">
             <span>Progress</span>
@@ -72,16 +72,16 @@ export default function AssessmentPage() {
         </div>
 
         {/* Desktop Header */}
-        <div className="hidden md:flex sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b px-8 py-4 items-center justify-between">
-          <div className="flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Evaluation Phase</span>
-            <span className="font-headline text-primary font-semibold text-base">
+        <div className="hidden md:flex sticky top-0 z-10 bg-slate-50/90 backdrop-blur-md border-b px-8 py-4 items-center justify-between">
+          <div className="flex flex-col min-w-0 mr-8 flex-1">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground truncate">Evaluation Phase</span>
+            <span className="font-headline text-primary font-semibold text-base truncate">
               {!isFinished 
                 ? `${FLAT_RECORDINGS[currentStep].moduleTitle} — ${FLAT_RECORDINGS[currentStep].title}` 
                 : "Final Submission"}
             </span>
           </div>
-          <div className="w-40 space-y-1">
+          <div className="w-40 space-y-1 flex-shrink-0">
              <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
               <span>Overall Progress</span>
               <span>{Math.round(progressPercentage)}%</span>
