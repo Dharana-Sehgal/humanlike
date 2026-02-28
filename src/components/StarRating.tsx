@@ -29,7 +29,7 @@ export function StarRating({ value, onChange, max = 5 }: StarRatingProps) {
           >
             <Star
               className={cn(
-                "h-5 w-5 transition-all duration-300", // Smaller stars as requested
+                "h-4 w-4 transition-all duration-300", 
                 isActive 
                   ? "fill-accent text-accent scale-110 drop-shadow-[0_0_3px_rgba(var(--accent),0.3)]" 
                   : "text-muted-foreground fill-none opacity-20 group-hover:opacity-40"

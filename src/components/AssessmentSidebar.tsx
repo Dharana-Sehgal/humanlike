@@ -22,13 +22,14 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  const stars = Array.from({ length: 80 }).map((_, i) => ({
+  // Increased star count for a richer "Space Lab" feel
+  const stars = Array.from({ length: 120 }).map((_, i) => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
     duration: `${3 + Math.random() * 5}s`,
     delay: `${Math.random() * 5}s`,
     floatDur: `${20 + Math.random() * 30}s`,
-    size: Math.random() > 0.8 ? "1.5px" : "0.8px",
+    size: Math.random() > 0.8 ? "1.2px" : "0.6px",
   }));
 
   return (
@@ -54,17 +55,17 @@ export function AssessmentSidebar({
       )}
 
       <div className="relative z-10 mb-10">
-        <h1 className="font-headline text-lg mb-1 leading-tight font-bold tracking-tight">Assessment Lab</h1>
-        <p className="text-white/40 text-[9px] font-bold uppercase tracking-[0.2em]">Voice Study v1.0</p>
+        <h1 className="font-headline text-xl mb-1 leading-tight font-bold tracking-tight">Assessment Lab</h1>
+        <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em]">Voice Study v1.0</p>
       </div>
 
       <div className="relative z-10 flex-1 overflow-y-auto space-y-8 custom-scrollbar pr-2">
         {modules.map((module) => (
-          <div key={module.id} className="space-y-3">
+          <div key={module.id} className="space-y-4">
             <div className="px-2">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">{module.title}</span>
+              <span className="text-[11px] font-bold uppercase tracking-widest text-white/50">{module.title}</span>
             </div>
-            <div className="space-y-1.5 ml-2 border-l border-white/5 pl-4">
+            <div className="space-y-2 ml-2 border-l border-white/5 pl-4">
               {module.recordings.map((rec) => {
                 const isCompleted = completedRecordingIds.has(rec.id);
                 const isActive = activeRecordingId === rec.id;
@@ -73,23 +74,23 @@ export function AssessmentSidebar({
                   <div
                     key={rec.id}
                     className={cn(
-                      "flex items-center gap-3 p-2 rounded-lg transition-all duration-300",
+                      "flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
                       isActive 
                         ? "bg-white/10 shadow-sm backdrop-blur-md border border-white/5" 
-                        : "opacity-40"
+                        : "opacity-40 hover:opacity-60"
                     )}
                   >
                     <div className="flex-shrink-0">
                       {isCompleted ? (
-                        <CheckCircle2 className="h-3 w-3 text-accent" />
+                        <CheckCircle2 className="h-3.5 w-3.5 text-accent" />
                       ) : isActive ? (
-                        <Music className="h-3 w-3 text-accent animate-pulse" />
+                        <Music className="h-3.5 w-3.5 text-accent animate-pulse" />
                       ) : (
-                        <Circle className="h-1.5 w-1.5 text-white/30" />
+                        <Circle className="h-2 w-2 text-white/30" />
                       )}
                     </div>
                     <p className={cn(
-                      "text-[11px] font-medium tracking-tight truncate",
+                      "text-[12px] font-medium tracking-tight truncate",
                       isActive ? "text-white" : "text-white/70"
                     )}>
                       {rec.title}

@@ -52,7 +52,7 @@ export default function AssessmentPage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       {/* Sidebar */}
-      <div className="hidden md:block w-64 fixed inset-y-0 left-0">
+      <div className="hidden md:block w-72 fixed inset-y-0 left-0">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
           activeRecordingId={!isFinished ? FLAT_RECORDINGS[currentStep].id : null}
@@ -60,7 +60,7 @@ export default function AssessmentPage() {
         />
       </div>
 
-      <main className="flex-1 md:ml-64">
+      <main className="flex-1 md:ml-72">
         {/* Mobile Header */}
         <div className="md:hidden bg-[#1a0b3b] p-6 text-white">
           <h1 className="font-headline text-lg">Voice Assessment</h1>
@@ -75,7 +75,7 @@ export default function AssessmentPage() {
         <div className="hidden md:flex sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b px-8 py-4 items-center justify-between">
           <div className="flex flex-col">
             <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Evaluation Phase</span>
-            <span className="font-headline text-primary font-bold text-sm">
+            <span className="font-headline text-primary font-semibold text-base">
               {!isFinished 
                 ? `${FLAT_RECORDINGS[currentStep].moduleTitle} — ${FLAT_RECORDINGS[currentStep].title}` 
                 : "Final Submission"}
