@@ -23,33 +23,33 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  // Static positions to avoid hydration mismatch while still looking random
   const stars = [
-    { top: "10%", left: "15%", duration: "3s", delay: "0s" },
-    { top: "25%", left: "80%", duration: "4s", delay: "1s" },
-    { top: "45%", left: "30%", duration: "2.5s", delay: "0.5s" },
-    { top: "60%", left: "70%", duration: "5s", delay: "2s" },
-    { top: "80%", left: "20%", duration: "3.5s", delay: "1.2s" },
-    { top: "15%", left: "50%", duration: "4.5s", delay: "0.8s" },
-    { top: "70%", left: "90%", duration: "3s", delay: "1.5s" },
-    { top: "35%", left: "10%", duration: "4s", delay: "2.5s" },
-    { top: "55%", left: "40%", duration: "3.2s", delay: "0.2s" },
-    { top: "90%", left: "60%", duration: "4.8s", delay: "1.8s" },
+    { top: "10%", left: "15%", duration: "3s", delay: "0s", floatDur: "12s" },
+    { top: "25%", left: "80%", duration: "4s", delay: "1s", floatDur: "15s" },
+    { top: "45%", left: "30%", duration: "2.5s", delay: "0.5s", floatDur: "10s" },
+    { top: "60%", left: "70%", duration: "5s", delay: "2s", floatDur: "18s" },
+    { top: "80%", left: "20%", duration: "3.5s", delay: "1.2s", floatDur: "14s" },
+    { top: "15%", left: "50%", duration: "4.5s", delay: "0.8s", floatDur: "16s" },
+    { top: "70%", left: "90%", duration: "3s", delay: "1.5s", floatDur: "11s" },
+    { top: "35%", left: "10%", duration: "4s", delay: "2.5s", floatDur: "13s" },
+    { top: "55%", left: "40%", duration: "3.2s", delay: "0.2s", floatDur: "17s" },
+    { top: "90%", left: "60%", duration: "4.8s", delay: "1.8s", floatDur: "19s" },
   ];
 
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-[#120422] via-[#311b92] to-[#7c4dff] text-primary-foreground p-8 flex flex-col overflow-hidden">
-      {/* Blinking Stars Background */}
+      {/* Blinking & Floating Stars Background */}
       {mounted && (
         <div className="absolute inset-0 pointer-events-none opacity-40">
           {stars.map((star, idx) => (
             <div
               key={idx}
-              className="absolute w-1 h-1 bg-white rounded-full animate-twinkle shadow-[0_0_8px_white]"
+              className="absolute w-1 h-1 bg-white rounded-full animate-twinkle animate-float shadow-[0_0_8px_white]"
               style={{
                 top: star.top,
                 left: star.left,
                 "--twinkle-duration": star.duration,
+                "--float-duration": star.floatDur,
                 animationDelay: star.delay,
               } as React.CSSProperties}
             />
@@ -58,7 +58,7 @@ export function AssessmentSidebar({
       )}
 
       <div className="relative z-10 mb-12">
-        <h1 className="font-headline text-2xl mb-2 leading-tight">Human-Like Voice Assessment</h1>
+        <h1 className="font-headline text-2xl mb-2 leading-tight">Human-Like Assessment</h1>
         <p className="text-white/60 text-xs font-bold uppercase tracking-widest">Laboratory Session</p>
       </div>
 
@@ -99,15 +99,11 @@ export function AssessmentSidebar({
                 )}>
                   {rec.title}
                 </p>
-                <p className="text-[9px] uppercase font-bold tracking-widest opacity-40">
-                  {isCompleted ? "Verified" : isCurrent ? "Active" : "Queued"}
-                </p>
               </div>
             </div>
           );
         })}
 
-        {/* Final Form Step */}
         <div
           className={cn(
             "flex items-center gap-4 p-4 rounded-xl transition-all duration-300",
@@ -131,21 +127,6 @@ export function AssessmentSidebar({
               currentStep === recordings.length ? "text-white" : "text-white/60"
             )}>
               Contact Details
-            </p>
-            <p className="text-[9px] uppercase font-bold tracking-widest opacity-40">Final Analysis</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="relative z-10 pt-8 border-t border-white/10 mt-auto">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#30E8E8]/20 border border-[#30E8E8]/30 flex items-center justify-center text-[#30E8E8] font-bold text-xs">
-            VA
-          </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-white/80">Local Engine</p>
-            <p className="text-[9px] text-[#30E8E8] flex items-center gap-1 font-medium">
-              Ready for Input
             </p>
           </div>
         </div>

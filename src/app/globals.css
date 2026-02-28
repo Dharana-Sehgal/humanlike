@@ -57,6 +57,17 @@
   50% { opacity: 1; transform: scale(1.2); }
 }
 
+@keyframes float {
+  0% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-20px) translateX(10px); }
+  66% { transform: translateY(10px) translateX(-15px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+
 .animate-twinkle {
   animation: twinkle var(--twinkle-duration, 3s) ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float var(--float-duration, 10s) ease-in-out infinite;
 }
