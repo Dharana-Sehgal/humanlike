@@ -22,41 +22,43 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
 
   return (
     <div className="max-w-4xl mx-auto space-y-12 py-10">
-      <section className="space-y-8">
-        <h2 className="text-3xl font-headline text-primary">Listen and Evaluate</h2>
+      <section className="space-y-6">
+        <h2 className="text-2xl font-headline text-primary font-bold">Listen and Evaluate</h2>
         <AudioPlayer src={recording.audioUrl} title={recording.title} />
       </section>
 
-      <section className="space-y-12">
-        <div className="space-y-6">
-          <Label className="text-xl font-headline block">
+      <section className="space-y-10">
+        <div className="space-y-4">
+          <Label className="text-lg font-headline block font-medium leading-relaxed">
             1. Overall how effectively do you think this bot sounds human?
           </Label>
-          <div className="w-full bg-transparent">
+          <div className="w-full">
             <StarRating value={rating} onChange={setRating} />
           </div>
         </div>
 
-        <div className="space-y-6">
-          <Label className="text-xl font-headline block">
+        <div className="space-y-4">
+          <Label className="text-lg font-headline block font-medium leading-relaxed">
             2. In your own words, what made the conversation feel more like a real human (or more like a bot)?
           </Label>
           <Textarea
             placeholder="Describe your experience with the bot's tone, pacing, and vocabulary..."
-            className="min-h-[180px] bg-white text-lg focus-visible:ring-accent border-muted shadow-sm p-6"
+            className="min-h-[160px] bg-white text-base focus-visible:ring-accent border-muted shadow-sm p-4"
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
           />
         </div>
 
-        <Button
-          onClick={() => onComplete({ rating, feedback })}
-          disabled={!isSubmittable}
-          className="w-full sm:w-auto px-16 h-16 text-xl font-bold bg-primary hover:bg-primary/90 transition-all shadow-xl hover:shadow-primary/20 rounded-full"
-        >
-          Submit Evaluation
-          <ArrowRight className="ml-2 h-6 w-6" />
-        </Button>
+        <div className="pt-4">
+          <Button
+            onClick={() => onComplete({ rating, feedback })}
+            disabled={!isSubmittable}
+            className="w-full sm:w-auto px-10 h-12 text-base font-bold bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/20 rounded-full"
+          >
+            Submit Evaluation
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </div>
       </section>
     </div>
   );
