@@ -1,6 +1,32 @@
 
 {
   "entities": {
+    "Recording": {
+      "title": "Voice Recording",
+      "description": "An AI voice recording to be assessed.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "audioUrl": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number",
+          "description": "The sequence in which this recording appears in the assessment."
+        }
+      },
+      "required": [
+        "title",
+        "audioUrl",
+        "duration",
+        "order"
+      ]
+    },
     "AssessmentSubmission": {
       "title": "Assessment Submission",
       "description": "A user's evaluation of AI voice recordings.",
@@ -57,6 +83,12 @@
     ]
   },
   "firestore": {
+    "/recordings/{recordingId}": {
+      "schema": {
+        "$ref": "#/backend/entities/Recording"
+      },
+      "description": "Collection of recordings to be assessed by users."
+    },
     "/submissions/{submissionId}": {
       "schema": {
         "$ref": "#/backend/entities/AssessmentSubmission"
