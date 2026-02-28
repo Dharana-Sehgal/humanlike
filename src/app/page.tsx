@@ -35,7 +35,6 @@ export default function AssessmentPage() {
     };
     
     console.log("Assessment Final Submission:", finalSubmission);
-    // In a real app, we would send this to a database here.
   };
 
   if (!isMounted) {
@@ -52,8 +51,8 @@ export default function AssessmentPage() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
-      {/* Sidebar - Narrowed width */}
-      <div className="hidden md:block w-60 fixed inset-y-0 left-0">
+      {/* Sidebar */}
+      <div className="hidden md:block w-64 fixed inset-y-0 left-0">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
           activeRecordingId={!isFinished ? FLAT_RECORDINGS[currentStep].id : null}
@@ -61,10 +60,10 @@ export default function AssessmentPage() {
         />
       </div>
 
-      <main className="flex-1 md:ml-60">
+      <main className="flex-1 md:ml-64">
         {/* Mobile Header */}
-        <div className="md:hidden bg-primary p-6 text-white">
-          <h1 className="font-headline text-xl">Voice Assessment</h1>
+        <div className="md:hidden bg-[#1a0b3b] p-6 text-white">
+          <h1 className="font-headline text-lg">Voice Assessment</h1>
           <div className="mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/60">
             <span>Progress</span>
             <span>{Math.round(progressPercentage)}%</span>
@@ -75,10 +74,10 @@ export default function AssessmentPage() {
         {/* Desktop Header */}
         <div className="hidden md:flex sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b px-8 py-4 items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Active Session</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Evaluation Phase</span>
             <span className="font-headline text-primary font-bold text-sm">
               {!isFinished 
-                ? `${FLAT_RECORDINGS[currentStep].moduleTitle} — Sample ${currentStep + 1}` 
+                ? `${FLAT_RECORDINGS[currentStep].moduleTitle} — ${FLAT_RECORDINGS[currentStep].title}` 
                 : "Final Submission"}
             </span>
           </div>

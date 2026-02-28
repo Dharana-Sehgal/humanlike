@@ -1,7 +1,7 @@
 "use client";
 
 import { AssessmentModule } from "@/lib/assessment-data";
-import { CheckCircle2, Lock, Music, FolderOpen } from "lucide-react";
+import { CheckCircle2, Music, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -22,18 +22,17 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  // Increase star count as requested
-  const stars = Array.from({ length: 120 }).map((_, i) => ({
+  const stars = Array.from({ length: 80 }).map((_, i) => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
-    duration: `${2 + Math.random() * 4}s`,
+    duration: `${3 + Math.random() * 5}s`,
     delay: `${Math.random() * 5}s`,
-    floatDur: `${15 + Math.random() * 20}s`,
-    size: Math.random() > 0.8 ? "1.2px" : "0.6px", // Smaller stars
+    floatDur: `${20 + Math.random() * 30}s`,
+    size: Math.random() > 0.8 ? "1.5px" : "0.8px",
   }));
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#120422] via-[#311b92] to-[#7c4dff] text-primary-foreground p-6 flex flex-col overflow-hidden">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#0f041a] via-[#1a0b3b] to-[#2d1b4e] text-primary-foreground p-6 flex flex-col overflow-hidden">
       {mounted && (
         <div className="absolute inset-0 pointer-events-none opacity-40">
           {stars.map((star, idx) => (
@@ -55,18 +54,17 @@ export function AssessmentSidebar({
       )}
 
       <div className="relative z-10 mb-10">
-        <h1 className="font-headline text-xl mb-1 leading-tight font-bold">Assessment Lab</h1>
-        <p className="text-white/60 text-[9px] font-bold uppercase tracking-widest">Voice Interaction Study</p>
+        <h1 className="font-headline text-lg mb-1 leading-tight font-bold tracking-tight">Assessment Lab</h1>
+        <p className="text-white/40 text-[9px] font-bold uppercase tracking-[0.2em]">Voice Study v1.0</p>
       </div>
 
-      <div className="relative z-10 flex-1 overflow-y-auto space-y-6 custom-scrollbar pr-2">
+      <div className="relative z-10 flex-1 overflow-y-auto space-y-8 custom-scrollbar pr-2">
         {modules.map((module) => (
-          <div key={module.id} className="space-y-2">
-            <div className="flex items-center gap-2 px-2 py-1 opacity-60">
-              <FolderOpen className="h-3.5 w-3.5" />
-              <span className="text-[11px] font-bold uppercase tracking-wider">{module.title}</span>
+          <div key={module.id} className="space-y-3">
+            <div className="px-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">{module.title}</span>
             </div>
-            <div className="space-y-1 ml-3 border-l border-white/10 pl-3">
+            <div className="space-y-1.5 ml-2 border-l border-white/5 pl-4">
               {module.recordings.map((rec) => {
                 const isCompleted = completedRecordingIds.has(rec.id);
                 const isActive = activeRecordingId === rec.id;
@@ -75,23 +73,23 @@ export function AssessmentSidebar({
                   <div
                     key={rec.id}
                     className={cn(
-                      "flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
+                      "flex items-center gap-3 p-2 rounded-lg transition-all duration-300",
                       isActive 
-                        ? "bg-white/15 shadow-md backdrop-blur-md border border-white/10" 
+                        ? "bg-white/10 shadow-sm backdrop-blur-md border border-white/5" 
                         : "opacity-40"
                     )}
                   >
                     <div className="flex-shrink-0">
                       {isCompleted ? (
-                        <CheckCircle2 className="h-3.5 w-3.5 text-accent" />
+                        <CheckCircle2 className="h-3 w-3 text-accent" />
                       ) : isActive ? (
-                        <Music className="h-3.5 w-3.5 text-accent animate-pulse" />
+                        <Music className="h-3 w-3 text-accent animate-pulse" />
                       ) : (
-                        <div className="h-3.5 w-3.5 rounded-full border border-white/30" />
+                        <Circle className="h-1.5 w-1.5 text-white/30" />
                       )}
                     </div>
                     <p className={cn(
-                      "text-xs font-medium tracking-tight truncate",
+                      "text-[11px] font-medium tracking-tight truncate",
                       isActive ? "text-white" : "text-white/70"
                     )}>
                       {rec.title}
