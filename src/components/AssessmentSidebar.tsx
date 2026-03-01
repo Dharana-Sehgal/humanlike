@@ -1,7 +1,7 @@
 "use client";
 
 import { AssessmentModule } from "@/lib/assessment-data";
-import { CheckCircle2, Folder, Circle } from "lucide-react";
+import { CheckCircle2, Folder, Clock, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -40,7 +40,7 @@ export function AssessmentSidebar({
   )?.id;
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-b from-[#3a2065] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
+    <div className="relative w-full h-full bg-gradient-to-b from-[#4c2a85] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
       {mounted && (
         <div className="absolute inset-0 pointer-events-none opacity-40">
           {stars.map((star, idx) => (
@@ -83,9 +83,9 @@ export function AssessmentSidebar({
               >
                 <div className={cn(
                   "p-1.5 rounded-md transition-colors",
-                  isActive ? "bg-accent/20" : "bg-white/5"
+                  isActive ? "bg-white/20" : "bg-white/5"
                 )}>
-                  <Folder className={cn("h-4 w-4", isActive ? "text-accent" : "text-white/60")} />
+                  <Folder className={cn("h-4 w-4", isActive ? "text-white" : "text-white/60")} />
                 </div>
                 <span className={cn(
                   "text-[11px] font-bold uppercase tracking-widest",
@@ -93,31 +93,39 @@ export function AssessmentSidebar({
                 )}>
                   {module.title}
                 </span>
-                {isModuleFullyCompleted && <CheckCircle2 className="h-3 w-3 text-accent ml-auto" />}
+                {isModuleFullyCompleted && <CheckCircle2 className="h-3 w-3 text-white ml-auto" />}
               </button>
 
-              <div className="space-y-2 ml-4 pl-4 border-l border-white/10">
+              <div className="space-y-3 ml-4 pl-4 border-l border-white/10">
                 {module.recordings.map((rec) => {
                   const isCompleted = completedRecordingIds.has(rec.id);
                   const isRecActive = activeRecordingId === rec.id;
+                  
+                  // Status Logic: 
+                  // ✓ (Completed) - isCompleted
+                  // ⏳ (In Progress) - isRecActive
+                  // 🔒 (Locked) - Neither
                   
                   return (
                     <div
                       key={rec.id}
                       className={cn(
-                        "flex items-center gap-3 py-1 transition-opacity",
-                        isRecActive ? "opacity-100" : "opacity-40"
+                        "flex items-center gap-3 py-1 transition-all duration-300",
+                        isRecActive ? "opacity-100 translate-x-1" : "opacity-40"
                       )}
                     >
                       {isCompleted ? (
-                        <CheckCircle2 className="h-2.5 w-2.5 text-accent" />
+                        <CheckCircle2 className="h-3 w-3 text-white" />
                       ) : isRecActive ? (
-                        <div className="h-1 w-1 rounded-full bg-accent animate-pulse" />
+                        <Clock className="h-3 w-3 text-white animate-pulse" />
                       ) : (
-                        <div className="h-1 w-1 rounded-full bg-white/20" />
+                        <Lock className="h-3 w-3 text-white/30" />
                       )}
                       <p className="text-[10px] font-medium tracking-tight truncate text-white/80">
                         {rec.title}
+                        {isCompleted && " ✓"}
+                        {isRecActive && " ⏳"}
+                        {!isCompleted && !isRecActive && " 🔒"}
                       </p>
                     </div>
                   );
