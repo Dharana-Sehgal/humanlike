@@ -102,7 +102,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   }));
 
   return (
-    <div className="w-full bg-white rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+    <div className="w-full bg-white rounded-2xl p-4 shadow-md border border-slate-100 space-y-3">
       <audio
         ref={audioRef}
         src={src}
@@ -113,18 +113,18 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
       
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h3 className="font-headline text-sm text-slate-900 font-bold tracking-tight">{title}</h3>
-          <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest bg-slate-50 px-2 py-0.5 rounded">Sample</span>
+          <h3 className="font-headline text-[11px] text-slate-900 font-bold tracking-tight uppercase">{title}</h3>
+          <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest bg-slate-50 px-2 py-0.5 rounded">Sample</span>
         </div>
-        <div className={cn("font-mono text-[9px] font-bold px-3 py-1 bg-slate-50 rounded-full border border-slate-100 flex items-center gap-2", primaryColorClass)}>
+        <div className={cn("font-mono text-[9px] font-bold px-2 py-0.5 bg-slate-50 rounded-full border border-slate-100 flex items-center gap-2", primaryColorClass)}>
           <span>{formatTime(audioRef.current?.currentTime || 0)}</span>
           <span className="opacity-20">/</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
 
-      {/* Slimmer Waveform Visualization */}
-      <div className="flex items-center justify-between h-10 w-full gap-[2px] overflow-hidden px-1">
+      {/* Compact Waveform Visualization */}
+      <div className="flex items-center justify-between h-8 w-full gap-[2px] overflow-hidden px-1">
         {bars.map((bar, i) => (
           <div
             key={i}
@@ -143,25 +143,25 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
         ))}
       </div>
 
-      <div className="flex items-center gap-4 pt-1">
+      <div className="flex items-center gap-3">
         <Button
           size="icon"
           onClick={togglePlay}
-          className={cn("h-10 w-10 rounded-full text-white shadow-md transition-all active:scale-95 flex-shrink-0", primaryBgClass, primaryHoverClass)}
+          className={cn("h-8 w-8 rounded-full text-white shadow-sm transition-all active:scale-95 flex-shrink-0", primaryBgClass, primaryHoverClass)}
         >
-          {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
+          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
         </Button>
         
         <Button
           size="icon"
           variant="outline"
           onClick={reset}
-          className={cn("h-8 w-8 rounded-full border-slate-200 bg-white shadow-sm hover:bg-slate-50 flex-shrink-0", primaryColorClass)}
+          className={cn("h-7 w-7 rounded-full border-slate-200 bg-white shadow-sm hover:bg-slate-50 flex-shrink-0", primaryColorClass)}
         >
-          <RotateCcw className="h-3.5 w-3.5" />
+          <RotateCcw className="h-3 w-3" />
         </Button>
 
-        <div className="flex-1 px-2">
+        <div className="flex-1 px-1">
           <Slider
             value={[progress]}
             max={100}
@@ -174,8 +174,8 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold tracking-tight gap-1.5 rounded-full border-slate-200">
-                <Gauge className="h-3 w-3" />
+              <Button variant="outline" size="sm" className="h-7 px-2 text-[9px] font-bold tracking-tight gap-1 rounded-full border-slate-200">
+                <Gauge className="h-2.5 w-2.5" />
                 {playbackSpeed}x
               </Button>
             </DropdownMenuTrigger>
@@ -184,15 +184,15 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
                 <DropdownMenuItem 
                   key={speed} 
                   onClick={() => changeSpeed(speed)}
-                  className={cn("text-[10px] font-bold justify-center", playbackSpeed === speed && "bg-slate-100")}
+                  className={cn("text-[9px] font-bold justify-center", playbackSpeed === speed && "bg-slate-100")}
                 >
-                  {speed}x speed
+                  {speed}x
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className="hidden sm:flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 text-muted-foreground">
-            <Volume2 className="h-3.5 w-3.5" />
+          <div className="hidden sm:flex h-7 w-7 items-center justify-center rounded-full bg-slate-50 text-muted-foreground">
+            <Volume2 className="h-3 w-3" />
           </div>
         </div>
       </div>
