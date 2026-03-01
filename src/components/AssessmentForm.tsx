@@ -53,26 +53,26 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
         <section className="space-y-12">
           {/* Question 1: Rating */}
           <div className="space-y-6">
-            <div className="space-y-2">
-              <Label className={cn("text-xs font-bold uppercase tracking-[0.2em] block leading-relaxed opacity-70", primaryColorClass)}>
+            <div className="space-y-2 text-center">
+              <Label className={cn("text-[10px] font-bold uppercase tracking-[0.2em] block leading-relaxed opacity-70", primaryColorClass)}>
                 Metric: Human-Likeness
               </Label>
-              <p className="text-xl md:text-2xl text-slate-800 font-bold leading-tight">
+              <p className="text-lg text-slate-800 font-bold leading-tight">
                 On a scale of 1 to 5, how human-like does this voice interaction sound?
               </p>
             </div>
-            <div className="flex justify-start">
+            <div className="flex justify-center">
               <StarRating value={rating} onChange={setRating} />
             </div>
           </div>
 
           {/* Question 2: Feedback */}
           <div className="space-y-4">
-            <div className="space-y-2">
-               <Label className="text-xs font-bold uppercase tracking-[0.2em] block leading-relaxed text-slate-500">
+            <div className="space-y-2 text-center">
+               <Label className="text-[10px] font-bold uppercase tracking-[0.2em] block leading-relaxed text-slate-500">
                 Qualitative Insights
               </Label>
-              <p className="text-xl text-slate-800 font-bold">
+              <p className="text-base text-slate-800 font-bold">
                 What specific characteristics influenced your rating?
               </p>
             </div>
