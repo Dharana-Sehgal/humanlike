@@ -65,6 +65,23 @@
             }
           }
         },
+        "moduleQuestionnaires": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "moduleId": {
+                "type": "string"
+              },
+              "betterBotId": {
+                "type": "string"
+              },
+              "preferenceFeedback": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "submittedAt": {
           "type": "string",
           "format": "date-time"

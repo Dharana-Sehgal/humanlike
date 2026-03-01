@@ -1,22 +1,30 @@
+
 "use client";
 
 import { AssessmentModule } from "@/lib/assessment-data";
-import { CheckCircle2, Folder, Clock, Lock } from "lucide-react";
+import { CheckCircle2, Folder, Clock, Lock, ClipboardList } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
+type ActiveStep = 
+  | { type: 'recording'; id: string } 
+  | { type: 'questionnaire'; moduleId: string } 
+  | { type: 'final' };
+
 interface AssessmentSidebarProps {
   modules: AssessmentModule[];
-  activeRecordingId: string | null;
+  activeStep: ActiveStep;
   completedRecordingIds: Set<string>;
+  completedQuestionnaireIds: Set<string>;
   onSelectModule: (moduleId: string) => void;
   onShowFinalStep: () => void;
 }
 
 export function AssessmentSidebar({
   modules,
-  activeRecordingId,
+  activeStep,
   completedRecordingIds,
+  completedQuestionnaireIds,
   onSelectModule,
   onShowFinalStep,
 }: AssessmentSidebarProps) {
@@ -35,9 +43,12 @@ export function AssessmentSidebar({
     size: Math.random() > 0.8 ? "1.5px" : "0.5px",
   }));
 
-  const activeModuleId = modules.find(m => 
-    m.recordings.some(r => r.id === activeRecordingId)
-  )?.id;
+  const activeModuleId = 
+    activeStep.type === 'recording' 
+      ? modules.find(m => m.recordings.some(r => r.id === activeStep.id))?.id 
+      : activeStep.type === 'questionnaire' 
+        ? activeStep.moduleId 
+        : null;
 
   return (
     <div className="relative w-full h-full bg-gradient-to-b from-[#4c2a85] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
@@ -69,9 +80,9 @@ export function AssessmentSidebar({
       <div className="relative z-10 flex-1 overflow-y-auto space-y-8 custom-scrollbar pr-2">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
-          const moduleCompletedCount = module.recordings.filter(r => completedRecordingIds.has(r.id)).length;
-          const isModuleFullyCompleted = moduleCompletedCount === module.recordings.length;
-
+          const isQActive = activeStep.type === 'questionnaire' && activeStep.moduleId === module.id;
+          const isQCompleted = completedQuestionnaireIds.has(module.id);
+          
           return (
             <div key={module.id} className="space-y-4">
               <button 
@@ -93,18 +104,13 @@ export function AssessmentSidebar({
                 )}>
                   {module.title}
                 </span>
-                {isModuleFullyCompleted && <CheckCircle2 className="h-3 w-3 text-white ml-auto" />}
+                {isQCompleted && <CheckCircle2 className="h-3 w-3 text-white ml-auto" />}
               </button>
 
               <div className="space-y-3 ml-4 pl-4 border-l border-white/10">
                 {module.recordings.map((rec) => {
                   const isCompleted = completedRecordingIds.has(rec.id);
-                  const isRecActive = activeRecordingId === rec.id;
-                  
-                  // Status Logic: 
-                  // ✓ (Completed) - isCompleted
-                  // ⏳ (In Progress) - isRecActive
-                  // 🔒 (Locked) - Neither
+                  const isRecActive = activeStep.type === 'recording' && activeStep.id === rec.id;
                   
                   return (
                     <div
@@ -130,6 +136,28 @@ export function AssessmentSidebar({
                     </div>
                   );
                 })}
+
+                {/* Questionnaire Entry */}
+                <div
+                  className={cn(
+                    "flex items-center gap-3 py-1 transition-all duration-300",
+                    isQActive ? "opacity-100 translate-x-1" : "opacity-40"
+                  )}
+                >
+                  {isQCompleted ? (
+                    <CheckCircle2 className="h-3 w-3 text-white" />
+                  ) : isQActive ? (
+                    <ClipboardList className="h-3 w-3 text-white animate-pulse" />
+                  ) : (
+                    <Lock className="h-3 w-3 text-white/30" />
+                  )}
+                  <p className="text-[10px] font-medium tracking-tight truncate text-white/80">
+                    Questionnaire
+                    {isQCompleted && " ✓"}
+                    {isQActive && " ⏳"}
+                    {!isQCompleted && !isQActive && " 🔒"}
+                  </p>
+                </div>
               </div>
             </div>
           );
@@ -140,7 +168,7 @@ export function AssessmentSidebar({
             onClick={onShowFinalStep}
             className={cn(
               "w-full text-left flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
-              activeRecordingId === null 
+              activeStep.type === 'final' 
                 ? "bg-white/10 shadow-sm backdrop-blur-md border border-white/5" 
                 : "opacity-40 hover:opacity-100"
             )}
