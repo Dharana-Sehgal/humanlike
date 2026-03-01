@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -89,7 +88,7 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
               Deep Insights
             </Label>
             <p className="text-lg text-slate-800 font-bold">
-              Which bot would you personally prefer for daily use and why?
+              Which bot would you prefer to talk to and why?
             </p>
           </div>
           <Textarea
