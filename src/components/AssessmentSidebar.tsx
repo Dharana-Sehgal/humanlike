@@ -9,12 +9,16 @@ interface AssessmentSidebarProps {
   modules: AssessmentModule[];
   activeRecordingId: string | null;
   completedRecordingIds: Set<string>;
+  onSelectRecording: (id: string) => void;
+  onShowFinalStep: () => void;
 }
 
 export function AssessmentSidebar({
   modules,
   activeRecordingId,
   completedRecordingIds,
+  onSelectRecording,
+  onShowFinalStep,
 }: AssessmentSidebarProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -22,7 +26,6 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  // Generate star data once on mount to avoid hydration mismatch
   const stars = Array.from({ length: 40 }).map((_, i) => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
@@ -33,8 +36,7 @@ export function AssessmentSidebar({
   }));
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#8b5cf6] via-[#4c1d95] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
-      {/* Stars Background Effect */}
+    <div className="relative w-full h-full bg-gradient-to-b from-[#4c2a85] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
       {mounted && (
         <div className="absolute inset-0 pointer-events-none opacity-30">
           {stars.map((star, idx) => (
@@ -64,7 +66,7 @@ export function AssessmentSidebar({
         {modules.map((module) => (
           <div key={module.id} className="space-y-4">
             <div className="px-2 flex items-center gap-2">
-              <Folder className="h-3 w-3 text-white/50" />
+              <Folder className="h-3.5 w-3.5 text-white/60" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">{module.title}</span>
             </div>
             <div className="space-y-1 ml-1 pl-3 border-l border-white/10">
@@ -73,13 +75,14 @@ export function AssessmentSidebar({
                 const isActive = activeRecordingId === rec.id;
                 
                 return (
-                  <div
+                  <button
                     key={rec.id}
+                    onClick={() => onSelectRecording(rec.id)}
                     className={cn(
-                      "flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
+                      "w-full text-left flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 group",
                       isActive 
                         ? "bg-white/10 shadow-sm backdrop-blur-md border border-white/5" 
-                        : "opacity-40 hover:opacity-70"
+                        : "opacity-40 hover:opacity-100"
                     )}
                   >
                     <div className="flex-shrink-0">
@@ -97,12 +100,27 @@ export function AssessmentSidebar({
                     )}>
                       {rec.title}
                     </p>
-                  </div>
+                  </button>
                 );
               })}
             </div>
           </div>
         ))}
+
+        <div className="pt-4 mt-8 border-t border-white/10">
+          <button
+            onClick={onShowFinalStep}
+            className={cn(
+              "w-full text-left flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
+              activeRecordingId === null 
+                ? "bg-white/10 shadow-sm backdrop-blur-md border border-white/5" 
+                : "opacity-40 hover:opacity-100"
+            )}
+          >
+            <div className="h-1.5 w-1.5 rounded-full bg-white/40" />
+            <p className="text-[12px] font-semibold uppercase tracking-wider text-white">Final Submission</p>
+          </button>
+        </div>
       </div>
     </div>
   );

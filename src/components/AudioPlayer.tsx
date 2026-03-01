@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Play, Pause, RotateCcw, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { cn } from "@/lib/utils";
 
 interface AudioPlayerProps {
   src: string;
@@ -16,6 +17,11 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Sync with sidebar color
+  const primaryColorClass = "text-[#4c2a85]";
+  const primaryBgClass = "bg-[#4c2a85]";
+  const primaryHoverClass = "hover:bg-[#3a2065]";
 
   useEffect(() => {
     setIsPlaying(false);
@@ -56,12 +62,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   const onSeek = (val: number[]) => {
     if (audioRef.current) {
       const newTime = (val[0] / 100) * audioRef.current.duration;
-      
-      // Prevent seeking forward: only allow if new time is behind current time
-      if (newTime > audioRef.current.currentTime) {
-        return;
-      }
-      
+      if (newTime > audioRef.current.currentTime) return;
       audioRef.current.currentTime = newTime;
       setProgress(val[0]);
     }
@@ -93,7 +94,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
       
       <div className="flex items-center justify-between">
         <h3 className="font-headline text-lg text-slate-800 font-bold tracking-tight">{title}</h3>
-        <div className="flex items-center gap-2 text-[#8b5cf6] font-mono text-xs font-bold">
+        <div className={cn("font-mono text-xs font-bold flex items-center gap-2", primaryColorClass)}>
           <span>{formatTime(audioRef.current?.currentTime || 0)}</span>
           <span className="opacity-20">/</span>
           <span>{formatTime(duration)}</span>
@@ -104,7 +105,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
         <Button
           size="icon"
           onClick={togglePlay}
-          className="h-10 w-10 rounded-full bg-[#8b5cf6] hover:bg-[#7c3aed] text-white shadow-md transition-all active:scale-95"
+          className={cn("h-10 w-10 rounded-full text-white shadow-md transition-all active:scale-95", primaryBgClass, primaryHoverClass)}
         >
           {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
         </Button>
@@ -113,7 +114,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
           size="icon"
           variant="outline"
           onClick={reset}
-          className="h-8 w-8 rounded-full border-[#8b5cf6]/20 hover:bg-[#8b5cf6]/5 text-[#8b5cf6]"
+          className={cn("h-8 w-8 rounded-full border-slate-200 bg-white shadow-sm hover:bg-slate-50", primaryColorClass)}
         >
           <RotateCcw className="h-3.5 w-3.5" />
         </Button>

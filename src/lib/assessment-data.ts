@@ -22,13 +22,13 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
     recordings: [
       {
         id: "rec-1-a",
-        title: "Customer Query",
+        title: "Recording 1",
         audioUrl: "https://www.w3schools.com/html/horse.mp3",
         duration: "0:03"
       },
       {
         id: "rec-1-b",
-        title: "Agent Response",
+        title: "Recording 2",
         audioUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
         duration: "0:02"
       }
@@ -40,13 +40,13 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
     recordings: [
       {
         id: "rec-2-a",
-        title: "Issue Description",
+        title: "Recording 1",
         audioUrl: "https://www.w3schools.com/tags/horse.mp3",
         duration: "0:03"
       },
       {
         id: "rec-2-b",
-        title: "Resolution Steps",
+        title: "Recording 2",
         audioUrl: "https://www.w3schools.com/html/horse.mp3",
         duration: "0:03"
       }
@@ -54,7 +54,7 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
   }
 ];
 
-// Helper to get a flat list of all recordings for the stepper
+// Helper to get a flat list of all recordings
 export const FLAT_RECORDINGS = ASSESSMENT_MODULES.flatMap(m => 
   m.recordings.map(r => ({ ...r, moduleId: m.id, moduleTitle: m.title }))
 );

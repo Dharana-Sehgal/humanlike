@@ -21,12 +21,19 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
 
   const isSubmittable = isFinished && rating > 0 && feedback.trim().length > 5;
 
+  // Use the primary purple from the sidebar for matching text
+  const primaryColorClass = "text-[#4c2a85]";
+  const primaryBgClass = "bg-[#4c2a85]";
+  const primaryHoverClass = "hover:bg-[#3a2065]";
+
   return (
     <div className="max-w-2xl mx-auto space-y-8 py-10">
       <section className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="h-6 w-1 bg-[#8b5cf6] rounded-full" />
-          <h2 className="text-base font-headline text-[#8b5cf6] font-bold tracking-tight">Listen to Recording</h2>
+          <div className={cn("h-6 w-1 rounded-full", primaryBgClass)} />
+          <h2 className={cn("text-base font-headline font-bold tracking-tight", primaryColorClass)}>
+            Listen to Recording
+          </h2>
         </div>
         
         <AudioPlayer 
@@ -39,7 +46,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
       <div className={!isFinished ? "opacity-30 pointer-events-none grayscale" : "animate-in fade-in duration-500"}>
         <section className="space-y-8">
           <div className="space-y-4">
-            <Label className="text-xs font-bold uppercase tracking-widest text-[#8b5cf6] block leading-relaxed">
+            <Label className={cn("text-xs font-bold uppercase tracking-widest block leading-relaxed", primaryColorClass)}>
               Assessment: {recording.title}
             </Label>
             <div className="space-y-2">
@@ -56,7 +63,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
             </Label>
             <Textarea
               placeholder="Pacing, emotion, clarity..."
-              className="min-h-[120px] bg-white text-sm focus-visible:ring-[#8b5cf6] border-slate-200 shadow-sm p-4 rounded-xl resize-none"
+              className="min-h-[120px] bg-white text-sm focus-visible:ring-[#4c2a85] border-slate-200 shadow-sm p-4 rounded-xl resize-none"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />
@@ -66,7 +73,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
             <Button
               onClick={() => onComplete({ rating, feedback })}
               disabled={!isSubmittable}
-              className="w-full sm:w-auto px-8 h-11 text-xs font-bold bg-[#8b5cf6] hover:bg-[#7c3aed] text-white transition-all shadow-md rounded-full"
+              className={cn("w-full sm:w-auto px-8 h-11 text-xs font-bold text-white transition-all shadow-md rounded-full", primaryBgClass, primaryHoverClass)}
             >
               {!isFinished && <Lock className="mr-2 h-3.5 w-3.5" />}
               {isFinished ? "Submit Evaluation" : "Finish Listening"}

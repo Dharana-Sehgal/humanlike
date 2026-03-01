@@ -9,9 +9,9 @@ import { Progress } from "@/components/ui/progress";
 import { Loader2 } from "lucide-react";
 
 export default function AssessmentPage() {
-  const [currentStep, setCurrentStep] = useState(0); // Index in FLAT_RECORDINGS
-  const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set()); // IDs of completed recordings
-  const [allData, setAllData] = useState<any[]>([]);
+  const [activeRecordingId, setActiveRecordingId] = useState<string | null>(FLAT_RECORDINGS[0].id);
+  const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
+  const [allData, setAllData] = useState<Record<string, { rating: number; feedback: string }>>({});
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -19,17 +19,30 @@ export default function AssessmentPage() {
   }, []);
 
   const handleAssessmentComplete = (data: { rating: number; feedback: string }) => {
-    const recording = FLAT_RECORDINGS[currentStep];
-    setAllData((prev) => [...prev, { recordingId: recording.id, ...data }]);
-    setCompletedSteps((prev) => new Set(prev).add(recording.id));
-    setCurrentStep((prev) => prev + 1);
+    if (!activeRecordingId) return;
+
+    setAllData((prev) => ({ ...prev, [activeRecordingId]: data }));
+    setCompletedSteps((prev) => new Set(prev).add(activeRecordingId));
+
+    // Automatically move to the next recording if one exists
+    const currentIndex = FLAT_RECORDINGS.findIndex(r => r.id === activeRecordingId);
+    if (currentIndex < FLAT_RECORDINGS.length - 1) {
+      setActiveRecordingId(FLAT_RECORDINGS[currentIndex + 1].id);
+    } else {
+      setActiveRecordingId(null); // Show contact form
+    }
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleContactSubmit = (contact: { name: string; email: string }) => {
+    const assessmentsArray = Object.entries(allData).map(([id, data]) => ({
+      recordingId: id,
+      ...data
+    }));
+
     const finalSubmission = {
-      assessments: allData,
+      assessments: assessmentsArray,
       user: contact,
       submittedAt: new Date().toISOString(),
     };
@@ -46,39 +59,40 @@ export default function AssessmentPage() {
     );
   }
 
-  const progressPercentage = (currentStep / (FLAT_RECORDINGS.length + 1)) * 100;
-  const isFinished = currentStep >= FLAT_RECORDINGS.length;
+  const activeRecording = FLAT_RECORDINGS.find(r => r.id === activeRecordingId);
+  const progressPercentage = (completedSteps.size / FLAT_RECORDINGS.length) * 100;
+  const isFinished = activeRecordingId === null;
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
-      {/* Sidebar */}
-      <div className="hidden md:block w-60 fixed inset-y-0 left-0 border-r border-black/5">
+      {/* Sidebar - Width set to 64 (16rem) as requested */}
+      <div className="hidden md:block w-64 fixed inset-y-0 left-0 border-r border-black/5">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
-          activeRecordingId={!isFinished ? FLAT_RECORDINGS[currentStep].id : null}
+          activeRecordingId={activeRecordingId}
           completedRecordingIds={completedSteps}
+          onSelectRecording={(id) => setActiveRecordingId(id)}
+          onShowFinalStep={() => setActiveRecordingId(null)}
         />
       </div>
 
-      <main className="flex-1 md:ml-60">
+      <main className="flex-1 md:ml-64">
         {/* Mobile Header */}
-        <div className="md:hidden bg-[#4c1d95] p-6 text-white">
+        <div className="md:hidden bg-[#4c2a85] p-6 text-white">
           <h1 className="font-headline text-lg">Voice Assessment</h1>
           <div className="mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/60">
-            <span>Progress</span>
+            <span>Overall Progress</span>
             <span>{Math.round(progressPercentage)}%</span>
           </div>
           <Progress value={progressPercentage} className="h-1 bg-white/20 mt-2" />
         </div>
 
-        {/* Desktop Header */}
-        <div className="hidden md:flex sticky top-0 z-10 bg-slate-50/95 backdrop-blur-sm border-b px-8 py-5 items-center justify-between">
+        {/* Desktop Header - Grey with module heading only */}
+        <div className="hidden md:flex sticky top-0 z-10 bg-slate-100/95 backdrop-blur-sm border-b px-8 py-5 items-center justify-between">
           <div className="flex flex-col min-w-0 mr-8 flex-1">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground truncate">Evaluation Phase</span>
-            <span className="font-headline text-slate-800 font-bold text-base tracking-tight truncate">
-              {!isFinished 
-                ? FLAT_RECORDINGS[currentStep].moduleTitle
-                : "Final Submission"}
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Evaluation Phase</span>
+            <span className="font-headline text-slate-600 font-bold text-sm tracking-tight truncate uppercase">
+              {activeRecording ? activeRecording.moduleTitle : "Final Submission"}
             </span>
           </div>
           <div className="w-48 space-y-1.5 flex-shrink-0">
@@ -91,11 +105,11 @@ export default function AssessmentPage() {
         </div>
 
         <div className="container px-6 md:px-12 pb-20">
-          {!isFinished ? (
+          {!isFinished && activeRecording ? (
             <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
               <AssessmentForm
-                key={FLAT_RECORDINGS[currentStep].id}
-                recording={FLAT_RECORDINGS[currentStep]}
+                key={activeRecording.id}
+                recording={activeRecording}
                 onComplete={handleAssessmentComplete}
               />
             </div>
