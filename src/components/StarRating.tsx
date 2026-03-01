@@ -17,7 +17,12 @@ export function StarRating({ value, onChange, max = 5 }: StarRatingProps) {
     <div className="flex gap-6 items-center py-2">
       {Array.from({ length: max }).map((_, i) => {
         const starValue = i + 1;
-        const isActive = starValue <= (hovered ?? value);
+        
+        // Logic: Show golden color when hovering, otherwise show theme purple for selected stars
+        const isHovering = hovered !== null;
+        const isStarHovered = isHovering && starValue <= hovered;
+        const isStarSelected = !isHovering && starValue <= value;
+
         return (
           <button
             key={i}
@@ -30,9 +35,11 @@ export function StarRating({ value, onChange, max = 5 }: StarRatingProps) {
             <Star
               className={cn(
                 "h-10 w-10 transition-all duration-300", 
-                isActive 
-                  ? "fill-[#3a2065] text-[#3a2065] scale-110 drop-shadow-[0_0_10px_rgba(58,32,101,0.3)]" 
-                  : "text-slate-200 fill-none group-hover:text-slate-300 group-hover:scale-105"
+                isStarHovered 
+                  ? "fill-amber-400 text-amber-400 scale-110 drop-shadow-[0_0_12px_rgba(251,191,36,0.5)]" 
+                  : isStarSelected
+                    ? "fill-[#3a2065] text-[#3a2065] scale-110 drop-shadow-[0_0_10px_rgba(58,32,101,0.3)]"
+                    : "text-slate-200 fill-none group-hover:scale-105"
               )}
               strokeWidth={1.5}
             />

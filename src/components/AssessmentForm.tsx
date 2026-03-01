@@ -22,7 +22,6 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
 
   const isSubmittable = isFinished && rating > 0 && feedback.trim().length > 5;
 
-  // Primary tone matching the sidebar gradient
   const primaryColorClass = "text-[#3a2065]";
   const primaryBgClass = "bg-[#3a2065]";
   const primaryHoverClass = "hover:bg-[#2d1b4e]";
