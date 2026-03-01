@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { AudioPlayer } from "./AudioPlayer";
 import { ArrowRight, Lock } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AssessmentFormProps {
   recording: Recording;
