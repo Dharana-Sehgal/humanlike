@@ -52,16 +52,16 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
       )}>
         <section className="space-y-12">
           {/* Question 1: Rating */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="space-y-2">
               <Label className={cn("text-xs font-bold uppercase tracking-[0.2em] block leading-relaxed opacity-70", primaryColorClass)}>
                 Metric: Human-Likeness
               </Label>
-              <p className="text-lg md:text-xl text-slate-800 font-semibold leading-snug">
+              <p className="text-xl md:text-2xl text-slate-800 font-bold leading-tight">
                 On a scale of 1 to 5, how human-like does this voice interaction sound?
               </p>
             </div>
-            <div className="w-fit">
+            <div className="flex justify-start">
               <StarRating value={rating} onChange={setRating} />
             </div>
           </div>
@@ -72,13 +72,13 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
                <Label className="text-xs font-bold uppercase tracking-[0.2em] block leading-relaxed text-slate-500">
                 Qualitative Insights
               </Label>
-              <p className="text-lg text-slate-800 font-semibold">
-                What specific characteristics (pacing, clarity, emotion) influenced your rating?
+              <p className="text-xl text-slate-800 font-bold">
+                What specific characteristics influenced your rating?
               </p>
             </div>
             <Textarea
-              placeholder="Share your thoughts on the recording's quality..."
-              className="min-h-[120px] bg-white text-base focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-5 rounded-2xl resize-none"
+              placeholder="Share your thoughts on pacing, clarity, or emotion..."
+              className="min-h-[100px] bg-white text-base focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-5 rounded-2xl resize-none"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />
