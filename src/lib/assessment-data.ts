@@ -18,7 +18,7 @@ export interface AssessmentModule {
 export const ASSESSMENT_MODULES: AssessmentModule[] = [
   {
     id: "module-1",
-    title: "Hindi Conversational",
+    title: "Demo One",
     recordings: [
       {
         id: "rec-1-a",
@@ -36,7 +36,7 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
   },
   {
     id: "module-2",
-    title: "Technical Support",
+    title: "Demo Two",
     recordings: [
       {
         id: "rec-2-a",

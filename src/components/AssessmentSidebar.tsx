@@ -1,7 +1,7 @@
 "use client";
 
 import { AssessmentModule } from "@/lib/assessment-data";
-import { CheckCircle2, Music } from "lucide-react";
+import { CheckCircle2, Folder, Music } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -22,19 +22,21 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  const stars = Array.from({ length: 60 }).map((_, i) => ({
+  // Generate star data once on mount to avoid hydration mismatch
+  const stars = Array.from({ length: 40 }).map((_, i) => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
     duration: `${3 + Math.random() * 5}s`,
     delay: `${Math.random() * 5}s`,
-    floatDur: `${20 + Math.random() * 30}s`,
-    size: Math.random() > 0.8 ? "1px" : "0.5px",
+    floatDur: `${15 + Math.random() * 20}s`,
+    size: Math.random() > 0.8 ? "1.5px" : "0.5px",
   }));
 
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-[#8b5cf6] via-[#4c1d95] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
+      {/* Stars Background Effect */}
       {mounted && (
-        <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 pointer-events-none opacity-30">
           {stars.map((star, idx) => (
             <div
               key={idx}
@@ -61,10 +63,11 @@ export function AssessmentSidebar({
       <div className="relative z-10 flex-1 overflow-y-auto space-y-8 custom-scrollbar pr-2">
         {modules.map((module) => (
           <div key={module.id} className="space-y-4">
-            <div className="px-2">
+            <div className="px-2 flex items-center gap-2">
+              <Folder className="h-3 w-3 text-white/50" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">{module.title}</span>
             </div>
-            <div className="space-y-1 ml-1 pl-1 border-l border-white/10">
+            <div className="space-y-1 ml-1 pl-3 border-l border-white/10">
               {module.recordings.map((rec) => {
                 const isCompleted = completedRecordingIds.has(rec.id);
                 const isActive = activeRecordingId === rec.id;
