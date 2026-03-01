@@ -28,7 +28,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
   const primaryHoverClass = "hover:bg-[#2d1b4e]";
 
   return (
-    <div className="max-w-xl mx-auto space-y-8 py-10">
+    <div className="max-w-md mx-auto space-y-8 py-10">
       <section className="space-y-4">
         <div className="flex items-center gap-3">
           <div className={cn("h-6 w-1 rounded-full", primaryBgClass)} />
