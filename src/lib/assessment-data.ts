@@ -2,8 +2,8 @@
  * @fileOverview Data structures for hierarchical voice assessments.
  * 
  * To add your own recordings:
- * 1. Host your audio file at a public URL.
- * 2. Add a new object to the 'recordings' array in one of the modules below.
+ * 1. Place your audio files (e.g., .mp3, .wav) in the 'public/recordings/' folder.
+ * 2. Reference them in the 'audioUrl' field using a path like '/recordings/your-file.mp3'.
  * 3. Ensure each recording has a unique 'id'.
  */
 
@@ -28,13 +28,14 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
       {
         id: "rec-1-a",
         title: "Recording 1",
-        audioUrl: "https://www.w3schools.com/html/horse.mp3",
+        // Example of a local path. Put your file in: public/recordings/sample1.mp3
+        audioUrl: "/recordings/sample1.mp3", 
         duration: "0:03"
       },
       {
         id: "rec-1-b",
         title: "Recording 2",
-        audioUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
+        audioUrl: "/recordings/sample2.mp3",
         duration: "0:02"
       }
     ]
@@ -46,18 +47,17 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
       {
         id: "rec-2-a",
         title: "Recording 1",
-        audioUrl: "https://www.w3schools.com/tags/horse.mp3",
+        audioUrl: "/recordings/sample3.mp3",
         duration: "0:03"
       },
       {
         id: "rec-2-b",
         title: "Recording 2",
-        audioUrl: "https://www.w3schools.com/html/horse.mp3",
+        audioUrl: "/recordings/sample4.mp3",
         duration: "0:03"
       }
     ]
   }
-  // Add more modules or recordings here!
 ];
 
 // Helper to get a flat list of all recordings for navigation logic

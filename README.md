@@ -3,19 +3,28 @@
 
 This application allows users to evaluate AI-generated voice recordings for human-likeness.
 
-## How it Works
+## How to Add Your Own Recordings
 
-1.  **Input Data**: The recordings being evaluated are hardcoded in `src/lib/assessment-data.ts`. You can add more samples by editing that file.
-2.  **Submission Data**: Currently, user evaluations are handled locally. When a user completes an assessment, the final payload is logged to the browser console.
+1.  **Prepare Files**: Move your `.mp3` or `.wav` files into the `public/recordings/` directory of this project.
+2.  **Update Metadata**: Open `src/lib/assessment-data.ts`.
+3.  **Add Entry**: Add a new object to the `recordings` array within the desired module. Use the path to the file starting from the public root (e.g., `/recordings/my-new-audio.mp3`).
+
+```typescript
+{
+  id: "unique-id-123",
+  title: "My Custom Voice",
+  audioUrl: "/recordings/my-new-audio.mp3",
+  duration: "0:45"
+}
+```
 
 ## Project Structure
 
-- `src/lib/assessment-data.ts`: The source of truth for all voice samples used in the assessment.
-- `src/app/page.tsx`: The main application logic managing the state of the assessment flow.
-- `src/components/`: Reusable UI components for the audio player, rating system, and forms.
+- `public/recordings/`: The physical location for your audio files.
+- `src/lib/assessment-data.ts`: The source of truth for the assessment flow and sidebar.
+- `src/app/page.tsx`: The main application state manager.
+- `src/components/`: UI components for the assessment interface.
 
-## Customization
+## Submission Data
 
-To add your own recordings:
-1. Open `src/lib/assessment-data.ts`.
-2. Add a new object to the `RECORDINGS` array with your audio URL and details.
+Currently, user evaluations are handled locally. When a user completes an assessment, the final payload is logged to the browser console.
