@@ -22,10 +22,10 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
 
   const isSubmittable = isFinished && rating > 0 && feedback.trim().length > 5;
 
-  // Use the primary purple from the sidebar for matching text
-  const primaryColorClass = "text-[#4c2a85]";
-  const primaryBgClass = "bg-[#4c2a85]";
-  const primaryHoverClass = "hover:bg-[#3a2065]";
+  // Use the primary purple tone matching the sidebar gradient start
+  const primaryColorClass = "text-[#3a2065]";
+  const primaryBgClass = "bg-[#3a2065]";
+  const primaryHoverClass = "hover:bg-[#2d1b4e]";
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 py-10">
@@ -64,7 +64,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
             </Label>
             <Textarea
               placeholder="Pacing, emotion, clarity..."
-              className="min-h-[120px] bg-white text-sm focus-visible:ring-[#4c2a85] border-slate-200 shadow-sm p-4 rounded-xl resize-none"
+              className="min-h-[120px] bg-white text-sm focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-4 rounded-xl resize-none"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />

@@ -24,7 +24,7 @@ export default function AssessmentPage() {
     setAllData((prev) => ({ ...prev, [activeRecordingId]: data }));
     setCompletedSteps((prev) => new Set(prev).add(activeRecordingId));
 
-    // Automatically move to the next recording if one exists
+    // Automatically move to the next recording in the flat list
     const currentIndex = FLAT_RECORDINGS.findIndex(r => r.id === activeRecordingId);
     if (currentIndex < FLAT_RECORDINGS.length - 1) {
       setActiveRecordingId(FLAT_RECORDINGS[currentIndex + 1].id);
@@ -33,6 +33,13 @@ export default function AssessmentPage() {
     }
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleModuleSelect = (moduleId: string) => {
+    const module = ASSESSMENT_MODULES.find(m => m.id === moduleId);
+    if (module && module.recordings.length > 0) {
+      setActiveRecordingId(module.recordings[0].id);
+    }
   };
 
   const handleContactSubmit = (contact: { name: string; email: string }) => {
@@ -65,20 +72,20 @@ export default function AssessmentPage() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
-      {/* Sidebar - Width set to 64 (16rem) as requested */}
+      {/* Sidebar - Width set to 64 */}
       <div className="hidden md:block w-64 fixed inset-y-0 left-0 border-r border-black/5">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
           activeRecordingId={activeRecordingId}
           completedRecordingIds={completedSteps}
-          onSelectRecording={(id) => setActiveRecordingId(id)}
+          onSelectModule={handleModuleSelect}
           onShowFinalStep={() => setActiveRecordingId(null)}
         />
       </div>
 
       <main className="flex-1 md:ml-64">
         {/* Mobile Header */}
-        <div className="md:hidden bg-[#4c2a85] p-6 text-white">
+        <div className="md:hidden bg-[#3a2065] p-6 text-white">
           <h1 className="font-headline text-lg">Voice Assessment</h1>
           <div className="mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/60">
             <span>Overall Progress</span>
@@ -87,11 +94,11 @@ export default function AssessmentPage() {
           <Progress value={progressPercentage} className="h-1 bg-white/20 mt-2" />
         </div>
 
-        {/* Desktop Header - Grey with module heading only */}
+        {/* Desktop Header - Simplified Grey bar */}
         <div className="hidden md:flex sticky top-0 z-10 bg-slate-100/95 backdrop-blur-sm border-b px-8 py-5 items-center justify-between">
           <div className="flex flex-col min-w-0 mr-8 flex-1">
             <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Evaluation Phase</span>
-            <span className="font-headline text-slate-600 font-bold text-sm tracking-tight truncate uppercase">
+            <span className="font-headline text-slate-500 font-bold text-sm tracking-tight truncate uppercase">
               {activeRecording ? activeRecording.moduleTitle : "Final Submission"}
             </span>
           </div>

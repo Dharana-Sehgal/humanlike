@@ -18,10 +18,10 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Sync with sidebar color
-  const primaryColorClass = "text-[#4c2a85]";
-  const primaryBgClass = "bg-[#4c2a85]";
-  const primaryHoverClass = "hover:bg-[#3a2065]";
+  // Sync with sidebar primary tone
+  const primaryColorClass = "text-[#3a2065]";
+  const primaryBgClass = "bg-[#3a2065]";
+  const primaryHoverClass = "hover:bg-[#2d1b4e]";
 
   useEffect(() => {
     setIsPlaying(false);
