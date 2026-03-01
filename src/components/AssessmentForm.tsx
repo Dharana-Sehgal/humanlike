@@ -28,11 +28,12 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
   const primaryHoverClass = "hover:bg-[#2d1b4e]";
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 py-4">
-      <section className="space-y-3">
+    <div className="max-w-2xl mx-auto space-y-10 py-6">
+      {/* Audio Playback Section */}
+      <section className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className={cn("h-4 w-1 rounded-full", primaryBgClass)} />
-          <h2 className={cn("text-xs font-headline font-bold uppercase tracking-tight", primaryColorClass)}>
+          <div className={cn("h-5 w-1 rounded-full", primaryBgClass)} />
+          <h2 className={cn("text-sm font-headline font-bold uppercase tracking-[0.15em]", primaryColorClass)}>
             Listen to Recording
           </h2>
         </div>
@@ -44,51 +45,72 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
         />
       </section>
 
-      <div className={!isFinished ? "opacity-30 pointer-events-none grayscale" : "animate-in fade-in duration-500"}>
-        <section className="space-y-6">
+      {/* Assessment Section - Unlocked after listening */}
+      <div className={cn(
+        "transition-all duration-500",
+        !isFinished ? "opacity-30 pointer-events-none grayscale" : "opacity-100 animate-in fade-in slide-in-from-top-4"
+      )}>
+        <section className="space-y-12">
+          {/* Question 1: Rating */}
           <div className="space-y-4">
-            <div className="space-y-3">
-              <div className="space-y-1">
-                <Label className={cn("text-[10px] font-bold uppercase tracking-widest block leading-relaxed", primaryColorClass)}>
-                  Rating: {recording.title}
-                </Label>
-                <p className="text-[11px] text-muted-foreground font-medium">How human-like does this voice sample sound?</p>
-              </div>
-              <div className="w-48">
-                <StarRating value={rating} onChange={setRating} />
-              </div>
-            </div>
-
             <div className="space-y-2">
-               <Label className="text-[10px] font-bold uppercase tracking-widest block leading-relaxed text-foreground/60">
-                Detailed Feedback
+              <Label className={cn("text-xs font-bold uppercase tracking-[0.2em] block leading-relaxed opacity-70", primaryColorClass)}>
+                Metric: Human-Likeness
               </Label>
-              <Textarea
-                placeholder="Pacing, emotion, clarity..."
-                className="min-h-[80px] bg-white text-xs focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-4 rounded-xl resize-none"
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-              />
+              <p className="text-base md:text-lg text-slate-800 font-medium leading-snug">
+                On a scale of 1 to 5, how human-like does this voice interaction sound?
+              </p>
             </div>
+            <div className="w-56">
+              <StarRating value={rating} onChange={setRating} />
+            </div>
+          </div>
 
-            <div className="flex items-center justify-between gap-4 pt-2">
-              <div className="flex items-center gap-2">
-                {!isFinished && (
-                  <p className="text-[9px] text-muted-foreground italic font-medium">
-                    Listen fully to unlock evaluation.
-                  </p>
-                )}
-              </div>
-              <Button
-                onClick={() => onComplete({ rating, feedback })}
-                disabled={!isSubmittable}
-                className={cn("px-8 h-9 text-[10px] font-bold text-white transition-all shadow-md rounded-full", primaryBgClass, primaryHoverClass)}
-              >
-                {!isFinished && <Lock className="mr-2 h-3 w-3" />}
-                {isFinished ? "Submit Evaluation" : "Finish Listening"}
-                {isFinished && <ArrowRight className="ml-2 h-3 w-3" />}
-              </Button>
+          {/* Question 2: Feedback */}
+          <div className="space-y-4">
+            <div className="space-y-2">
+               <Label className="text-xs font-bold uppercase tracking-[0.2em] block leading-relaxed text-slate-500">
+                Qualitative Insights
+              </Label>
+              <p className="text-base text-slate-700 font-medium">
+                What specific characteristics (pacing, clarity, emotion) influenced your rating?
+              </p>
             </div>
+            <Textarea
+              placeholder="Share your thoughts on the recording's quality..."
+              className="min-h-[120px] bg-white text-sm focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-5 rounded-2xl resize-none"
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+            />
+          </div>
+
+          {/* Submission Bar */}
+          <div className="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
+            <div className="flex items-center gap-2">
+              {!isFinished ? (
+                <div className="flex items-center gap-2 text-[9px] text-muted-foreground uppercase font-bold tracking-widest bg-slate-50 px-3 py-1.5 rounded-full">
+                  <Lock className="h-3 w-3" />
+                  <span>Playback Required</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-[9px] text-emerald-600 uppercase font-bold tracking-widest">
+                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Analysis Ready
+                </div>
+              )}
+            </div>
+            <Button
+              onClick={() => onComplete({ rating, feedback })}
+              disabled={!isSubmittable}
+              className={cn(
+                "px-10 h-11 text-[11px] font-bold text-white transition-all shadow-lg rounded-full active:scale-95 group", 
+                primaryBgClass, 
+                primaryHoverClass
+              )}
+            >
+              Submit Evaluation
+              <ArrowRight className="ml-2 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+            </Button>
           </div>
         </section>
       </div>
