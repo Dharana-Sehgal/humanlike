@@ -1,5 +1,10 @@
 /**
  * @fileOverview Data structures for hierarchical voice assessments.
+ * 
+ * To add your own recordings:
+ * 1. Host your audio file at a public URL.
+ * 2. Add a new object to the 'recordings' array in one of the modules below.
+ * 3. Ensure each recording has a unique 'id'.
  */
 
 export interface Recording {
@@ -52,9 +57,10 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
       }
     ]
   }
+  // Add more modules or recordings here!
 ];
 
-// Helper to get a flat list of all recordings
+// Helper to get a flat list of all recordings for navigation logic
 export const FLAT_RECORDINGS = ASSESSMENT_MODULES.flatMap(m => 
   m.recordings.map(r => ({ ...r, moduleId: m.id, moduleTitle: m.title }))
 );
