@@ -57,11 +57,11 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
               <Label className={cn("text-xs font-bold uppercase tracking-[0.2em] block leading-relaxed opacity-70", primaryColorClass)}>
                 Metric: Human-Likeness
               </Label>
-              <p className="text-base md:text-lg text-slate-800 font-medium leading-snug">
+              <p className="text-lg md:text-xl text-slate-800 font-semibold leading-snug">
                 On a scale of 1 to 5, how human-like does this voice interaction sound?
               </p>
             </div>
-            <div className="w-56">
+            <div className="w-fit">
               <StarRating value={rating} onChange={setRating} />
             </div>
           </div>
@@ -72,13 +72,13 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
                <Label className="text-xs font-bold uppercase tracking-[0.2em] block leading-relaxed text-slate-500">
                 Qualitative Insights
               </Label>
-              <p className="text-base text-slate-700 font-medium">
+              <p className="text-lg text-slate-800 font-semibold">
                 What specific characteristics (pacing, clarity, emotion) influenced your rating?
               </p>
             </div>
             <Textarea
               placeholder="Share your thoughts on the recording's quality..."
-              className="min-h-[120px] bg-white text-sm focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-5 rounded-2xl resize-none"
+              className="min-h-[120px] bg-white text-base focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-5 rounded-2xl resize-none"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />
