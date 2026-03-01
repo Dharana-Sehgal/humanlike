@@ -72,7 +72,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
                <Label className="text-[10px] font-bold uppercase tracking-[0.2em] block leading-relaxed text-slate-500">
                 Qualitative Insights
               </Label>
-              <p className="text-base text-slate-800 font-bold">
+              <p className="text-lg text-slate-800 font-bold">
                 What specific characteristics influenced your rating?
               </p>
             </div>
