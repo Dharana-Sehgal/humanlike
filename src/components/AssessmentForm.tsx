@@ -47,15 +47,15 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
       <div className={!isFinished ? "opacity-30 pointer-events-none grayscale" : "animate-in fade-in duration-500"}>
         <section className="space-y-4">
           <div className="space-y-4 bg-white/50 p-6 rounded-2xl border border-slate-100 shadow-sm">
-            <div className="space-y-2">
-              <Label className={cn("text-[10px] font-bold uppercase tracking-widest block leading-relaxed", primaryColorClass)}>
-                Rating: {recording.title}
-              </Label>
-              <div className="flex items-center gap-6">
-                <p className="text-[11px] text-muted-foreground font-medium flex-1">How human-like does this voice sample sound?</p>
-                <div className="w-40">
-                  <StarRating value={rating} onChange={setRating} />
-                </div>
+            <div className="space-y-3">
+              <div className="space-y-1">
+                <Label className={cn("text-[10px] font-bold uppercase tracking-widest block leading-relaxed", primaryColorClass)}>
+                  Rating: {recording.title}
+                </Label>
+                <p className="text-[11px] text-muted-foreground font-medium">How human-like does this voice sample sound?</p>
+              </div>
+              <div className="w-48">
+                <StarRating value={rating} onChange={setRating} />
               </div>
             </div>
 
