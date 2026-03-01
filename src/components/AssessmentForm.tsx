@@ -28,8 +28,8 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
   const primaryHoverClass = "hover:bg-[#2d1b4e]";
 
   return (
-    <div className="max-w-2xl mx-auto space-y-4 py-4">
-      <section className="space-y-2">
+    <div className="max-w-2xl mx-auto space-y-8 py-4">
+      <section className="space-y-3">
         <div className="flex items-center gap-3">
           <div className={cn("h-4 w-1 rounded-full", primaryBgClass)} />
           <h2 className={cn("text-xs font-headline font-bold uppercase tracking-tight", primaryColorClass)}>
@@ -45,8 +45,8 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
       </section>
 
       <div className={!isFinished ? "opacity-30 pointer-events-none grayscale" : "animate-in fade-in duration-500"}>
-        <section className="space-y-4">
-          <div className="space-y-4 bg-white/50 p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <section className="space-y-6">
+          <div className="space-y-4">
             <div className="space-y-3">
               <div className="space-y-1">
                 <Label className={cn("text-[10px] font-bold uppercase tracking-widest block leading-relaxed", primaryColorClass)}>
@@ -65,7 +65,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
               </Label>
               <Textarea
                 placeholder="Pacing, emotion, clarity..."
-                className="min-h-[60px] bg-white text-xs focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-3 rounded-xl resize-none"
+                className="min-h-[80px] bg-white text-xs focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-4 rounded-xl resize-none"
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
               />
