@@ -44,7 +44,7 @@ export function AssessmentSidebar({
 
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#2d1b4d] text-white p-10 flex flex-col overflow-x-hidden overflow-y-hidden border-r border-white/5 shadow-2xl">
-      {/* Dynamic Starfield via CSS animation defined in globals.css */}
+      {/* Dynamic Starfield via CSS animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
         <div className="absolute inset-0 animate-drift">
           {Array.from({ length: 40 }).map((_, i) => (
@@ -65,9 +65,9 @@ export function AssessmentSidebar({
         </div>
       </div>
       
-      {/* Logo Title - Formal but Relaxed */}
+      {/* Logo Title - Formal but Relaxed Sans */}
       <div className="relative z-10 mb-20">
-        <h1 className="font-logo text-2xl font-medium tracking-tight text-white/95 whitespace-nowrap italic">
+        <h1 className="font-body text-2xl font-semibold tracking-tight text-white/95 whitespace-nowrap">
           Humalike Assessment
         </h1>
       </div>
