@@ -20,22 +20,31 @@ interface AssessmentSidebarProps {
 }
 
 const StarField = () => {
-  const [stars, setStars] = useState<{ id: number; top: string; left: string; size: string; delay: string; duration: string }[]>([]);
+  const [stars, setStars] = useState<{ id: number; top: string; left: string; size: string; delay: string; duration: string; driftDuration: string }[]>([]);
 
   useEffect(() => {
-    const newStars = Array.from({ length: 30 }).map((_, i) => ({
+    const newStars = Array.from({ length: 40 }).map((_, i) => ({
       id: i,
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,
-      size: `${Math.random() * 2 + 1}px`,
+      size: `${Math.random() * 1.5 + 0.5}px`, // Smaller, more refined stars
       delay: `${Math.random() * 5}s`,
-      duration: `${3 + Math.random() * 4}s`,
+      duration: `${4 + Math.random() * 6}s`,
+      driftDuration: `${15 + Math.random() * 20}s`,
     }));
     setStars(newStars);
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+      <style jsx>{`
+        @keyframes floatDrift {
+          0% { transform: translate(0, 0); }
+          33% { transform: translate(15px, -15px); }
+          66% { transform: translate(-10px, -25px); }
+          100% { transform: translate(0, 0); }
+        }
+      `}</style>
       {stars.map((star) => (
         <div
           key={star.id}
@@ -47,7 +56,11 @@ const StarField = () => {
             height: star.size,
             animationDelay: star.delay,
             animationDuration: star.duration,
-            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)',
+            boxShadow: '0 0 3px rgba(255, 255, 255, 0.5)',
+            animationName: 'floatDrift, pulse',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'linear, ease-in-out',
+            animationDuration: `${star.driftDuration}, ${star.duration}`,
           }}
         />
       ))}
@@ -78,12 +91,12 @@ export function AssessmentSidebar({
   if (!mounted) return null;
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#3a2065] to-[#1e1b4b] text-white p-8 flex flex-col overflow-hidden border-r border-white/10 shadow-xl">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#2d1b4d] to-[#1e1b4b] text-white p-8 flex flex-col overflow-hidden border-r border-white/5 shadow-2xl">
       <StarField />
       
       <div className="relative z-10 mb-12">
-        <h1 className="font-headline text-lg mb-1 leading-tight font-bold tracking-tight uppercase">BotSpeak Insights</h1>
-        <p className="text-white/40 text-[9px] font-bold uppercase tracking-[0.25em]">Laboratory Assessment</p>
+        <h1 className="font-headline text-lg mb-1.5 leading-tight font-bold tracking-tight uppercase">BotSpeak Insights</h1>
+        <p className="text-white/30 text-[9px] font-bold uppercase tracking-[0.25em]">Laboratory Assessment</p>
       </div>
 
       <div className="relative z-10 flex-1 overflow-y-auto space-y-10 custom-scrollbar pr-2">
@@ -93,24 +106,24 @@ export function AssessmentSidebar({
           const isQCompleted = completedQuestionnaireIds.has(module.id);
           
           return (
-            <div key={module.id} className="space-y-4">
+            <div key={module.id} className="space-y-5">
               <button 
                 onClick={() => onSelectModule(module.id)}
                 className={cn(
                   "w-full text-left flex items-center gap-3 transition-all duration-300 group",
-                  isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
+                  isActive ? "opacity-100" : "opacity-40 hover:opacity-70"
                 )}
               >
                 <span className={cn(
-                  "text-[12px] font-bold uppercase tracking-widest",
-                  isActive ? "text-white" : "text-white/80"
+                  "text-[13px] font-bold uppercase tracking-[0.12em]",
+                  isActive ? "text-white" : "text-white/90"
                 )}>
                   {module.title}
                 </span>
-                {isQCompleted && <Check className="h-3 w-3 text-[#30E8E8] ml-auto" />}
+                {isQCompleted && <Check className="h-3 w-3 text-accent ml-auto" />}
               </button>
 
-              <div className="space-y-4 ml-1 pl-4 border-l border-white/15">
+              <div className="space-y-4 ml-1 pl-5 border-l border-white/10">
                 {module.recordings.map((rec) => {
                   const isCompleted = completedRecordingIds.has(rec.id);
                   const isRecActive = activeStep.type === 'recording' && activeStep.id === rec.id;
@@ -120,13 +133,13 @@ export function AssessmentSidebar({
                       key={rec.id}
                       className={cn(
                         "flex items-center justify-between py-0.5 transition-all duration-300",
-                        isRecActive ? "opacity-100 font-bold" : "opacity-40"
+                        isRecActive ? "opacity-100 font-bold scale-[1.02] origin-left" : "opacity-30"
                       )}
                     >
-                      <p className="text-[11px] font-medium tracking-wide truncate">
+                      <p className="text-[12px] font-medium tracking-wide truncate">
                         {rec.title}
                       </p>
-                      {isCompleted && <Check className="h-3 w-3 text-[#30E8E8]" />}
+                      {isCompleted && <Check className="h-3 w-3 text-accent" />}
                     </div>
                   );
                 })}
@@ -134,13 +147,13 @@ export function AssessmentSidebar({
                 <div
                   className={cn(
                     "flex items-center justify-between py-0.5 transition-all duration-300",
-                    isQActive ? "opacity-100 font-bold" : "opacity-40"
+                    isQActive ? "opacity-100 font-bold scale-[1.02] origin-left" : "opacity-30"
                   )}
                 >
-                  <p className="text-[11px] font-medium tracking-wide truncate">
+                  <p className="text-[12px] font-medium tracking-wide truncate">
                     Module Synthesis
                   </p>
-                  {isQCompleted && <Check className="h-3 w-3 text-[#30E8E8]" />}
+                  {isQCompleted && <Check className="h-3 w-3 text-accent" />}
                 </div>
               </div>
             </div>
@@ -148,8 +161,8 @@ export function AssessmentSidebar({
         })}
       </div>
 
-      <div className="relative z-10 mt-auto pt-6 text-white/20 text-[8px] font-bold tracking-[0.2em] uppercase">
-        Study v1.0.4 • Confidential
+      <div className="relative z-10 mt-auto pt-6 text-white/10 text-[8px] font-bold tracking-[0.3em] uppercase">
+        Study v1.0.4 • Phase Alpha
       </div>
     </div>
   );
