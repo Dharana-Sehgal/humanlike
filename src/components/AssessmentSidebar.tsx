@@ -3,6 +3,7 @@
 import { AssessmentModule } from "@/lib/assessment-data";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { Check } from "lucide-react";
 
 type ActiveStep = 
   | { type: 'recording'; id: string } 
@@ -39,14 +40,16 @@ export function AssessmentSidebar({
         ? activeStep.moduleId 
         : null;
 
+  if (!mounted) return null;
+
   return (
-    <div className="relative w-full h-full bg-[#1a0b3b] text-primary-foreground p-8 flex flex-col overflow-hidden border-r border-white/5">
+    <div className="relative w-full h-full bg-[#1F66AD] text-white p-8 flex flex-col overflow-hidden border-r border-white/10 shadow-xl">
       <div className="relative z-10 mb-12">
-        <h1 className="font-headline text-xl mb-1 leading-tight font-bold tracking-tight">Assessment Lab</h1>
-        <p className="text-white/30 text-[10px] font-bold uppercase tracking-[0.2em]">Voice Study v1.0</p>
+        <h1 className="font-headline text-lg mb-1 leading-tight font-bold tracking-tight uppercase">BotSpeak Insights</h1>
+        <p className="text-white/40 text-[9px] font-bold uppercase tracking-[0.25em]">Laboratory Assessment</p>
       </div>
 
-      <div className="relative z-10 flex-1 overflow-y-auto space-y-8 custom-scrollbar pr-2">
+      <div className="relative z-10 flex-1 overflow-y-auto space-y-10 custom-scrollbar pr-2">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
           const isQActive = activeStep.type === 'questionnaire' && activeStep.moduleId === module.id;
@@ -58,23 +61,19 @@ export function AssessmentSidebar({
                 onClick={() => onSelectModule(module.id)}
                 className={cn(
                   "w-full text-left flex items-center gap-3 transition-all duration-300 group",
-                  isActive ? "opacity-100" : "opacity-40 hover:opacity-70"
+                  isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
                 )}
               >
-                <div className={cn(
-                  "h-2 w-2 rounded-full transition-colors",
-                  isActive ? "bg-white" : "bg-white/20"
-                )} />
                 <span className={cn(
-                  "text-[11px] font-bold uppercase tracking-widest",
-                  isActive ? "text-white" : "text-white/70"
+                  "text-[12px] font-bold uppercase tracking-widest",
+                  isActive ? "text-white" : "text-white/80"
                 )}>
                   {module.title}
                 </span>
-                {isQCompleted && <span className="text-[9px] text-white/40 ml-auto font-mono">DONE</span>}
+                {isQCompleted && <Check className="h-3 w-3 text-[#30E8E8] ml-auto" />}
               </button>
 
-              <div className="space-y-3 ml-2 pl-4 border-l border-white/10">
+              <div className="space-y-4 ml-1 pl-4 border-l border-white/15">
                 {module.recordings.map((rec) => {
                   const isCompleted = completedRecordingIds.has(rec.id);
                   const isRecActive = activeStep.type === 'recording' && activeStep.id === rec.id;
@@ -84,13 +83,13 @@ export function AssessmentSidebar({
                       key={rec.id}
                       className={cn(
                         "flex items-center justify-between py-0.5 transition-all duration-300",
-                        isRecActive ? "opacity-100" : "opacity-30"
+                        isRecActive ? "opacity-100 font-bold" : "opacity-40"
                       )}
                     >
-                      <p className="text-[10px] font-medium tracking-tight truncate text-white/80">
+                      <p className="text-[11px] font-medium tracking-wide truncate">
                         {rec.title}
                       </p>
-                      {isCompleted && <span className="text-[10px] text-white/60">✓</span>}
+                      {isCompleted && <Check className="h-3 w-3 text-[#30E8E8]" />}
                     </div>
                   );
                 })}
@@ -98,34 +97,34 @@ export function AssessmentSidebar({
                 <div
                   className={cn(
                     "flex items-center justify-between py-0.5 transition-all duration-300",
-                    isQActive ? "opacity-100" : "opacity-30"
+                    isQActive ? "opacity-100 font-bold" : "opacity-40"
                   )}
                 >
-                  <p className="text-[10px] font-medium tracking-tight truncate text-white/80">
-                    Synthesis
+                  <p className="text-[11px] font-medium tracking-wide truncate">
+                    Module Synthesis
                   </p>
-                  {isQCompleted && <span className="text-[10px] text-white/60">✓</span>}
+                  {isQCompleted && <Check className="h-3 w-3 text-[#30E8E8]" />}
                 </div>
               </div>
             </div>
           );
         })}
 
-        <div className="pt-6 border-t border-white/5">
+        <div className="pt-8 border-t border-white/10">
           <button
             onClick={onShowFinalStep}
             className={cn(
               "w-full text-left flex items-center gap-3 transition-all duration-300",
-              activeStep.type === 'final' ? "opacity-100" : "opacity-30 hover:opacity-70"
+              activeStep.type === 'final' ? "opacity-100" : "opacity-40 hover:opacity-80"
             )}
           >
-            <div className={cn(
-              "h-2 w-2 rounded-full transition-colors",
-              activeStep.type === 'final' ? "bg-white" : "bg-white/20"
-            )} />
-            <p className="text-[11px] font-bold uppercase tracking-widest text-white">Final Submission</p>
+            <p className="text-[12px] font-bold uppercase tracking-widest">Final Submission</p>
           </button>
         </div>
+      </div>
+
+      <div className="mt-auto pt-6 text-white/20 text-[8px] font-bold tracking-[0.2em] uppercase">
+        Study v1.0.4 • Confidential
       </div>
     </div>
   );
