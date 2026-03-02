@@ -27,7 +27,7 @@ const StarField = () => {
       id: i,
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,
-      size: `${Math.random() * 1.5 + 0.5}px`, // Smaller, more refined stars
+      size: `${Math.random() * 1.5 + 0.5}px`,
       delay: `${Math.random() * 5}s`,
       duration: `${4 + Math.random() * 6}s`,
       driftDuration: `${15 + Math.random() * 20}s`,
@@ -72,7 +72,6 @@ export function AssessmentSidebar({
   modules,
   activeStep,
   completedRecordingIds,
-  completedQuestionnaireIds,
   onSelectModule,
 }: AssessmentSidebarProps) {
   const [mounted, setMounted] = useState(false);
@@ -102,8 +101,6 @@ export function AssessmentSidebar({
       <div className="relative z-10 flex-1 overflow-y-auto space-y-10 custom-scrollbar pr-2">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
-          const isQActive = activeStep.type === 'questionnaire' && activeStep.moduleId === module.id;
-          const isQCompleted = completedQuestionnaireIds.has(module.id);
           
           return (
             <div key={module.id} className="space-y-5">
@@ -115,12 +112,11 @@ export function AssessmentSidebar({
                 )}
               >
                 <span className={cn(
-                  "text-[13px] font-bold uppercase tracking-[0.12em]",
+                  "text-[14px] font-bold uppercase tracking-[0.12em]",
                   isActive ? "text-white" : "text-white/90"
                 )}>
                   {module.title}
                 </span>
-                {isQCompleted && <Check className="h-3 w-3 text-accent ml-auto" />}
               </button>
 
               <div className="space-y-4 ml-1 pl-5 border-l border-white/10">
@@ -136,25 +132,13 @@ export function AssessmentSidebar({
                         isRecActive ? "opacity-100 font-bold scale-[1.02] origin-left" : "opacity-30"
                       )}
                     >
-                      <p className="text-[12px] font-medium tracking-wide truncate">
+                      <p className="text-[13px] font-medium tracking-wide truncate">
                         {rec.title}
                       </p>
                       {isCompleted && <Check className="h-3 w-3 text-accent" />}
                     </div>
                   );
                 })}
-
-                <div
-                  className={cn(
-                    "flex items-center justify-between py-0.5 transition-all duration-300",
-                    isQActive ? "opacity-100 font-bold scale-[1.02] origin-left" : "opacity-30"
-                  )}
-                >
-                  <p className="text-[12px] font-medium tracking-wide truncate">
-                    Module Synthesis
-                  </p>
-                  {isQCompleted && <Check className="h-3 w-3 text-accent" />}
-                </div>
               </div>
             </div>
           );

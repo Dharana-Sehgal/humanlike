@@ -92,7 +92,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-white rounded-xl p-8 border border-slate-200/60 shadow-sm flex flex-col justify-center min-h-[190px] space-y-8">
+    <div className="w-full bg-white rounded-xl p-6 border border-slate-200/60 shadow-sm flex flex-col justify-center min-h-[160px] space-y-6">
       <audio
         ref={audioRef}
         src={src}
@@ -102,10 +102,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
       />
       
       <div className="flex items-center justify-between w-full">
-        <div className="flex flex-col gap-1">
-          <span className="text-[10px] text-primary/60 uppercase font-bold tracking-[0.25em]">Active Specimen</span>
-          <h3 className="text-sm text-slate-900 font-bold uppercase tracking-tight">{title}</h3>
-        </div>
+        <h3 className="text-sm text-slate-900 font-bold uppercase tracking-tight">{title}</h3>
         <div className="font-mono text-[11px] font-bold px-4 py-1.5 bg-slate-50 rounded-lg border border-slate-100 flex items-center gap-3 text-primary shadow-sm">
           <span>{formatTime(audioRef.current?.currentTime || 0)}</span>
           <span className="opacity-20">/</span>
@@ -117,9 +114,9 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
         <Button
           size="icon"
           onClick={togglePlay}
-          className="h-10 w-10 rounded-full bg-primary hover:bg-primary/90 text-white shadow-lg flex-shrink-0 transition-transform active:scale-95"
+          className="h-9 w-9 rounded-full bg-primary hover:bg-primary/90 text-white shadow-lg flex-shrink-0 transition-transform active:scale-95"
         >
-          {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
+          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
         </Button>
         
         <Button
