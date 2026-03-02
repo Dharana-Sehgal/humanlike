@@ -85,10 +85,9 @@ export function AssessmentSidebar({
       <StarField />
       
       <div className="relative z-10 mb-20">
-        <h1 className="font-headline text-xl mb-2 leading-tight font-bold tracking-tight uppercase text-white/95">
+        <h1 className="font-headline text-xl leading-tight font-bold tracking-tight uppercase text-white/95">
           Humalike Assessment
         </h1>
-        <p className="text-white/30 text-[10px] font-bold uppercase tracking-[0.3em]">Laboratory Research</p>
       </div>
 
       <div className="relative z-10 flex-1 overflow-y-auto space-y-20 custom-scrollbar pr-2">
