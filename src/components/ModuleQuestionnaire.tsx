@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -26,23 +25,23 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
   const primaryHoverClass = "hover:bg-[#2d1b4e]";
 
   return (
-    <div className="max-w-3xl py-6 space-y-10">
-      <div className="space-y-1">
-        <h2 className={cn("text-[10px] font-bold uppercase tracking-[0.2em]", primaryColorClass)}>
+    <div className="max-w-4xl py-10 space-y-12 text-left">
+      <div className="space-y-2">
+        <h2 className={cn("text-[11px] font-bold uppercase tracking-[0.2em]", primaryColorClass)}>
           Module Synthesis
         </h2>
-        <p className="text-xl text-slate-900 font-bold tracking-tight">
+        <p className="text-2xl text-slate-900 font-bold tracking-tight">
           Comparison Questionnaire
         </p>
       </div>
 
-      <div className="space-y-10">
-        <div className="space-y-4">
-          <div className="space-y-1">
-            <Label className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500">
-              Preference Analysis
+      <div className="space-y-12">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <Label className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">
+              Metric 03: Preference Analysis
             </Label>
-            <p className="text-base text-slate-800 font-medium">
+            <p className="text-lg text-slate-800 font-medium leading-relaxed">
               Based on the recordings in this section, which bot was better?
             </p>
           </div>
@@ -50,7 +49,7 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
           <RadioGroup 
             value={betterBotId} 
             onValueChange={setBetterBotId}
-            className="grid grid-cols-1 md:grid-cols-2 gap-3"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             {module.recordings.map((rec) => (
               <div key={rec.id}>
@@ -62,14 +61,14 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
                 <Label
                   htmlFor={rec.id}
                   className={cn(
-                    "flex items-center gap-3 p-4 bg-white border border-slate-200 rounded-xl cursor-pointer transition-all duration-200",
+                    "flex items-center gap-4 p-5 bg-white border border-slate-200 rounded-xl cursor-pointer transition-all duration-200",
                     betterBotId === rec.id 
-                      ? "border-[#3a2065] bg-slate-50 ring-1 ring-[#3a2065]/20" 
+                      ? "border-[#3a2065] bg-slate-50 ring-1 ring-[#3a2065]/20 shadow-sm" 
                       : "hover:border-slate-300"
                   )}
                 >
                   <div className={cn(
-                    "h-3 w-3 rounded-full border transition-colors",
+                    "h-3.5 w-3.5 rounded-full border transition-colors",
                     betterBotId === rec.id ? "bg-[#3a2065] border-[#3a2065]" : "border-slate-300"
                   )} />
                   <span className="text-sm font-medium text-slate-800">{rec.title}</span>
@@ -79,35 +78,35 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
           </RadioGroup>
         </div>
 
-        <div className="space-y-4">
-          <div className="space-y-1">
-             <Label className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500">
-              Qualitative Insight
+        <div className="space-y-6">
+          <div className="space-y-2">
+             <Label className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">
+              Metric 04: Qualitative Insight
             </Label>
-            <p className="text-base text-slate-800 font-medium">
+            <p className="text-lg text-slate-800 font-medium leading-relaxed">
               Which bot would you prefer to talk to and why?
             </p>
           </div>
           <Textarea
-            placeholder="Help us understand your preference..."
-            className="min-h-[100px] bg-slate-50/50 text-sm focus-visible:ring-[#3a2065] border-slate-200 rounded-xl resize-none"
+            placeholder="Help us understand your preference with specific details..."
+            className="min-h-[140px] bg-slate-50/50 text-sm focus-visible:ring-[#3a2065] border-slate-200 rounded-xl resize-none p-4"
             value={preferenceFeedback}
             onChange={(e) => setPreferenceFeedback(e.target.value)}
           />
         </div>
 
-        <div className="flex items-center justify-end pt-6 border-t border-slate-100">
+        <div className="flex items-center justify-end pt-8 border-t border-slate-100">
           <Button
             onClick={() => onComplete({ betterBotId, preferenceFeedback })}
             disabled={!isSubmittable}
             className={cn(
-              "px-8 h-10 text-[10px] font-bold text-white transition-all rounded-full group", 
+              "px-10 h-11 text-[11px] font-bold text-white transition-all rounded-full group", 
               primaryBgClass, 
               primaryHoverClass
             )}
           >
             Continue to Next Phase
-            <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="ml-2 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </div>

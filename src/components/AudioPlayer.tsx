@@ -1,8 +1,7 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Play, Pause, RotateCcw, Volume2, Gauge } from "lucide-react";
+import { Play, Pause, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
@@ -96,13 +95,8 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const bars = Array.from({ length: 40 }).map((_, i) => ({
-    height: 10 + Math.abs(Math.sin(i * 0.4) * 50) + Math.random() * 10,
-    delay: i * 0.01
-  }));
-
   return (
-    <div className="w-full bg-slate-50/50 rounded-xl p-3 border border-slate-100 space-y-2">
+    <div className="w-full bg-slate-50/80 rounded-xl p-6 border border-slate-100 space-y-4">
       <audio
         ref={audioRef}
         src={src}
@@ -113,35 +107,35 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
       
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="text-[10px] text-slate-900 font-bold uppercase tracking-tight">{title}</h3>
-          <span className="text-[7px] text-muted-foreground uppercase font-bold tracking-widest bg-white border border-slate-100 px-1.5 py-0.5 rounded">Sample</span>
+          <h3 className="text-xs text-slate-900 font-bold uppercase tracking-tight">{title}</h3>
+          <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest bg-white border border-slate-100 px-2 py-1 rounded">Sample Source</span>
         </div>
-        <div className={cn("font-mono text-[8px] font-bold px-2 py-0.5 bg-white rounded border border-slate-100 flex items-center gap-2", primaryColorClass)}>
+        <div className={cn("font-mono text-[10px] font-bold px-3 py-1 bg-white rounded border border-slate-100 flex items-center gap-2", primaryColorClass)}>
           <span>{formatTime(audioRef.current?.currentTime || 0)}</span>
           <span className="opacity-20">/</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <Button
           size="icon"
           onClick={togglePlay}
-          className={cn("h-7 w-7 rounded-full text-white shadow-sm flex-shrink-0", primaryBgClass, primaryHoverClass)}
+          className={cn("h-9 w-9 rounded-full text-white shadow-sm flex-shrink-0", primaryBgClass, primaryHoverClass)}
         >
-          {isPlaying ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3 ml-0.5" />}
+          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
         </Button>
         
         <Button
           size="icon"
           variant="outline"
           onClick={reset}
-          className={cn("h-6 w-6 rounded-full border-slate-200 bg-white shadow-sm flex-shrink-0", primaryColorClass)}
+          className={cn("h-8 w-8 rounded-full border-slate-200 bg-white shadow-sm flex-shrink-0", primaryColorClass)}
         >
-          <RotateCcw className="h-2.5 w-2.5" />
+          <RotateCcw className="h-3.5 w-3.5" />
         </Button>
 
-        <div className="flex-1">
+        <div className="flex-1 px-2">
           <Slider
             value={[progress]}
             max={100}
@@ -151,19 +145,19 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
           />
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-6 px-2 text-[8px] font-bold tracking-tight rounded border-slate-200 bg-white">
+              <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold tracking-tight rounded border-slate-200 bg-white">
                 {playbackSpeed}x
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-20">
+            <DropdownMenuContent align="end" className="w-24">
               {[1, 1.25, 1.5].map((speed) => (
                 <DropdownMenuItem 
                   key={speed} 
                   onClick={() => changeSpeed(speed)}
-                  className={cn("text-[9px] font-bold", playbackSpeed === speed && "bg-slate-50")}
+                  className={cn("text-[10px] font-bold", playbackSpeed === speed && "bg-slate-50")}
                 >
                   {speed}x
                 </DropdownMenuItem>
