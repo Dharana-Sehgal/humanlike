@@ -74,6 +74,10 @@ export default function AssessmentPage() {
     }
   };
 
+  const handleQuestionnaireSelect = (moduleId: string) => {
+    setActiveStep({ type: 'questionnaire', moduleId });
+  };
+
   const handleContactSubmit = (contact: { name: string; email: string }) => {
     const finalSubmission = {
       assessments: Object.entries(assessmentData).map(([id, data]) => ({ recordingId: id, ...data })),
@@ -102,20 +106,20 @@ export default function AssessmentPage() {
           completedRecordingIds={completedRecordings}
           completedQuestionnaireIds={completedQuestionnaires}
           onSelectModule={handleModuleSelect}
-          onShowFinalStep={() => setActiveStep({ type: 'final' })}
+          onSelectQuestionnaire={handleQuestionnaireSelect}
         />
       </div>
 
       <main className="flex-1 md:ml-64 bg-slate-50/30">
         <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b px-8 py-5 flex items-center justify-between shadow-sm">
           <div className="flex flex-col min-w-0">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/80 mb-0.5">Assessment Focus</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 mb-0.5">Assessment Focus</span>
             <span className="font-headline text-slate-800 font-bold text-base tracking-tight uppercase">
               {activeRecording ? activeRecording.moduleTitle : activeModule ? activeModule.title : "Conclusion"}
             </span>
           </div>
           <div className="w-56 flex flex-col items-end gap-2">
-             <div className="flex justify-between w-full text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+             <div className="flex justify-between w-full text-xs font-bold uppercase tracking-widest text-muted-foreground">
               <span>Overall Progress</span>
               <span>{Math.round(progressPercentage)}%</span>
             </div>

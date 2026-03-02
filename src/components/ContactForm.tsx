@@ -89,7 +89,7 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
                 type="submit"
                 className="w-full h-9 text-[11px] font-bold bg-primary hover:bg-primary/90 shadow-md rounded-full transition-all group"
               >
-                Finish Assessment
+                Continue
                 <Send className="ml-2 h-3 w-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Button>
             </div>

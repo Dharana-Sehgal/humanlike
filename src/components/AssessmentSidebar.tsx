@@ -16,7 +16,7 @@ interface AssessmentSidebarProps {
   completedRecordingIds: Set<string>;
   completedQuestionnaireIds: Set<string>;
   onSelectModule: (moduleId: string) => void;
-  onShowFinalStep: () => void;
+  onSelectQuestionnaire: (moduleId: string) => void;
 }
 
 const StarField = () => {
@@ -36,7 +36,7 @@ const StarField = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-15">
       <style jsx>{`
         @keyframes floatDrift {
           0% { transform: translate(0, 0); }
@@ -72,7 +72,9 @@ export function AssessmentSidebar({
   modules,
   activeStep,
   completedRecordingIds,
+  completedQuestionnaireIds,
   onSelectModule,
+  onSelectQuestionnaire,
 }: AssessmentSidebarProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -139,6 +141,22 @@ export function AssessmentSidebar({
                     </div>
                   );
                 })}
+                
+                {/* Comparison Questionnaire Link */}
+                <button
+                  onClick={() => onSelectQuestionnaire(module.id)}
+                  className={cn(
+                    "w-full text-left flex items-center justify-between py-0.5 transition-all duration-300",
+                    activeStep.type === 'questionnaire' && activeStep.moduleId === module.id 
+                      ? "opacity-100 font-bold scale-[1.02] origin-left" 
+                      : "opacity-30"
+                  )}
+                >
+                  <p className="text-[13px] font-medium tracking-wide truncate">
+                    Comparison Questionnaire
+                  </p>
+                  {completedQuestionnaireIds.has(module.id) && <Check className="h-3 w-3 text-accent" />}
+                </button>
               </div>
             </div>
           );

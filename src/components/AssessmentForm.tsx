@@ -50,7 +50,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
                 How human-like does this voice interaction sound?
               </p>
             </div>
-            <div className="max-w-2xl flex justify-center px-2">
+            <div className="max-w-2xl flex justify-start px-0">
               <StarRating value={rating} onChange={setRating} />
             </div>
           </div>
@@ -74,16 +74,12 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
           </div>
 
           {/* Submission Bar */}
-          <div className="flex items-center justify-between gap-4 pt-8 border-t border-slate-200 max-w-2xl">
+          <div className="flex items-center justify-end gap-4 pt-8 border-t border-slate-200 max-w-2xl">
             <div className="flex items-center gap-3">
-              {!isFinished ? (
+              {!isFinished && (
                 <div className="flex items-center gap-2 text-[9px] text-slate-400 uppercase font-bold tracking-[0.15em]">
                   <Lock className="h-3 w-3" />
-                  <span>Playback Required to Unlock Analysis</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 text-[9px] text-accent font-bold uppercase tracking-[0.15em]">
-                  <span>Analysis Ready for Submission</span>
+                  <span>Playback Required</span>
                 </div>
               )}
             </div>
@@ -92,7 +88,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
               disabled={!isSubmittable}
               className="px-10 h-10 text-[11px] font-bold text-white transition-all rounded-full group bg-primary hover:bg-primary/90 shadow-lg"
             >
-              Commit & Continue
+              Continue
               <ArrowRight className="ml-2 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
