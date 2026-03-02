@@ -24,38 +24,20 @@ export interface AssessmentModule {
 export const ASSESSMENT_MODULES: AssessmentModule[] = [
   {
     id: "module-1",
-    title: "Demo One",
+    title: "Seekho",
     recordings: [
       {
-        id: "rec-1-a",
+        id: "seekho",
         title: "Recording 1",
         // Relative to the public/ folder
-        audioUrl: "/recordings/sample1.mp3", 
+        audioUrl: "/recordings/seekho.mp3", 
         duration: "0:03"
       },
       {
-        id: "rec-1-b",
+        id: "seekho-2",
         title: "Recording 2",
-        audioUrl: "/recordings/sample2.mp3",
+        audioUrl: "/recordings/seekho_2.mp3",
         duration: "0:02"
-      }
-    ]
-  },
-  {
-    id: "module-2",
-    title: "Demo Two",
-    recordings: [
-      {
-        id: "rec-2-a",
-        title: "Recording 1",
-        audioUrl: "/recordings/sample3.mp3",
-        duration: "0:03"
-      },
-      {
-        id: "rec-2-b",
-        title: "Recording 2",
-        audioUrl: "/recordings/sample4.mp3",
-        duration: "0:03"
       }
     ]
   }

@@ -2,7 +2,6 @@
 "use client";
 
 import { AssessmentModule } from "@/lib/assessment-data";
-import { CheckCircle2, Folder, Clock, Lock, ClipboardList } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -34,15 +33,6 @@ export function AssessmentSidebar({
     setMounted(true);
   }, []);
 
-  const stars = Array.from({ length: 30 }).map((_, i) => ({
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    duration: `${3 + Math.random() * 5}s`,
-    delay: `${Math.random() * 5}s`,
-    floatDur: `${15 + Math.random() * 20}s`,
-    size: Math.random() > 0.8 ? "1.5px" : "0.5px",
-  }));
-
   const activeModuleId = 
     activeStep.type === 'recording' 
       ? modules.find(m => m.recordings.some(r => r.id === activeStep.id))?.id 
@@ -51,63 +41,41 @@ export function AssessmentSidebar({
         : null;
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-b from-[#4c2a85] via-[#2d1b4e] to-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden">
-      {mounted && (
-        <div className="absolute inset-0 pointer-events-none opacity-40">
-          {stars.map((star, idx) => (
-            <div
-              key={idx}
-              className="absolute bg-white rounded-full animate-twinkle animate-float shadow-[0_0_2px_white]"
-              style={{
-                width: star.size,
-                height: star.size,
-                top: star.top,
-                left: star.left,
-                "--twinkle-duration": star.duration,
-                "--float-duration": star.floatDur,
-                animationDelay: star.delay,
-              } as React.CSSProperties}
-            />
-          ))}
-        </div>
-      )}
-
+    <div className="relative w-full h-full bg-[#1a0b3b] text-primary-foreground p-6 flex flex-col overflow-hidden border-r border-white/5">
       <div className="relative z-10 mb-10">
-        <h1 className="font-headline text-xl mb-1 leading-tight font-bold tracking-tight">Assessment Lab</h1>
-        <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em]">Voice Study v1.0</p>
+        <h1 className="font-headline text-lg mb-0.5 leading-tight font-bold tracking-tight">Assessment Lab</h1>
+        <p className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em]">Voice Study v1.0</p>
       </div>
 
-      <div className="relative z-10 flex-1 overflow-y-auto space-y-8 custom-scrollbar pr-2">
+      <div className="relative z-10 flex-1 overflow-y-auto space-y-6 custom-scrollbar pr-2">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
           const isQActive = activeStep.type === 'questionnaire' && activeStep.moduleId === module.id;
           const isQCompleted = completedQuestionnaireIds.has(module.id);
           
           return (
-            <div key={module.id} className="space-y-4">
+            <div key={module.id} className="space-y-3">
               <button 
                 onClick={() => onSelectModule(module.id)}
                 className={cn(
-                  "w-full text-left px-2 flex items-center gap-2.5 transition-all duration-300 group",
-                  isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
+                  "w-full text-left flex items-center gap-2 transition-all duration-300 group",
+                  isActive ? "opacity-100" : "opacity-40 hover:opacity-70"
                 )}
               >
                 <div className={cn(
-                  "p-1.5 rounded-md transition-colors",
-                  isActive ? "bg-white/20" : "bg-white/5"
-                )}>
-                  <Folder className={cn("h-4 w-4", isActive ? "text-white" : "text-white/60")} />
-                </div>
+                  "h-1.5 w-1.5 rounded-full transition-colors",
+                  isActive ? "bg-white" : "bg-white/20"
+                )} />
                 <span className={cn(
-                  "text-[11px] font-bold uppercase tracking-widest",
+                  "text-[10px] font-bold uppercase tracking-widest",
                   isActive ? "text-white" : "text-white/70"
                 )}>
                   {module.title}
                 </span>
-                {isQCompleted && <CheckCircle2 className="h-3 w-3 text-white ml-auto" />}
+                {isQCompleted && <span className="text-[9px] text-white/40 ml-auto font-mono">DONE</span>}
               </button>
 
-              <div className="space-y-3 ml-4 pl-4 border-l border-white/10">
+              <div className="space-y-2 ml-1.5 pl-3 border-l border-white/10">
                 {module.recordings.map((rec) => {
                   const isCompleted = completedRecordingIds.has(rec.id);
                   const isRecActive = activeStep.type === 'recording' && activeStep.id === rec.id;
@@ -116,65 +84,47 @@ export function AssessmentSidebar({
                     <div
                       key={rec.id}
                       className={cn(
-                        "flex items-center gap-3 py-1 transition-all duration-300",
-                        isRecActive ? "opacity-100 translate-x-1" : "opacity-40"
+                        "flex items-center justify-between py-0.5 transition-all duration-300",
+                        isRecActive ? "opacity-100" : "opacity-30"
                       )}
                     >
-                      {isCompleted ? (
-                        <CheckCircle2 className="h-3 w-3 text-white" />
-                      ) : isRecActive ? (
-                        <Clock className="h-3 w-3 text-white animate-pulse" />
-                      ) : (
-                        <Lock className="h-3 w-3 text-white/30" />
-                      )}
-                      <p className="text-[10px] font-medium tracking-tight truncate text-white/80">
+                      <p className="text-[9px] font-medium tracking-tight truncate text-white/80">
                         {rec.title}
-                        {isCompleted && " ✓"}
-                        {isRecActive && " ⏳"}
-                        {!isCompleted && !isRecActive && " 🔒"}
                       </p>
+                      {isCompleted && <span className="text-[8px] text-white/60">✓</span>}
                     </div>
                   );
                 })}
 
-                {/* Questionnaire Entry */}
                 <div
                   className={cn(
-                    "flex items-center gap-3 py-1 transition-all duration-300",
-                    isQActive ? "opacity-100 translate-x-1" : "opacity-40"
+                    "flex items-center justify-between py-0.5 transition-all duration-300",
+                    isQActive ? "opacity-100" : "opacity-30"
                   )}
                 >
-                  {isQCompleted ? (
-                    <CheckCircle2 className="h-3 w-3 text-white" />
-                  ) : isQActive ? (
-                    <ClipboardList className="h-3 w-3 text-white animate-pulse" />
-                  ) : (
-                    <Lock className="h-3 w-3 text-white/30" />
-                  )}
-                  <p className="text-[10px] font-medium tracking-tight truncate text-white/80">
-                    Questionnaire
-                    {isQCompleted && " ✓"}
-                    {isQActive && " ⏳"}
-                    {!isQCompleted && !isQActive && " 🔒"}
+                  <p className="text-[9px] font-medium tracking-tight truncate text-white/80">
+                    Synthesis
                   </p>
+                  {isQCompleted && <span className="text-[8px] text-white/60">✓</span>}
                 </div>
               </div>
             </div>
           );
         })}
 
-        <div className="pt-4 mt-8 border-t border-white/10">
+        <div className="pt-4 border-t border-white/5">
           <button
             onClick={onShowFinalStep}
             className={cn(
-              "w-full text-left flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300",
-              activeStep.type === 'final' 
-                ? "bg-white/10 shadow-sm backdrop-blur-md border border-white/5" 
-                : "opacity-40 hover:opacity-100"
+              "w-full text-left flex items-center gap-2 transition-all duration-300",
+              activeStep.type === 'final' ? "opacity-100" : "opacity-30 hover:opacity-70"
             )}
           >
-            <div className="h-1.5 w-1.5 rounded-full bg-white/40" />
-            <p className="text-[12px] font-semibold uppercase tracking-wider text-white">Final Submission</p>
+            <div className={cn(
+              "h-1.5 w-1.5 rounded-full transition-colors",
+              activeStep.type === 'final' ? "bg-white" : "bg-white/20"
+            )} />
+            <p className="text-[10px] font-bold uppercase tracking-widest text-white">Final Submission</p>
           </button>
         </div>
       </div>

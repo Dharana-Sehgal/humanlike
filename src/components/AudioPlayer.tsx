@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -95,14 +96,13 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Generate a consistent but randomized waveform
-  const bars = Array.from({ length: 60 }).map((_, i) => ({
-    height: 15 + Math.abs(Math.sin(i * 0.4) * 60) + Math.random() * 15,
-    delay: i * 0.015
+  const bars = Array.from({ length: 40 }).map((_, i) => ({
+    height: 10 + Math.abs(Math.sin(i * 0.4) * 50) + Math.random() * 10,
+    delay: i * 0.01
   }));
 
   return (
-    <div className="w-full bg-white rounded-2xl p-4 shadow-md border border-slate-100 space-y-3">
+    <div className="w-full bg-slate-50/50 rounded-xl p-3 border border-slate-100 space-y-2">
       <audio
         ref={audioRef}
         src={src}
@@ -112,56 +112,36 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
       />
       
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h3 className="font-headline text-[11px] text-slate-900 font-bold tracking-tight uppercase">{title}</h3>
-          <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest bg-slate-50 px-2 py-0.5 rounded">Sample</span>
+        <div className="flex items-center gap-2">
+          <h3 className="text-[10px] text-slate-900 font-bold uppercase tracking-tight">{title}</h3>
+          <span className="text-[7px] text-muted-foreground uppercase font-bold tracking-widest bg-white border border-slate-100 px-1.5 py-0.5 rounded">Sample</span>
         </div>
-        <div className={cn("font-mono text-[9px] font-bold px-2 py-0.5 bg-slate-50 rounded-full border border-slate-100 flex items-center gap-2", primaryColorClass)}>
+        <div className={cn("font-mono text-[8px] font-bold px-2 py-0.5 bg-white rounded border border-slate-100 flex items-center gap-2", primaryColorClass)}>
           <span>{formatTime(audioRef.current?.currentTime || 0)}</span>
           <span className="opacity-20">/</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
 
-      {/* Compact Waveform Visualization */}
-      <div className="flex items-center justify-between h-8 w-full gap-[2px] overflow-hidden px-1">
-        {bars.map((bar, i) => (
-          <div
-            key={i}
-            className={cn(
-              "flex-1 rounded-full transition-all duration-300 ease-in-out", 
-              primaryBgClass,
-              isPlaying ? "opacity-90" : "opacity-20"
-            )}
-            style={{ 
-              height: isPlaying 
-                ? `${bar.height}%` 
-                : `${Math.max(15, bar.height * 0.2)}%`,
-              transitionDelay: `${bar.delay}s`
-            }}
-          />
-        ))}
-      </div>
-
       <div className="flex items-center gap-3">
         <Button
           size="icon"
           onClick={togglePlay}
-          className={cn("h-8 w-8 rounded-full text-white shadow-sm transition-all active:scale-95 flex-shrink-0", primaryBgClass, primaryHoverClass)}
+          className={cn("h-7 w-7 rounded-full text-white shadow-sm flex-shrink-0", primaryBgClass, primaryHoverClass)}
         >
-          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
+          {isPlaying ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3 ml-0.5" />}
         </Button>
         
         <Button
           size="icon"
           variant="outline"
           onClick={reset}
-          className={cn("h-7 w-7 rounded-full border-slate-200 bg-white shadow-sm hover:bg-slate-50 flex-shrink-0", primaryColorClass)}
+          className={cn("h-6 w-6 rounded-full border-slate-200 bg-white shadow-sm flex-shrink-0", primaryColorClass)}
         >
-          <RotateCcw className="h-3 w-3" />
+          <RotateCcw className="h-2.5 w-2.5" />
         </Button>
 
-        <div className="flex-1 px-1">
+        <div className="flex-1">
           <Slider
             value={[progress]}
             max={100}
@@ -171,29 +151,25 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-7 px-2 text-[9px] font-bold tracking-tight gap-1 rounded-full border-slate-200">
-                <Gauge className="h-2.5 w-2.5" />
+              <Button variant="outline" size="sm" className="h-6 px-2 text-[8px] font-bold tracking-tight rounded border-slate-200 bg-white">
                 {playbackSpeed}x
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-24 rounded-xl">
+            <DropdownMenuContent align="end" className="w-20">
               {[1, 1.25, 1.5].map((speed) => (
                 <DropdownMenuItem 
                   key={speed} 
                   onClick={() => changeSpeed(speed)}
-                  className={cn("text-[9px] font-bold justify-center", playbackSpeed === speed && "bg-slate-100")}
+                  className={cn("text-[9px] font-bold", playbackSpeed === speed && "bg-slate-50")}
                 >
                   {speed}x
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className="hidden sm:flex h-7 w-7 items-center justify-center rounded-full bg-slate-50 text-muted-foreground">
-            <Volume2 className="h-3 w-3" />
-          </div>
         </div>
       </div>
     </div>

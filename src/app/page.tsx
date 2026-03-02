@@ -36,7 +36,6 @@ export default function AssessmentPage() {
     setAssessmentData((prev) => ({ ...prev, [currentId]: data }));
     setCompletedRecordings((prev) => new Set(prev).add(currentId));
 
-    // Determine next step
     const currentIndex = FLAT_RECORDINGS.findIndex(r => r.id === currentId);
     const currentRecording = FLAT_RECORDINGS[currentIndex];
     const module = ASSESSMENT_MODULES.find(m => m.id === currentRecording.moduleId);
@@ -59,7 +58,6 @@ export default function AssessmentPage() {
     setQuestionnaireData((prev) => ({ ...prev, [moduleId]: data }));
     setCompletedQuestionnaires((prev) => new Set(prev).add(moduleId));
 
-    // Find first recording of next module
     const currentModuleIndex = ASSESSMENT_MODULES.findIndex(m => m.id === moduleId);
     if (currentModuleIndex < ASSESSMENT_MODULES.length - 1) {
       const nextModule = ASSESSMENT_MODULES[currentModuleIndex + 1];
@@ -79,36 +77,17 @@ export default function AssessmentPage() {
   };
 
   const handleContactSubmit = (contact: { name: string; email: string }) => {
-    const assessmentsArray = Object.entries(assessmentData).map(([id, data]) => ({
-      recordingId: id,
-      ...data
-    }));
-
-    const questionnairesArray = Object.entries(questionnaireData).map(([id, data]) => ({
-      moduleId: id,
-      ...data
-    }));
-
     const finalSubmission = {
-      assessments: assessmentsArray,
-      moduleQuestionnaires: questionnairesArray,
+      assessments: Object.entries(assessmentData).map(([id, data]) => ({ recordingId: id, ...data })),
+      moduleQuestionnaires: Object.entries(questionnaireData).map(([id, data]) => ({ moduleId: id, ...data })),
       user: contact,
       submittedAt: new Date().toISOString(),
     };
-    
     console.log("Assessment Final Submission:", finalSubmission);
   };
 
-  if (!isMounted) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-background space-y-4">
-        <Loader2 className="h-10 w-10 text-primary animate-spin" />
-        <p className="text-muted-foreground font-headline animate-pulse">Initializing Laboratory...</p>
-      </div>
-    );
-  }
+  if (!isMounted) return null;
 
-  // UI calculations
   const totalSteps = FLAT_RECORDINGS.length + ASSESSMENT_MODULES.length;
   const completedStepsCount = completedRecordings.size + completedQuestionnaires.size;
   const progressPercentage = (completedStepsCount / totalSteps) * 100;
@@ -117,8 +96,8 @@ export default function AssessmentPage() {
   const activeModule = activeStep.type === 'questionnaire' ? ASSESSMENT_MODULES.find(m => m.id === activeStep.moduleId) : null;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-background">
-      <div className="hidden md:block w-64 fixed inset-y-0 left-0 border-r border-black/5">
+    <div className="flex flex-col md:flex-row min-h-screen bg-white">
+      <div className="hidden md:block w-56 fixed inset-y-0 left-0">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
           activeStep={activeStep}
@@ -129,47 +108,28 @@ export default function AssessmentPage() {
         />
       </div>
 
-      <main className="flex-1 md:ml-64">
-        {/* Mobile Header */}
-        <div className="md:hidden bg-[#3a2065] p-6 text-white">
-          <h1 className="font-headline text-lg">Voice Assessment</h1>
-          <div className="mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/60">
-            <span>Overall Progress</span>
-            <span>{Math.round(progressPercentage)}%</span>
-          </div>
-          <Progress value={progressPercentage} className="h-1 bg-white/20 mt-2" />
-        </div>
-
-        {/* Desktop Header */}
-        <div className="hidden md:flex sticky top-0 z-10 bg-slate-100/95 backdrop-blur-sm border-b px-8 py-5 items-center justify-between">
-          <div className="flex flex-col min-w-0 mr-8 flex-1">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Evaluation Phase</span>
-            <span className="font-headline text-slate-500 font-bold text-sm tracking-tight truncate uppercase">
-              {activeRecording ? activeRecording.moduleTitle : activeModule ? activeModule.title : "Final Submission"}
+      <main className="flex-1 md:ml-56">
+        <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b px-8 py-4 flex items-center justify-between">
+          <div className="flex flex-col min-w-0">
+            <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Status</span>
+            <span className="font-headline text-slate-800 font-bold text-xs tracking-tight uppercase">
+              {activeRecording ? activeRecording.moduleTitle : activeModule ? activeModule.title : "Conclusion"}
             </span>
           </div>
-          <div className="w-48 space-y-1.5 flex-shrink-0">
-             <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
-              <span>Overall Progress</span>
+          <div className="w-40 flex flex-col items-end gap-1">
+             <div className="flex justify-between w-full text-[8px] font-bold uppercase tracking-widest text-muted-foreground">
+              <span>Progress</span>
               <span>{Math.round(progressPercentage)}%</span>
             </div>
-            <Progress value={progressPercentage} className="h-1.5 bg-slate-200" />
+            <Progress value={progressPercentage} className="h-1 bg-slate-100" />
           </div>
         </div>
 
-        <div className="container px-6 md:px-12 pb-20">
+        <div className="container px-8 md:px-12">
           {activeStep.type === 'recording' && activeRecording ? (
-            <AssessmentForm
-              key={activeRecording.id}
-              recording={activeRecording}
-              onComplete={handleAssessmentComplete}
-            />
+            <AssessmentForm key={activeRecording.id} recording={activeRecording} onComplete={handleAssessmentComplete} />
           ) : activeStep.type === 'questionnaire' && activeModule ? (
-            <ModuleQuestionnaire
-              key={`q-${activeModule.id}`}
-              module={activeModule}
-              onComplete={handleQuestionnaireComplete}
-            />
+            <ModuleQuestionnaire key={`q-${activeModule.id}`} module={activeModule} onComplete={handleQuestionnaireComplete} />
           ) : (
             <ContactForm onSubmit={handleContactSubmit} />
           )}

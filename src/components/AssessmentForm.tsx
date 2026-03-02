@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -27,13 +28,13 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
   const primaryHoverClass = "hover:bg-[#2d1b4e]";
 
   return (
-    <div className="max-w-2xl mx-auto space-y-10 py-6">
+    <div className="max-w-3xl py-6 space-y-8">
       {/* Audio Playback Section */}
       <section className="space-y-4">
-        <div className="flex items-center gap-3">
-          <div className={cn("h-5 w-1 rounded-full", primaryBgClass)} />
-          <h2 className={cn("text-sm font-headline font-bold uppercase tracking-[0.15em]", primaryColorClass)}>
-            Listen to Recording
+        <div className="flex items-center gap-2">
+          <div className={cn("h-3 w-0.5 rounded-full", primaryBgClass)} />
+          <h2 className={cn("text-[10px] font-bold uppercase tracking-[0.15em]", primaryColorClass)}>
+            Sample Analysis
           </h2>
         </div>
         
@@ -47,54 +48,49 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
       {/* Assessment Section - Unlocked after listening */}
       <div className={cn(
         "transition-all duration-500",
-        !isFinished ? "opacity-30 pointer-events-none grayscale" : "opacity-100 animate-in fade-in slide-in-from-top-4"
+        !isFinished ? "opacity-30 pointer-events-none grayscale" : "opacity-100"
       )}>
-        <section className="space-y-12">
+        <section className="space-y-10">
           {/* Question 1: Rating */}
-          <div className="space-y-6">
-            <div className="space-y-2 text-center">
-              <Label className={cn("text-[10px] font-bold uppercase tracking-[0.2em] block leading-relaxed opacity-70", primaryColorClass)}>
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <Label className={cn("text-[9px] font-bold uppercase tracking-[0.15em] opacity-60", primaryColorClass)}>
                 Metric: Human-Likeness
               </Label>
-              <p className="text-lg text-slate-800 font-bold leading-tight">
-                On a scale of 1 to 5, how human-like does this voice interaction sound?
+              <p className="text-base text-slate-800 font-medium leading-tight">
+                How human-like does this voice interaction sound?
               </p>
             </div>
-            <div className="flex justify-center">
+            <div className="flex">
               <StarRating value={rating} onChange={setRating} />
             </div>
           </div>
 
           {/* Question 2: Feedback */}
           <div className="space-y-4">
-            <div className="space-y-2 text-center">
-               <Label className="text-[10px] font-bold uppercase tracking-[0.2em] block leading-relaxed text-slate-500">
-                Qualitative Insights
+            <div className="space-y-1">
+               <Label className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500">
+                Qualitative Evaluation
               </Label>
-              <p className="text-lg text-slate-800 font-bold">
+              <p className="text-base text-slate-800 font-medium">
                 What specific characteristics influenced your rating?
               </p>
             </div>
             <Textarea
               placeholder="Share your thoughts on pacing, clarity, or emotion..."
-              className="min-h-[100px] bg-white text-base focus-visible:ring-[#3a2065] border-slate-200 shadow-sm p-5 rounded-2xl resize-none"
+              className="min-h-[100px] bg-slate-50/50 text-sm focus-visible:ring-[#3a2065] border-slate-200 rounded-xl resize-none"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />
           </div>
 
           {/* Submission Bar */}
-          <div className="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-between gap-4 pt-6 border-t border-slate-100">
             <div className="flex items-center gap-2">
-              {!isFinished ? (
-                <div className="flex items-center gap-2 text-[9px] text-muted-foreground uppercase font-bold tracking-widest bg-slate-50 px-3 py-1.5 rounded-full">
+              {!isFinished && (
+                <div className="flex items-center gap-2 text-[9px] text-muted-foreground uppercase font-bold tracking-widest">
                   <Lock className="h-3 w-3" />
                   <span>Playback Required</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 text-[9px] text-emerald-600 uppercase font-bold tracking-widest">
-                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Analysis Ready
                 </div>
               )}
             </div>
@@ -102,13 +98,13 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
               onClick={() => onComplete({ rating, feedback })}
               disabled={!isSubmittable}
               className={cn(
-                "px-10 h-11 text-[11px] font-bold text-white transition-all shadow-lg rounded-full active:scale-95 group", 
+                "px-8 h-10 text-[10px] font-bold text-white transition-all rounded-full group", 
                 primaryBgClass, 
                 primaryHoverClass
               )}
             >
-              Submit Evaluation
-              <ArrowRight className="ml-2 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+              Continue
+              <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
         </section>
