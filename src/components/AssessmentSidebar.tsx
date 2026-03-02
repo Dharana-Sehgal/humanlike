@@ -84,17 +84,17 @@ export function AssessmentSidebar({
     <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#2d1b4d] to-[#1e1b4b] text-white p-8 flex flex-col overflow-hidden border-r border-white/5 shadow-2xl">
       <StarField />
       
-      <div className="relative z-10 mb-12">
+      <div className="relative z-10 mb-14">
         <h1 className="font-headline text-lg mb-1.5 leading-tight font-bold tracking-tight uppercase">BotSpeak Insights</h1>
         <p className="text-white/30 text-[9px] font-bold uppercase tracking-[0.25em]">Laboratory Assessment</p>
       </div>
 
-      <div className="relative z-10 flex-1 overflow-y-auto space-y-10 custom-scrollbar pr-2">
+      <div className="relative z-10 flex-1 overflow-y-auto space-y-14 custom-scrollbar pr-2">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
           
           return (
-            <div key={module.id} className="space-y-5">
+            <div key={module.id} className="space-y-7">
               <button 
                 onClick={() => onSelectModule(module.id)}
                 className={cn(
@@ -110,7 +110,7 @@ export function AssessmentSidebar({
                 </span>
               </button>
 
-              <div className="space-y-4 ml-1 pl-5 border-l border-white/10">
+              <div className="space-y-6 ml-1 pl-5 border-l border-white/10">
                 {module.recordings.map((rec) => {
                   const isCompleted = completedRecordingIds.has(rec.id);
                   const isRecActive = activeStep.type === 'recording' && activeStep.id === rec.id;
@@ -119,7 +119,7 @@ export function AssessmentSidebar({
                     <div
                       key={rec.id}
                       className={cn(
-                        "flex items-center justify-between py-0.5 transition-all duration-300",
+                        "flex items-center justify-between py-1 transition-all duration-300",
                         isRecActive ? "opacity-100 font-bold scale-[1.02] origin-left" : "opacity-30"
                       )}
                     >
@@ -134,7 +134,7 @@ export function AssessmentSidebar({
                 <button
                   onClick={() => onSelectQuestionnaire(module.id)}
                   className={cn(
-                    "w-full text-left flex items-center justify-between py-0.5 transition-all duration-300",
+                    "w-full text-left flex items-center justify-between py-1 transition-all duration-300",
                     activeStep.type === 'questionnaire' && activeStep.moduleId === module.id 
                       ? "opacity-100 font-bold scale-[1.02] origin-left" 
                       : "opacity-30"
@@ -151,7 +151,7 @@ export function AssessmentSidebar({
         })}
       </div>
 
-      <div className="relative z-10 mt-auto pt-6 text-white/10 text-[8px] font-bold tracking-[0.3em] uppercase">
+      <div className="relative z-10 mt-auto pt-8 text-white/10 text-[8px] font-bold tracking-[0.3em] uppercase">
         Study v1.0.4 • Phase Alpha
       </div>
     </div>
