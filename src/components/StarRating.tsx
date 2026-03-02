@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Star } from "lucide-react";
@@ -15,7 +14,7 @@ export function StarRating({ value, onChange, max = 5 }: StarRatingProps) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div className="flex w-full justify-between items-center py-2 max-w-[280px]">
+    <div className="flex w-full justify-between items-center py-1 max-w-[220px]">
       {Array.from({ length: max }).map((_, i) => {
         const starValue = i + 1;
         const isHovering = hovered !== null;
@@ -33,11 +32,11 @@ export function StarRating({ value, onChange, max = 5 }: StarRatingProps) {
           >
             <Star
               className={cn(
-                "h-6 w-6 transition-all duration-200", 
+                "h-5 w-5 transition-all duration-200", 
                 isStarHovered 
-                  ? "fill-amber-400 text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,0.5)]" 
+                  ? "fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]" 
                   : isStarSelected
-                    ? "fill-primary text-primary drop-shadow-[0_0_8px_rgba(58,32,101,0.2)]"
+                    ? "fill-primary text-primary"
                     : "text-slate-200 fill-none"
               )}
               strokeWidth={1.5}

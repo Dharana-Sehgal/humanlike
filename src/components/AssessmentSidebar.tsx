@@ -20,50 +20,39 @@ interface AssessmentSidebarProps {
 }
 
 const StarField = () => {
-  const [stars, setStars] = useState<{ id: number; top: string; left: string; size: string; delay: string; duration: string; driftDuration: string }[]>([]);
+  const [stars, setStars] = useState<{ id: number; top: string; left: string; size: string; delay: string; duration: string }[]>([]);
 
   useEffect(() => {
-    const newStars = Array.from({ length: 40 }).map((_, i) => ({
+    const newStars = Array.from({ length: 30 }).map((_, i) => ({
       id: i,
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,
       size: `${Math.random() * 1.5 + 0.5}px`,
       delay: `${Math.random() * 5}s`,
       duration: `${4 + Math.random() * 6}s`,
-      driftDuration: `${15 + Math.random() * 20}s`,
     }));
     setStars(newStars);
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-15">
-      <style jsx>{`
-        @keyframes floatDrift {
-          0% { transform: translate(0, 0); }
-          33% { transform: translate(15px, -15px); }
-          66% { transform: translate(-10px, -25px); }
-          100% { transform: translate(0, 0); }
-        }
-      `}</style>
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="absolute rounded-full bg-white animate-pulse"
-          style={{
-            top: star.top,
-            left: star.left,
-            width: star.size,
-            height: star.size,
-            animationDelay: star.delay,
-            animationDuration: star.duration,
-            boxShadow: '0 0 3px rgba(255, 255, 255, 0.5)',
-            animationName: 'floatDrift, pulse',
-            animationIterationCount: 'infinite',
-            animationTimingFunction: 'linear, ease-in-out',
-            animationDuration: `${star.driftDuration}, ${star.duration}`,
-          }}
-        />
-      ))}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+      <div className="absolute inset-0 animate-drift">
+        {stars.map((star) => (
+          <div
+            key={star.id}
+            className="absolute rounded-full bg-white animate-pulse"
+            style={{
+              top: star.top,
+              left: star.left,
+              width: star.size,
+              height: star.size,
+              animationDelay: star.delay,
+              animationDuration: star.duration,
+              boxShadow: '0 0 3px rgba(255, 255, 255, 0.5)',
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };

@@ -10,7 +10,7 @@
     --card-foreground: 210 40% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 210 40% 10%;
-    --primary: 262 52% 26%; /* #3a2065 - matching the space sidebar */
+    --primary: 262 52% 26%; /* #3a2065 */
     --primary-foreground: 0 0% 100%;
     --secondary: 210 20% 90%;
     --secondary-foreground: 262 52% 20%;
@@ -50,6 +50,17 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline font-bold tracking-tight;
   }
+}
+
+@keyframes floatDrift {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(15px, -15px); }
+  66% { transform: translate(-10px, -25px); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-drift {
+  animation: floatDrift 20s linear infinite;
 }
 
 .custom-scrollbar::-webkit-scrollbar {

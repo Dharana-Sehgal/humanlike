@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -93,7 +92,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-white rounded-xl p-8 border border-slate-200/60 shadow-sm flex flex-col justify-center min-h-[160px]">
+    <div className="w-full bg-white rounded-xl p-8 border border-slate-200/60 shadow-sm flex flex-col justify-center min-h-[144px]">
       <audio
         ref={audioRef}
         src={src}
