@@ -19,13 +19,48 @@ interface AssessmentSidebarProps {
   onShowFinalStep: () => void;
 }
 
+const StarField = () => {
+  const [stars, setStars] = useState<{ id: number; top: string; left: string; size: string; delay: string; duration: string }[]>([]);
+
+  useEffect(() => {
+    const newStars = Array.from({ length: 30 }).map((_, i) => ({
+      id: i,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      size: `${Math.random() * 2 + 1}px`,
+      delay: `${Math.random() * 5}s`,
+      duration: `${3 + Math.random() * 4}s`,
+    }));
+    setStars(newStars);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          className="absolute rounded-full bg-white animate-pulse"
+          style={{
+            top: star.top,
+            left: star.left,
+            width: star.size,
+            height: star.size,
+            animationDelay: star.delay,
+            animationDuration: star.duration,
+            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)',
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 export function AssessmentSidebar({
   modules,
   activeStep,
   completedRecordingIds,
   completedQuestionnaireIds,
   onSelectModule,
-  onShowFinalStep,
 }: AssessmentSidebarProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -43,7 +78,9 @@ export function AssessmentSidebar({
   if (!mounted) return null;
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#1F2937] via-[#3a2065] to-[#1e1b4b] text-white p-8 flex flex-col overflow-hidden border-r border-white/10 shadow-xl">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#3a2065] to-[#1e1b4b] text-white p-8 flex flex-col overflow-hidden border-r border-white/10 shadow-xl">
+      <StarField />
+      
       <div className="relative z-10 mb-12">
         <h1 className="font-headline text-lg mb-1 leading-tight font-bold tracking-tight uppercase">BotSpeak Insights</h1>
         <p className="text-white/40 text-[9px] font-bold uppercase tracking-[0.25em]">Laboratory Assessment</p>
@@ -109,21 +146,9 @@ export function AssessmentSidebar({
             </div>
           );
         })}
-
-        <div className="pt-8 border-t border-white/10">
-          <button
-            onClick={onShowFinalStep}
-            className={cn(
-              "w-full text-left flex items-center gap-3 transition-all duration-300",
-              activeStep.type === 'final' ? "opacity-100" : "opacity-40 hover:opacity-80"
-            )}
-          >
-            <p className="text-[12px] font-bold uppercase tracking-widest">Final Submission</p>
-          </button>
-        </div>
       </div>
 
-      <div className="mt-auto pt-6 text-white/20 text-[8px] font-bold tracking-[0.2em] uppercase">
+      <div className="relative z-10 mt-auto pt-6 text-white/20 text-[8px] font-bold tracking-[0.2em] uppercase">
         Study v1.0.4 • Confidential
       </div>
     </div>
