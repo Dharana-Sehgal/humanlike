@@ -92,7 +92,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-white rounded-xl p-8 border border-slate-200/60 shadow-sm space-y-6">
+    <div className="w-full bg-white rounded-xl p-10 border border-slate-200/60 shadow-sm space-y-8 flex flex-col justify-center">
       <audio
         ref={audioRef}
         src={src}

@@ -20,14 +20,10 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
 
   const isSubmittable = betterBotId !== "" && preferenceFeedback.trim().length > 5;
 
-  const primaryColorClass = "text-[#3a2065]";
-  const primaryBgClass = "bg-[#3a2065]";
-  const primaryHoverClass = "hover:bg-[#2d1b4e]";
-
   return (
     <div className="max-w-4xl py-10 space-y-12 text-left">
       <div className="space-y-2">
-        <h2 className={cn("text-[11px] font-bold uppercase tracking-[0.2em]", primaryColorClass)}>
+        <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
           Module Synthesis
         </h2>
         <p className="text-2xl text-slate-900 font-bold tracking-tight">
@@ -63,13 +59,13 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
                   className={cn(
                     "flex items-center gap-4 p-5 bg-white border border-slate-200 rounded-xl cursor-pointer transition-all duration-200",
                     betterBotId === rec.id 
-                      ? "border-[#3a2065] bg-slate-50 ring-1 ring-[#3a2065]/20 shadow-sm" 
+                      ? "border-primary bg-slate-50 ring-1 ring-primary/20 shadow-sm" 
                       : "hover:border-slate-300"
                   )}
                 >
                   <div className={cn(
                     "h-3.5 w-3.5 rounded-full border transition-colors",
-                    betterBotId === rec.id ? "bg-[#3a2065] border-[#3a2065]" : "border-slate-300"
+                    betterBotId === rec.id ? "bg-primary border-primary" : "border-slate-300"
                   )} />
                   <span className="text-sm font-medium text-slate-800">{rec.title}</span>
                 </Label>
@@ -89,7 +85,7 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
           </div>
           <Textarea
             placeholder="Help us understand your preference with specific details..."
-            className="min-h-[140px] bg-slate-50/50 text-sm focus-visible:ring-[#3a2065] border-slate-200 rounded-xl resize-none p-4"
+            className="min-h-[140px] bg-white text-sm focus-visible:ring-primary border-slate-200 rounded-xl resize-none p-4 shadow-sm"
             value={preferenceFeedback}
             onChange={(e) => setPreferenceFeedback(e.target.value)}
           />
@@ -99,11 +95,7 @@ export function ModuleQuestionnaire({ module, onComplete }: ModuleQuestionnaireP
           <Button
             onClick={() => onComplete({ betterBotId, preferenceFeedback })}
             disabled={!isSubmittable}
-            className={cn(
-              "px-10 h-11 text-[11px] font-bold text-white transition-all rounded-full group", 
-              primaryBgClass, 
-              primaryHoverClass
-            )}
+            className="px-10 h-11 text-[11px] font-bold text-white transition-all rounded-full group bg-primary hover:bg-primary/90 shadow-md"
           >
             Continue to Next Phase
             <ArrowRight className="ml-2 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
