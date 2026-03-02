@@ -84,14 +84,14 @@ export function AssessmentSidebar({
     <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#2d1b4d] text-white p-10 flex flex-col overflow-x-hidden overflow-y-hidden border-r border-white/5 shadow-2xl">
       <StarField />
       
-      {/* Title only, no subtext */}
-      <div className="relative z-10 mb-20 overflow-hidden">
-        <h1 className="font-headline text-xl leading-tight font-bold tracking-tight uppercase text-white/95 whitespace-nowrap">
+      {/* Logo Title - Montserrat, Bold, Uppercase, Single Line */}
+      <div className="relative z-10 mb-20">
+        <h1 className="font-headline text-xl leading-tight font-extrabold tracking-tighter uppercase text-white/95 whitespace-nowrap">
           Humalike Assessment
         </h1>
       </div>
 
-      {/* Spacious list with increased gaps */}
+      {/* Assessment Specimen List */}
       <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden space-y-24 custom-scrollbar pr-2 pb-10">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
