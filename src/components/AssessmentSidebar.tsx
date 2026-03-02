@@ -142,7 +142,6 @@ export function AssessmentSidebar({
                   );
                 })}
                 
-                {/* Comparison Questionnaire Link */}
                 <button
                   onClick={() => onSelectQuestionnaire(module.id)}
                   className={cn(
@@ -153,7 +152,7 @@ export function AssessmentSidebar({
                   )}
                 >
                   <p className="text-[13px] font-medium tracking-wide truncate">
-                    Comparison Questionnaire
+                    Comparison
                   </p>
                   {completedQuestionnaireIds.has(module.id) && <Check className="h-3 w-3 text-accent" />}
                 </button>
