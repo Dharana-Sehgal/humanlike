@@ -89,12 +89,12 @@ export function AssessmentSidebar({
         <p className="text-white/30 text-[9px] font-bold uppercase tracking-[0.25em]">Laboratory Assessment</p>
       </div>
 
-      <div className="relative z-10 flex-1 overflow-y-auto space-y-14 custom-scrollbar pr-2">
+      <div className="relative z-10 flex-1 overflow-y-auto space-y-16 custom-scrollbar pr-2">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
           
           return (
-            <div key={module.id} className="space-y-7">
+            <div key={module.id} className="space-y-8">
               <button 
                 onClick={() => onSelectModule(module.id)}
                 className={cn(
@@ -110,7 +110,7 @@ export function AssessmentSidebar({
                 </span>
               </button>
 
-              <div className="space-y-6 ml-1 pl-5 border-l border-white/10">
+              <div className="space-y-7 ml-1 pl-5 border-l border-white/10">
                 {module.recordings.map((rec) => {
                   const isCompleted = completedRecordingIds.has(rec.id);
                   const isRecActive = activeStep.type === 'recording' && activeStep.id === rec.id;
@@ -149,10 +149,6 @@ export function AssessmentSidebar({
             </div>
           );
         })}
-      </div>
-
-      <div className="relative z-10 mt-auto pt-8 text-white/10 text-[8px] font-bold tracking-[0.3em] uppercase">
-        Study v1.0.4 • Phase Alpha
       </div>
     </div>
   );
