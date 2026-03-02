@@ -23,11 +23,11 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
   const isSubmittable = isFinished && rating > 0 && feedback.trim().length > 5;
 
   return (
-    <div className="max-w-4xl py-12 space-y-16">
+    <div className="max-w-3xl py-12 space-y-16">
       {/* Audio Playback Section */}
       <section className="space-y-6 text-left">
         <div className="space-y-1">
-          <h2 className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#3a2065]">
             Acoustic Analysis
           </h2>
           <p className="text-slate-500 text-xs">Listen to the full recording to unlock the assessment metrics.</p>
@@ -47,40 +47,40 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
       )}>
         <section className="space-y-14 text-left">
           {/* Question 1: Rating */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="space-y-3">
-              <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/60">
+              <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#3a2065]/60">
                 Metric 01: Human Authenticity
               </Label>
-              <p className="text-lg text-slate-800 font-medium leading-relaxed max-w-2xl">
+              <p className="text-base text-slate-800 font-medium leading-relaxed max-w-2xl">
                 How human-like does this voice interaction sound?
               </p>
             </div>
-            <div className="flex justify-start pl-1">
+            <div className="max-w-2xl px-2">
               <StarRating value={rating} onChange={setRating} />
             </div>
           </div>
 
           {/* Question 2: Feedback */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="space-y-3">
-               <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/60">
+               <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#3a2065]/60">
                 Metric 02: Qualitative Nuance
               </Label>
-              <p className="text-lg text-slate-800 font-medium leading-relaxed max-w-2xl">
+              <p className="text-base text-slate-800 font-medium leading-relaxed max-w-2xl">
                 What specific characteristics influenced your rating?
               </p>
             </div>
             <Textarea
               placeholder="Provide objective observations on cadence, emotion, and clarity..."
-              className="min-h-[160px] bg-white text-sm focus-visible:ring-primary border-slate-200 rounded-xl resize-none p-5 shadow-sm"
+              className="min-h-[160px] max-w-2xl bg-white text-sm focus-visible:ring-[#3a2065] border-slate-200 rounded-xl resize-none p-5 shadow-sm"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />
           </div>
 
           {/* Submission Bar */}
-          <div className="flex items-center justify-between gap-4 pt-10 border-t border-slate-200">
+          <div className="flex items-center justify-between gap-4 pt-10 border-t border-slate-200 max-w-2xl">
             <div className="flex items-center gap-3">
               {!isFinished ? (
                 <div className="flex items-center gap-2 text-[9px] text-slate-400 uppercase font-bold tracking-[0.15em]">
@@ -96,7 +96,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
             <Button
               onClick={() => onComplete({ rating, feedback })}
               disabled={!isSubmittable}
-              className="px-12 h-12 text-[11px] font-bold text-white transition-all rounded-full group bg-primary hover:bg-primary/90 shadow-lg"
+              className="px-12 h-11 text-[11px] font-bold text-white transition-all rounded-full group bg-[#3a2065] hover:bg-[#3a2065]/90 shadow-lg"
             >
               Commit & Continue
               <ArrowRight className="ml-2 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />

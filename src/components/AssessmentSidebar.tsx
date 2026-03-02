@@ -43,7 +43,7 @@ export function AssessmentSidebar({
   if (!mounted) return null;
 
   return (
-    <div className="relative w-full h-full bg-[#1F66AD] text-white p-8 flex flex-col overflow-hidden border-r border-white/10 shadow-xl">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#1F2937] via-[#3a2065] to-[#1e1b4b] text-white p-8 flex flex-col overflow-hidden border-r border-white/10 shadow-xl">
       <div className="relative z-10 mb-12">
         <h1 className="font-headline text-lg mb-1 leading-tight font-bold tracking-tight uppercase">BotSpeak Insights</h1>
         <p className="text-white/40 text-[9px] font-bold uppercase tracking-[0.25em]">Laboratory Assessment</p>
