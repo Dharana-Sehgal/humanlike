@@ -92,7 +92,7 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-white rounded-xl p-10 border border-slate-200/60 shadow-sm space-y-8 flex flex-col justify-center">
+    <div className="w-full bg-white rounded-xl p-10 border border-slate-200/60 shadow-sm flex flex-col justify-center min-h-[220px] space-y-10">
       <audio
         ref={audioRef}
         src={src}
@@ -101,37 +101,37 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
         onEnded={handleEnded}
       />
       
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-1">
-          <span className="text-[8px] text-primary/60 uppercase font-bold tracking-[0.2em]">Active Specimen</span>
-          <h3 className="text-sm text-slate-900 font-bold uppercase tracking-tight">{title}</h3>
+      <div className="flex items-center justify-between w-full">
+        <div className="flex flex-col gap-1.5">
+          <span className="text-[10px] text-primary/60 uppercase font-bold tracking-[0.25em]">Active Specimen</span>
+          <h3 className="text-base text-slate-900 font-bold uppercase tracking-tight">{title}</h3>
         </div>
-        <div className="font-mono text-[11px] font-bold px-4 py-1.5 bg-slate-50 rounded border border-slate-100 flex items-center gap-3 text-primary">
+        <div className="font-mono text-[12px] font-bold px-5 py-2 bg-slate-50 rounded-lg border border-slate-100 flex items-center gap-4 text-primary shadow-sm">
           <span>{formatTime(audioRef.current?.currentTime || 0)}</span>
           <span className="opacity-20">/</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-8 w-full">
         <Button
           size="icon"
           onClick={togglePlay}
-          className="h-10 w-10 rounded-full bg-primary hover:bg-primary/90 text-white shadow-md flex-shrink-0"
+          className="h-12 w-12 rounded-full bg-primary hover:bg-primary/90 text-white shadow-lg flex-shrink-0 transition-transform active:scale-95"
         >
-          {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
+          {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 ml-1" />}
         </Button>
         
         <Button
           size="icon"
           variant="outline"
           onClick={reset}
-          className="h-9 w-9 rounded-full border-slate-200 text-slate-600 hover:text-primary transition-colors"
+          className="h-10 w-10 rounded-full border-slate-200 text-slate-500 hover:text-primary hover:border-primary transition-all active:scale-95"
         >
           <RotateCcw className="h-4 w-4" />
         </Button>
 
-        <div className="flex-1 px-2">
+        <div className="flex-1 px-4">
           <Slider
             value={[progress]}
             max={100}
@@ -144,16 +144,16 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
         <div className="flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-9 px-4 text-[11px] font-bold tracking-tight rounded border-slate-200 bg-white">
+              <Button variant="outline" size="sm" className="h-10 px-5 text-[12px] font-bold tracking-tight rounded-lg border-slate-200 bg-white hover:bg-slate-50">
                 {playbackSpeed}x
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-24">
+            <DropdownMenuContent align="end" className="w-28">
               {[1, 1.25, 1.5, 2].map((speed) => (
                 <DropdownMenuItem 
                   key={speed} 
                   onClick={() => changeSpeed(speed)}
-                  className={cn("text-[11px] font-bold", playbackSpeed === speed && "bg-slate-50")}
+                  className={cn("text-[12px] font-bold py-2", playbackSpeed === speed && "bg-slate-50 text-primary")}
                 >
                   {speed}x
                 </DropdownMenuItem>
