@@ -19,44 +19,6 @@ interface AssessmentSidebarProps {
   onSelectQuestionnaire: (moduleId: string) => void;
 }
 
-const StarField = () => {
-  const [stars, setStars] = useState<{ id: number; top: string; left: string; size: string; delay: string; duration: string }[]>([]);
-
-  useEffect(() => {
-    const newStars = Array.from({ length: 40 }).map((_, i) => ({
-      id: i,
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      size: `${Math.random() * 1.5 + 0.5}px`,
-      delay: `${Math.random() * 5}s`,
-      duration: `${6 + Math.random() * 10}s`,
-    }));
-    setStars(newStars);
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-15">
-      <div className="absolute inset-0 animate-drift">
-        {stars.map((star) => (
-          <div
-            key={star.id}
-            className="absolute rounded-full bg-white animate-pulse"
-            style={{
-              top: star.top,
-              left: star.left,
-              width: star.size,
-              height: star.size,
-              animationDelay: star.delay,
-              animationDuration: star.duration,
-              boxShadow: '0 0 4px rgba(255, 255, 255, 0.4)',
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
 export function AssessmentSidebar({
   modules,
   activeStep,
@@ -82,22 +44,41 @@ export function AssessmentSidebar({
 
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#2d1b4d] text-white p-10 flex flex-col overflow-x-hidden overflow-y-hidden border-r border-white/5 shadow-2xl">
-      <StarField />
+      {/* Dynamic Starfield via CSS animation defined in globals.css */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <div className="absolute inset-0 animate-drift">
+          {Array.from({ length: 40 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full bg-white animate-pulse"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                width: `${Math.random() * 1.5 + 0.5}px`,
+                height: `${Math.random() * 1.5 + 0.5}px`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${6 + Math.random() * 10}s`,
+                boxShadow: '0 0 4px rgba(255, 255, 255, 0.4)',
+              }}
+            />
+          ))}
+        </div>
+      </div>
       
-      {/* Logo Title - Montserrat, Bold, Uppercase, Single Line */}
+      {/* Logo Title - Formal but Relaxed */}
       <div className="relative z-10 mb-20">
-        <h1 className="font-headline text-xl leading-tight font-extrabold tracking-tighter uppercase text-white/95 whitespace-nowrap">
+        <h1 className="font-logo text-2xl font-medium tracking-tight text-white/95 whitespace-nowrap italic">
           Humalike Assessment
         </h1>
       </div>
 
       {/* Assessment Specimen List */}
-      <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden space-y-24 custom-scrollbar pr-2 pb-10">
+      <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden space-y-20 custom-scrollbar pr-2 pb-10">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
           
           return (
-            <div key={module.id} className="space-y-12">
+            <div key={module.id} className="space-y-10">
               <button 
                 onClick={() => onSelectModule(module.id)}
                 className={cn(
@@ -106,14 +87,14 @@ export function AssessmentSidebar({
                 )}
               >
                 <span className={cn(
-                  "text-[15px] font-bold uppercase tracking-[0.15em]",
+                  "text-[14px] font-bold uppercase tracking-[0.15em]",
                   isActive ? "text-white" : "text-white/90"
                 )}>
                   {module.title}
                 </span>
               </button>
 
-              <div className="space-y-10 ml-1 pl-6 border-l border-white/10">
+              <div className="space-y-8 ml-1 pl-6 border-l border-white/10">
                 {module.recordings.map((rec) => {
                   const isCompleted = completedRecordingIds.has(rec.id);
                   const isRecActive = activeStep.type === 'recording' && activeStep.id === rec.id;
@@ -123,13 +104,13 @@ export function AssessmentSidebar({
                       key={rec.id}
                       className={cn(
                         "flex items-center justify-between py-1 transition-all duration-300",
-                        isRecActive ? "opacity-100 font-bold scale-[1.05] origin-left" : "opacity-30"
+                        isRecActive ? "opacity-100 font-semibold scale-[1.05] origin-left" : "opacity-30"
                       )}
                     >
-                      <p className="text-[14px] font-medium tracking-wide truncate pr-2">
+                      <p className="text-[13px] tracking-wide truncate pr-2">
                         {rec.title}
                       </p>
-                      {isCompleted && <Check className="h-3.5 w-3.5 text-accent shrink-0" />}
+                      {isCompleted && <Check className="h-3 w-3 text-accent shrink-0" />}
                     </div>
                   );
                 })}
@@ -139,14 +120,14 @@ export function AssessmentSidebar({
                   className={cn(
                     "w-full text-left flex items-center justify-between py-1 transition-all duration-300",
                     activeStep.type === 'questionnaire' && activeStep.moduleId === module.id 
-                      ? "opacity-100 font-bold scale-[1.05] origin-left" 
+                      ? "opacity-100 font-semibold scale-[1.05] origin-left" 
                       : "opacity-30"
                   )}
                 >
-                  <p className="text-[14px] font-medium tracking-wide truncate pr-2">
+                  <p className="text-[13px] tracking-wide truncate pr-2">
                     Comparison
                   </p>
-                  {completedQuestionnaireIds.has(module.id) && <Check className="h-3.5 w-3.5 text-accent shrink-0" />}
+                  {completedQuestionnaireIds.has(module.id) && <Check className="h-3 w-3 text-accent shrink-0" />}
                 </button>
               </div>
             </div>
