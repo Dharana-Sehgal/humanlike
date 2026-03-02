@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -127,14 +128,16 @@ export default function AssessmentPage() {
           </div>
         </div>
 
-        <div className="container px-8 md:px-12">
-          {activeStep.type === 'recording' && activeRecording ? (
-            <AssessmentForm key={activeRecording.id} recording={activeRecording} onComplete={handleAssessmentComplete} />
-          ) : activeStep.type === 'questionnaire' && activeModule ? (
-            <ModuleQuestionnaire key={`q-${activeModule.id}`} module={activeModule} onComplete={handleQuestionnaireComplete} />
-          ) : (
-            <ContactForm onSubmit={handleContactSubmit} />
-          )}
+        <div className="flex justify-center w-full min-h-[calc(100vh-84px)]">
+          <div className="w-full max-w-4xl px-8 md:px-12">
+            {activeStep.type === 'recording' && activeRecording ? (
+              <AssessmentForm key={activeRecording.id} recording={activeRecording} onComplete={handleAssessmentComplete} />
+            ) : activeStep.type === 'questionnaire' && activeModule ? (
+              <ModuleQuestionnaire key={`q-${activeModule.id}`} module={activeModule} onComplete={handleQuestionnaireComplete} />
+            ) : (
+              <ContactForm onSubmit={handleContactSubmit} />
+            )}
+          </div>
         </div>
       </main>
     </div>
