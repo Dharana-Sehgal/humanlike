@@ -99,7 +99,8 @@ export default function AssessmentPage() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
-      <div className="hidden md:block w-64 fixed inset-y-0 left-0">
+      {/* Sidebar with fixed width matching the ml offset of main */}
+      <div className="hidden md:block w-80 fixed inset-y-0 left-0">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
           activeStep={activeStep}
@@ -110,7 +111,7 @@ export default function AssessmentPage() {
         />
       </div>
 
-      <main className="flex-1 md:ml-64 bg-slate-50/30">
+      <main className="flex-1 md:ml-80 bg-slate-50/30">
         <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b px-8 py-5 flex items-center justify-between shadow-sm">
           <div className="flex flex-col min-w-0">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 mb-0.5">Assessment Focus</span>
@@ -128,6 +129,7 @@ export default function AssessmentPage() {
         </div>
 
         <div className="flex justify-center items-start w-full min-h-[calc(100vh-84px)] pt-12">
+          {/* Content centered container with left-aligned internal items */}
           <div className="w-full max-w-4xl px-8 md:px-12 flex flex-col items-start">
             {activeStep.type === 'recording' && activeRecording ? (
               <AssessmentForm key={activeRecording.id} recording={activeRecording} onComplete={handleAssessmentComplete} />

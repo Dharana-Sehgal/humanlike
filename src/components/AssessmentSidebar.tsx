@@ -84,13 +84,15 @@ export function AssessmentSidebar({
     <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#2d1b4d] text-white p-10 flex flex-col overflow-hidden border-r border-white/5 shadow-2xl">
       <StarField />
       
+      {/* Title only, no subtext */}
       <div className="relative z-10 mb-20">
-        <h1 className="font-headline text-xl leading-tight font-bold tracking-tight uppercase text-white/95">
+        <h1 className="font-headline text-xl leading-tight font-bold tracking-tight uppercase text-white/95 whitespace-nowrap">
           Humalike Assessment
         </h1>
       </div>
 
-      <div className="relative z-10 flex-1 overflow-y-auto space-y-20 custom-scrollbar pr-2">
+      {/* Spacious list with increased gaps */}
+      <div className="relative z-10 flex-1 overflow-y-auto space-y-24 custom-scrollbar pr-2 pb-10">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
           
@@ -124,10 +126,10 @@ export function AssessmentSidebar({
                         isRecActive ? "opacity-100 font-bold scale-[1.05] origin-left" : "opacity-30"
                       )}
                     >
-                      <p className="text-[14px] font-medium tracking-wide truncate">
+                      <p className="text-[14px] font-medium tracking-wide truncate pr-2">
                         {rec.title}
                       </p>
-                      {isCompleted && <Check className="h-3.5 w-3.5 text-accent" />}
+                      {isCompleted && <Check className="h-3.5 w-3.5 text-accent shrink-0" />}
                     </div>
                   );
                 })}
@@ -141,10 +143,10 @@ export function AssessmentSidebar({
                       : "opacity-30"
                   )}
                 >
-                  <p className="text-[14px] font-medium tracking-wide truncate">
+                  <p className="text-[14px] font-medium tracking-wide truncate pr-2">
                     Comparison
                   </p>
-                  {completedQuestionnaireIds.has(module.id) && <Check className="h-3.5 w-3.5 text-accent" />}
+                  {completedQuestionnaireIds.has(module.id) && <Check className="h-3.5 w-3.5 text-accent shrink-0" />}
                 </button>
               </div>
             </div>
