@@ -12,7 +12,6 @@ export interface Recording {
   id: string;
   title: string;
   audioUrl: string;
-  duration: string;
 }
 
 export interface AssessmentModule {
@@ -30,14 +29,12 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
         id: "seekho",
         title: "Recording 1",
         // Relative to the public/ folder
-        audioUrl: "/recordings/seekho.mp3", 
-        duration: "0:03"
+        audioUrl: "/recordings/seekho.mp3",
       },
       {
         id: "seekho-2",
         title: "Recording 2",
         audioUrl: "/recordings/seekho_2.mp3",
-        duration: "0:02"
       }
     ]
   }
