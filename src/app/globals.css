@@ -1,30 +1,29 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 15% 95%; /* #F0F2F4 */
-    --foreground: 210 40% 10%;
+    --background: 210 20% 98%; /* Very light slate #F8FAFC */
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 210 40% 10%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 210 40% 10%;
-    --primary: 215 45% 15%; /* Darker slate for formal feel */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 20% 90%;
-    --secondary-foreground: 210 40% 10%;
-    --muted: 210 20% 90%;
-    --muted-foreground: 210 20% 40%;
-    --accent: 180 80% 45%; /* Professional teal accent */
-    --accent-foreground: 180 70% 10%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 47% 11%; /* #0F172A - Dark Slate */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 173 80% 40%; /* #2DD4BF - Turquoise */
+    --accent-foreground: 222 47% 11%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 210 20% 85%;
-    --input: 210 20% 90%;
-    --ring: 215 45% 15%;
-    --radius: 0.75rem;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 173 80% 40%;
+    --radius: 0.85rem;
   }
 }
 
@@ -33,7 +32,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground font-body antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-body font-bold tracking-tight;
@@ -52,15 +51,19 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.transition-focus {
+  @apply transition-all duration-200 ease-in-out;
 }

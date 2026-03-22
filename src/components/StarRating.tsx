@@ -14,7 +14,7 @@ export function StarRating({ value, onChange, max = 5 }: StarRatingProps) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div className="flex w-full justify-between items-center py-1 max-w-[220px]">
+    <div className="flex gap-2 items-center py-1">
       {Array.from({ length: max }).map((_, i) => {
         const starValue = i + 1;
         const isHovering = hovered !== null;
@@ -25,18 +25,18 @@ export function StarRating({ value, onChange, max = 5 }: StarRatingProps) {
           <button
             key={i}
             type="button"
-            className="group outline-none transition-all active:scale-90"
+            className="group outline-none transition-all duration-200 active:scale-90"
             onMouseEnter={() => setHovered(starValue)}
             onMouseLeave={() => setHovered(null)}
             onClick={() => onChange(starValue)}
           >
             <Star
               className={cn(
-                "h-5 w-5 transition-all duration-200", 
+                "h-8 w-8 transition-all duration-200", 
                 isStarHovered 
-                  ? "fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]" 
+                  ? "fill-accent text-accent drop-shadow-[0_0_12px_rgba(45,212,191,0.3)] scale-110" 
                   : isStarSelected
-                    ? "fill-primary text-primary"
+                    ? "fill-accent text-accent"
                     : "text-slate-200 fill-none"
               )}
               strokeWidth={1.5}

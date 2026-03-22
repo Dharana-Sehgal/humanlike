@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -114,7 +113,7 @@ export default function AssessmentPage() {
   const activeModule = activeStep.type === 'questionnaire' ? ASSESSMENT_MODULES.find(m => m.id === activeStep.moduleId) : null;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-white">
+    <div className="flex flex-col md:flex-row min-h-screen bg-slate-50/50">
       <div className="hidden md:block w-80 fixed inset-y-0 left-0">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
@@ -126,29 +125,37 @@ export default function AssessmentPage() {
         />
       </div>
 
-      <main className="flex-1 md:ml-80 bg-slate-50/30">
-        <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b px-8 py-5 flex items-center justify-between shadow-sm">
-          <div className="flex flex-col min-w-0">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 mb-0.5">Assessment Focus</span>
-            <span className="font-body text-slate-800 font-semibold text-sm tracking-tight uppercase">
-              {activeRecording ? activeRecording.moduleTitle : activeModule ? activeModule.title : "Conclusion"}
+      <main className="flex-1 md:ml-80">
+        <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-xl border-b px-8 py-5 flex items-center justify-between shadow-sm">
+          <div className="flex flex-col">
+            <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#94A3B8] mb-0.5">MODULE</span>
+            <span className="font-body text-[#0F172A] font-semibold text-lg sm:text-xl tracking-tight leading-tight">
+              {activeRecording ? activeRecording.moduleTitle : activeModule ? activeModule.title : "Assessment Conclusion"}
             </span>
           </div>
-          <div className="w-56 flex flex-col items-end gap-2">
-             <div className="flex justify-between w-full text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          <div className="w-64 flex flex-col items-end gap-2">
+             <div className="flex justify-between w-full text-[10px] font-bold uppercase tracking-widest text-slate-500">
               <span>Overall Progress</span>
-              <span>{Math.round(progressPercentage)}%</span>
+              <span className="text-accent">{Math.round(progressPercentage)}%</span>
             </div>
-            <Progress value={progressPercentage} className="h-1 bg-slate-100" />
+            <Progress value={progressPercentage} className="h-1.5 bg-slate-100" />
           </div>
         </div>
 
-        <div className="flex justify-center items-start w-full min-h-[calc(100vh-84px)] pt-16">
-          <div className="w-full max-w-3xl px-8 md:px-12 flex flex-col items-start">
+        <div className="flex justify-center items-start w-full min-h-[calc(100vh-84px)] py-16">
+          <div className="w-full max-w-[800px] px-8 flex flex-col items-center">
             {activeStep.type === 'recording' && activeRecording ? (
-              <AssessmentForm key={activeRecording.id} recording={activeRecording} onComplete={handleAssessmentComplete} />
+              <AssessmentForm 
+                key={activeRecording.id} 
+                recording={activeRecording} 
+                onComplete={handleAssessmentComplete} 
+              />
             ) : activeStep.type === 'questionnaire' && activeModule ? (
-              <ModuleQuestionnaire key={`q-${activeModule.id}`} module={activeModule} onComplete={handleQuestionnaireComplete} />
+              <ModuleQuestionnaire 
+                key={`q-${activeModule.id}`} 
+                module={activeModule} 
+                onComplete={handleQuestionnaireComplete} 
+              />
             ) : (
               <ContactForm onSubmit={handleContactSubmit} />
             )}
