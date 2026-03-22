@@ -13,7 +13,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { downloadCSV } from "@/lib/export-utils";
 import { verifyAdmin } from "./actions";
-import { Lock, Download, LogOut, Loader2, Database, Eye, User, Mail, Calendar, Star, FileText, BarChart3 } from "lucide-react";
+import { Lock, Download, LogOut, Loader2, Database, Eye, User, Mail, Calendar, Star, FileText, BarChart3, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function AdminPage() {
   const db = useFirestore();
@@ -74,7 +75,7 @@ export default function AdminPage() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 space-y-8">
         <Card className="w-full max-w-md border-none shadow-2xl rounded-2xl overflow-hidden">
           <div className="h-1.5 bg-primary w-full" />
           <CardHeader className="space-y-1 text-center pt-8">
@@ -112,6 +113,14 @@ export default function AdminPage() {
             </form>
           </CardContent>
         </Card>
+        
+        <Link 
+          href="/" 
+          className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-primary transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Assessment
+        </Link>
       </div>
     );
   }
@@ -126,7 +135,18 @@ export default function AdminPage() {
           <h1 className="text-lg font-bold tracking-tight text-slate-900">Laboratory Dashboard</h1>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)} className="rounded-full border-slate-200 text-slate-600 hover:text-destructive hover:border-destructive transition-colors">
+          <Button asChild variant="ghost" size="sm" className="rounded-full text-slate-600 hover:bg-slate-50 hover:text-primary transition-colors">
+            <Link href="/">
+              <ArrowLeft className="mr-2 h-3.5 w-3.5" />
+              Main Site
+            </Link>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setIsLoggedIn(false)} 
+            className="rounded-full border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-primary hover:border-primary transition-all"
+          >
             <LogOut className="mr-2 h-3.5 w-3.5" />
             Exit
           </Button>
