@@ -114,7 +114,7 @@ export default function AssessmentPage() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-slate-50/50">
-      <div className="hidden md:block w-80 fixed inset-y-0 left-0">
+      <div className="hidden md:block w-80 fixed inset-y-0 left-0 z-50">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
           activeStep={activeStep}
@@ -126,7 +126,7 @@ export default function AssessmentPage() {
       </div>
 
       <main className="flex-1 md:ml-80">
-        <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-xl border-b px-8 py-5 flex items-center justify-between shadow-sm">
+        <div className="sticky top-0 z-[60] h-[84px] bg-white/80 backdrop-blur-xl border-b px-8 flex items-center justify-between shadow-sm">
           <div className="flex flex-col">
             <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#94A3B8] mb-0.5">MODULE</span>
             <span className="font-body text-[#0F172A] font-semibold text-lg sm:text-xl tracking-tight leading-tight">

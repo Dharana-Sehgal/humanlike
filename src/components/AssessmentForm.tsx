@@ -25,11 +25,13 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
 
   return (
     <div className="w-full space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <AudioPlayer 
-        src={recording.audioUrl} 
-        title={recording.title} 
-        onEnded={() => setIsFinished(true)}
-      />
+      <div className="sticky top-[84px] z-[40] -mx-4 px-4 py-4 transition-all duration-300">
+        <AudioPlayer 
+          src={recording.audioUrl} 
+          title={recording.title} 
+          onEnded={() => setIsFinished(true)}
+        />
+      </div>
 
       <div className={cn(
         "space-y-8 transition-all duration-700",

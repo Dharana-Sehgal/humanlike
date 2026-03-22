@@ -23,7 +23,9 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [isStuck, setIsStuck] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsPlaying(false);
@@ -33,6 +35,21 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
       audioRef.current.playbackRate = playbackSpeed;
     }
   }, [src, playbackSpeed]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        // The top-0 of AssessmentForm sticky wrapper is 84px from viewport top
+        // We consider it "stuck" when the bounding box's top is precisely at or above that sticky position
+        // We use a small threshold to prevent flicker
+        setIsStuck(rect.top <= 85);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -92,7 +109,15 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-white rounded-2xl p-8 border border-slate-200/60 shadow-xl shadow-slate-200/40 flex flex-col justify-center min-h-[160px] transition-all duration-300 hover:shadow-2xl hover:shadow-slate-200/50">
+    <div 
+      ref={containerRef}
+      className={cn(
+        "w-full bg-white transition-all duration-300 flex flex-col justify-center",
+        isStuck 
+          ? "p-5 border-b shadow-xl rounded-2xl bg-white/95 backdrop-blur-sm" 
+          : "p-8 border border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-2xl min-h-[160px]"
+      )}
+    >
       <audio
         ref={audioRef}
         src={src}
@@ -101,9 +126,9 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
         onEnded={handleEnded}
       />
       
-      <div className="space-y-8">
+      <div className={cn("space-y-6 transition-all", isStuck ? "space-y-4" : "space-y-8")}>
         <div className="flex items-center justify-between w-full">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">{title}</h3>
+          <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{title}</h3>
           <div className="flex items-center gap-2">
              <div className="px-3 py-1 bg-slate-50 rounded-full border border-slate-100 text-[10px] font-bold text-slate-500 font-mono flex items-center gap-1.5">
               <span className="text-slate-900">{formatTime(audioRef.current?.currentTime || 0)}</span>
@@ -117,9 +142,16 @@ export function AudioPlayer({ src, title, onEnded }: AudioPlayerProps) {
           <Button
             size="icon"
             onClick={togglePlay}
-            className="h-12 w-12 rounded-full bg-primary hover:bg-primary/90 text-white shadow-xl transition-transform active:scale-95 shrink-0"
+            className={cn(
+              "rounded-full bg-primary hover:bg-primary/90 text-white shadow-xl transition-all active:scale-95 shrink-0",
+              isStuck ? "h-10 w-10" : "h-12 w-12"
+            )}
           >
-            {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 ml-1" />}
+            {isPlaying ? (
+              <Pause className={isStuck ? "h-5 w-5" : "h-6 w-6"} />
+            ) : (
+              <Play className={cn("ml-1", isStuck ? "h-5 w-5" : "h-6 w-6")} />
+            )}
           </Button>
           
           <div className="flex-1 px-2">
