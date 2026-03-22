@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,6 +8,10 @@ import { AssessmentForm } from "@/components/AssessmentForm";
 import { ModuleQuestionnaire } from "@/components/ModuleQuestionnaire";
 import { ContactForm } from "@/components/ContactForm";
 import { Progress } from "@/components/ui/progress";
+import { useFirestore } from "@/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { errorEmitter } from "@/firebase/error-emitter";
+import { FirestorePermissionError } from "@/firebase/errors";
 
 type ActiveStep = 
   | { type: 'recording'; id: string } 
@@ -14,6 +19,7 @@ type ActiveStep =
   | { type: 'final' };
 
 export default function AssessmentPage() {
+  const db = useFirestore();
   const [activeStep, setActiveStep] = useState<ActiveStep>({ type: 'recording', id: FLAT_RECORDINGS[0].id });
   const [completedRecordings, setCompletedRecordings] = useState<Set<string>>(new Set());
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Set<string>>(new Set());
@@ -79,13 +85,23 @@ export default function AssessmentPage() {
   };
 
   const handleContactSubmit = (contact: { name: string; email: string }) => {
-    const finalSubmission = {
+    const submissionData = {
+      user: contact,
       assessments: Object.entries(assessmentData).map(([id, data]) => ({ recordingId: id, ...data })),
       moduleQuestionnaires: Object.entries(questionnaireData).map(([id, data]) => ({ moduleId: id, ...data })),
-      user: contact,
       submittedAt: new Date().toISOString(),
     };
-    console.log("Assessment Final Submission:", finalSubmission);
+
+    const submissionsRef = collection(db, "submissions");
+    addDoc(submissionsRef, submissionData)
+      .catch(async (error) => {
+        const permissionError = new FirestorePermissionError({
+          path: submissionsRef.path,
+          operation: 'create',
+          requestResourceData: submissionData,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      });
   };
 
   if (!isMounted) return null;
@@ -99,7 +115,6 @@ export default function AssessmentPage() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
-      {/* Sidebar with fixed width matching the ml offset of main */}
       <div className="hidden md:block w-80 fixed inset-y-0 left-0">
         <AssessmentSidebar
           modules={ASSESSMENT_MODULES}
@@ -114,23 +129,22 @@ export default function AssessmentPage() {
       <main className="flex-1 md:ml-80 bg-slate-50/30">
         <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b px-8 py-5 flex items-center justify-between shadow-sm">
           <div className="flex flex-col min-w-0">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 mb-0.5">Assessment Focus</span>
-            <span className="font-headline text-slate-800 font-bold text-base tracking-tight uppercase">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 mb-0.5">Assessment Focus</span>
+            <span className="font-body text-slate-800 font-semibold text-sm tracking-tight uppercase">
               {activeRecording ? activeRecording.moduleTitle : activeModule ? activeModule.title : "Conclusion"}
             </span>
           </div>
           <div className="w-56 flex flex-col items-end gap-2">
-             <div className="flex justify-between w-full text-xs font-bold uppercase tracking-widest text-muted-foreground">
+             <div className="flex justify-between w-full text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
               <span>Overall Progress</span>
               <span>{Math.round(progressPercentage)}%</span>
             </div>
-            <Progress value={progressPercentage} className="h-1.5 bg-slate-100" />
+            <Progress value={progressPercentage} className="h-1 bg-slate-100" />
           </div>
         </div>
 
-        <div className="flex justify-center items-start w-full min-h-[calc(100vh-84px)] pt-12">
-          {/* Content centered container with left-aligned internal items */}
-          <div className="w-full max-w-4xl px-8 md:px-12 flex flex-col items-start">
+        <div className="flex justify-center items-start w-full min-h-[calc(100vh-84px)] pt-16">
+          <div className="w-full max-w-3xl px-8 md:px-12 flex flex-col items-start">
             {activeStep.type === 'recording' && activeRecording ? (
               <AssessmentForm key={activeRecording.id} recording={activeRecording} onComplete={handleAssessmentComplete} />
             ) : activeStep.type === 'questionnaire' && activeModule ? (

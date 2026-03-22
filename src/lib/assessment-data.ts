@@ -23,7 +23,7 @@ export interface AssessmentModule {
 
 export const ASSESSMENT_MODULES: AssessmentModule[] = [
   {
-    id: "module-1",
+    id: "seekho",
     title: "Seekho",
     recordings: [
       {

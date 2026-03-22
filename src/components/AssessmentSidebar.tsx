@@ -3,7 +3,8 @@
 import { AssessmentModule } from "@/lib/assessment-data";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Settings } from "lucide-react";
+import Link from "next/link";
 
 type ActiveStep = 
   | { type: 'recording'; id: string } 
@@ -43,37 +44,34 @@ export function AssessmentSidebar({
   if (!mounted) return null;
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#2d1b4d] text-white p-10 flex flex-col overflow-x-hidden overflow-y-hidden border-r border-white/5 shadow-2xl">
-      {/* Dynamic Starfield via CSS animation */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+    <div className="relative w-full h-full bg-[#0a0f1c] text-white p-10 flex flex-col overflow-x-hidden border-r border-white/5 shadow-2xl">
+      {/* Subtle Starfield Animation */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
         <div className="absolute inset-0 animate-drift">
-          {Array.from({ length: 40 }).map((_, i) => (
+          {Array.from({ length: 30 }).map((_, i) => (
             <div
               key={i}
-              className="absolute rounded-full bg-white animate-pulse"
+              className="absolute rounded-full bg-white"
               style={{
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
-                width: `${Math.random() * 1.5 + 0.5}px`,
-                height: `${Math.random() * 1.5 + 0.5}px`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${6 + Math.random() * 10}s`,
-                boxShadow: '0 0 4px rgba(255, 255, 255, 0.4)',
+                width: '1px',
+                height: '1px',
               }}
             />
           ))}
         </div>
       </div>
       
-      {/* Logo Title - Formal but Relaxed Sans */}
+      {/* Logo Title */}
       <div className="relative z-10 mb-20">
-        <h1 className="font-body text-2xl font-semibold tracking-tight text-white/95 whitespace-nowrap">
+        <h1 className="font-body text-xl font-semibold tracking-tight text-white whitespace-nowrap">
           Humalike Assessment
         </h1>
       </div>
 
       {/* Assessment Specimen List */}
-      <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden space-y-20 custom-scrollbar pr-2 pb-10">
+      <div className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden space-y-16 custom-scrollbar pr-2 pb-10">
         {modules.map((module) => {
           const isActive = activeModuleId === module.id;
           
@@ -82,14 +80,11 @@ export function AssessmentSidebar({
               <button 
                 onClick={() => onSelectModule(module.id)}
                 className={cn(
-                  "w-full text-left flex items-center gap-3 transition-all duration-300 group",
-                  isActive ? "opacity-100" : "opacity-40 hover:opacity-70"
+                  "w-full text-left flex items-center gap-3 transition-all duration-300",
+                  isActive ? "opacity-100" : "opacity-40 hover:opacity-60"
                 )}
               >
-                <span className={cn(
-                  "text-[14px] font-bold uppercase tracking-[0.15em]",
-                  isActive ? "text-white" : "text-white/90"
-                )}>
+                <span className="text-[11px] font-bold uppercase tracking-[0.25em]">
                   {module.title}
                 </span>
               </button>
@@ -104,10 +99,10 @@ export function AssessmentSidebar({
                       key={rec.id}
                       className={cn(
                         "flex items-center justify-between py-1 transition-all duration-300",
-                        isRecActive ? "opacity-100 font-semibold scale-[1.05] origin-left" : "opacity-30"
+                        isRecActive ? "opacity-100 font-medium translate-x-1" : "opacity-30"
                       )}
                     >
-                      <p className="text-[13px] tracking-wide truncate pr-2">
+                      <p className="text-[13px] tracking-wide truncate pr-4">
                         {rec.title}
                       </p>
                       {isCompleted && <Check className="h-3 w-3 text-accent shrink-0" />}
@@ -120,11 +115,11 @@ export function AssessmentSidebar({
                   className={cn(
                     "w-full text-left flex items-center justify-between py-1 transition-all duration-300",
                     activeStep.type === 'questionnaire' && activeStep.moduleId === module.id 
-                      ? "opacity-100 font-semibold scale-[1.05] origin-left" 
+                      ? "opacity-100 font-medium translate-x-1" 
                       : "opacity-30"
                   )}
                 >
-                  <p className="text-[13px] tracking-wide truncate pr-2">
+                  <p className="text-[13px] tracking-wide truncate pr-4">
                     Comparison
                   </p>
                   {completedQuestionnaireIds.has(module.id) && <Check className="h-3 w-3 text-accent shrink-0" />}
@@ -133,6 +128,17 @@ export function AssessmentSidebar({
             </div>
           );
         })}
+      </div>
+
+      {/* Admin Access Footer Link */}
+      <div className="relative z-10 pt-8 mt-auto border-t border-white/5">
+        <Link 
+          href="/admin"
+          className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 hover:text-white/60 transition-colors"
+        >
+          <Settings className="h-3.5 w-3.5" />
+          Admin Portal
+        </Link>
       </div>
     </div>
   );

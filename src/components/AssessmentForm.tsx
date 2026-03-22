@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -23,7 +24,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
   const isSubmittable = isFinished && rating > 0 && feedback.trim().length > 5;
 
   return (
-    <div className="w-full max-w-2xl py-6 space-y-12">
+    <div className="w-full py-6 space-y-12">
       {/* Audio Playback Section */}
       <section className="space-y-4 text-left">
         <AudioPlayer 
@@ -42,7 +43,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
           {/* Question 1: Rating */}
           <div className="space-y-6">
             <div className="space-y-2">
-              <Label className="text-xs font-bold uppercase tracking-[0.2em] text-primary/70">
+              <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/60">
                 Metric 01: Human Authenticity
               </Label>
               <p className="text-xl text-slate-800 font-medium leading-relaxed">
@@ -55,7 +56,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
           {/* Question 2: Feedback */}
           <div className="space-y-6">
             <div className="space-y-2">
-               <Label className="text-xs font-bold uppercase tracking-[0.2em] text-primary/70">
+               <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/60">
                 Metric 02: Qualitative Nuance
               </Label>
               <p className="text-xl text-slate-800 font-medium leading-relaxed">
@@ -64,7 +65,7 @@ export function AssessmentForm({ recording, onComplete }: AssessmentFormProps) {
             </div>
             <Textarea
               placeholder="Provide objective observations on cadence, emotion, and clarity..."
-              className="min-h-[160px] w-full bg-white text-lg focus-visible:ring-primary border-slate-200 rounded-xl resize-none p-6 shadow-sm"
+              className="min-h-[160px] w-full bg-white text-base focus-visible:ring-primary border-slate-200 rounded-xl resize-none p-6 shadow-sm"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />
