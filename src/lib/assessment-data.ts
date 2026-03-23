@@ -28,13 +28,13 @@ export const ASSESSMENT_MODULES: AssessmentModule[] = [
       {
         id: "Noise",
         title: "Recording 1",
-        // Relative to the public/ folder
-        audioUrl: "/public/recordings/cpns-85656a0906_bot.mp3",
+        // Paths relative to the public/ folder must start with / and NOT include 'public/'
+        audioUrl: "/recordings/cpns-85656a0906_bot.mp3",
       },
       {
         id: "Noise-2",
         title: "Recording 2",
-        audioUrl: "public/recordings/cpns-8930889e7f_agent.mp3",
+        audioUrl: "/recordings/cpns-8930889e7f_agent.mp3",
       }
     ]
   }
