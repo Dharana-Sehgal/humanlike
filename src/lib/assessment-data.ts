@@ -22,19 +22,19 @@ export interface AssessmentModule {
 
 export const ASSESSMENT_MODULES: AssessmentModule[] = [
   {
-    id: "seekho",
-    title: "Seekho",
+    id: "Noise",
+    title: "Noise",
     recordings: [
       {
-        id: "seekho",
+        id: "Noise",
         title: "Recording 1",
         // Relative to the public/ folder
-        audioUrl: "/recordings/seekho.mp3",
+        audioUrl: "/public/recordings/cpns-85656a0906_bot.mp3",
       },
       {
-        id: "seekho-2",
+        id: "Noise-2",
         title: "Recording 2",
-        audioUrl: "/recordings/seekho_2.mp3",
+        audioUrl: "public/recordings/cpns-8930889e7f_agent.mp3",
       }
     ]
   }
